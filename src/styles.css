@@ -1,0 +1,19 @@
+.App {
+  font-family: "Syne Mono", monospace;
+  text-align: center;
+}
+
+body {
+  background-color: #888;
+}
+
+.break-word {
+  word-wrap: break-word;
+}
+
+.uploadAvatar {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+}
