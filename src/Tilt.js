@@ -26,11 +26,11 @@ function Tilt({ children, choiceType }) {
       <div
         className={
           choiceType === 1
-            ? "tilt-child-leave"
+            ? "tilt-child tilt-child-new tilt-child-leave"
             : choiceType === 0
-            ? "tilt-child-remove"
+            ? "tilt-child tilt-child-new tilt-child-remove"
             : choiceType === "new"
-            ? "tilt-child-new"
+            ? "tilt-child tilt-child-new"
             : "tilt-child"
         }
       >
