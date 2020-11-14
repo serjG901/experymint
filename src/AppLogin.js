@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import LoginForm from "./LoginForm.js";
-import Logo from "./Logo.js";
+import AppLogo from "./AppLogo.js";
 import ColorThemeSetter from "./ColorThemeSetter.js";
 import Copyright from "./Copyright.js";
 import ThemeColorContext from "./ThemeColorContext.js";
@@ -31,7 +31,7 @@ function Div({ children }) {
 export default function AppLogin({ CS, handleID, setColorThemeApp }) {
   return (
     <Div>
-      <Logo CS={CS} />
+      <AppLogo CS={CS} />
       <LoginForm
         CS={CS}
         onID={(id) => {

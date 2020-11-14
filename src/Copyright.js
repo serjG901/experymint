@@ -1,6 +1,6 @@
 import React from "react";
 
-copyright = `
+const copyright = `
     text-xs 
     absolute 
     bottom-0

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
 import { getCloseIndex } from "./functionChat.js";
 import ChatListItem from "./ChatListItem.js";
-import InputFormData from "./InputFormData.js";
+import SendAndShowTextData from "./SendAndShowTextData.js";
 
 function getChatList(userData, resultsData) {
   const arrKeysAllResult = Object.keys(resultsData);
@@ -92,27 +92,28 @@ function ChatList({ CS, userID }) {
 
   return (
     <div>
-      <InputFormData
-        CS={CS}
+      <SendAndShowTextData
         onChangeData={handleChangeData}
         userID={userID}
-        typeData="filter"
+        typeTextData="filter"
       />
-      {chatList
-        ? chatList.map((item) => {
-            const userData = {
-              name: item.name,
-              closeIndex: item.closeIndex,
-              mistruth: mistruthData[item.name],
-              score: scoreData[item.name],
-              manifest: manifestData[item.name],
-              avatar: avatarData[item.name],
-              tags: tagsData[item.name]
-            };
+      {chatList ? (
+        chatList.map((item) => {
+          const userData = {
+            name: item.name,
+            closeIndex: item.closeIndex,
+            mistruth: mistruthData[item.name],
+            score: scoreData[item.name],
+            manifest: manifestData[item.name],
+            avatar: avatarData[item.name],
+            tags: tagsData[item.name]
+          };
 
-            return <ChatListItem key={item.name} CS={CS} userData={userData} />;
-          })
-        : ""}
+          return <ChatListItem key={item.name} CS={CS} userData={userData} />;
+        })
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
 import { reduceImageData, getInQ } from "./functionAccount.js";
-import InputFormData from "./InputFormData.js";
+import SendAndShowTextData from "./SendAndShowTextData.js";
 import AccountAvatar from "./AccountAvatar.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 
@@ -88,17 +88,15 @@ function Account({ CS, userID }) {
           <div title="the uniqum index of you" className={textStyle(`black`)}>
             Unique:{inQ || 0}
           </div>
-          <InputFormData
-            CS={CS}
+          <SendAndShowTextData
             onChangeData={handleChangeData}
             userID={userID}
-            typeData="filter"
+            typeTextData="filter"
           />
-          <InputFormData
-            CS={CS}
+          <SendAndShowTextData
             onChangeData={handleChangeData}
             userID={userID}
-            typeData="tags"
+            typeTextData="tags"
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserData } from "./UsersData.js";
 import ChatList from "./ChatList.js";
-import InputFormData from "./InputFormData.js";
+import SendAndShowTextData from "./SendAndShowTextData.js";
 
 function Chat({ CS, userID }) {
   const [userData, setUserData] = useState(null);
@@ -15,11 +15,10 @@ function Chat({ CS, userID }) {
   return userData ? (
     <div className={CS.Main}>
       <div className={CS.nameUser}>{userData.name}</div>
-      <InputFormData
-        CS={CS}
+      <SendAndShowTextData
         onChangeData={handleChangeData}
         userID={userID}
-        typeData="manifest"
+        typeTextData="manifest"
       />
       <ChatList CS={CS} userID={userID} />
     </div>
