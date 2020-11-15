@@ -25,10 +25,11 @@ export default function ThemeColorSetter({ onThemeColor }) {
         {themeColors.map((color) => (
           <ThemeColorSample
             key={color}
-            currentThemeColor={themeColor}
             onThemeColor={onThemeColor}
             color={color}
-          />
+          >
+            {themeColor === color && <>&#10003;</>}
+          </ThemeColorSample>
         ))}
       </div>
     </div>

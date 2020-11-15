@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const style = (color) => {
-  return `flex-1 h-6 w-6 cursor-pointer bg-${color}-500`;
-};
+export default function ThemeColorSample({ color, onThemeColor, children }) {
+  const ref = useRef();
 
-export default function ThemeColorSample({
-  color,
-  onThemeColor,
-  currentThemeColor
-}) {
+  const start = `
+  delay-1000
+  transition-all 
+  duration-1000
+  absolute 
+  `;
+  const fin = `
+    delay-1000
+    transition-all 
+    duration-1000 
+    flex-1 
+    h-6 w-6 
+    cursor-pointer 
+    bg-${color}-500
+    `;
+
+  function animation() {
+    ref.current.className = fin;
+  }
+
+  useEffect(() => {
+    animation();
+  });
+
   return (
     <div
+      ref={ref}
       onClick={() => onThemeColor(color)}
       title={`set ${color} theme`}
-      className={style(color)}
+      className={start}
     >
-      {currentThemeColor === color && <>&#10003;</>}
+      {children}
     </div>
   );
 }
