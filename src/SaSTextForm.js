@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getUserData, updateUserData } from "./UsersData.js";
 import SaSTextFormLabel from "./SaSTextFormLabel.js";
 import SaSTextFormText from "./SaSTextFormText.js";
-import InputText from "./InputText.js";
-import FormSubmit from "./FormSubmit.js";
+import TextInput from "./TextInput.js";
+import SendButton from "./SendButton.js";
 
 export default function SaSText({ userID, typeText, onChangeData }) {
   const [statusInput, setStatusInput] = useState(false);
@@ -44,8 +44,8 @@ export default function SaSText({ userID, typeText, onChangeData }) {
       </SaSTextFormLabel>
       {statusInput ? (
         <>
-          <InputText typeText={typeText} />
-          <FormSubmit>Send</FormSubmit>
+          <TextInput typeText={typeText} />
+          <SendButton>Send</SendButton>
         </>
       ) : (
         <></>

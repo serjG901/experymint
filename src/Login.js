@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IsNameFree, setUserData, IsPassCorrect } from "./UsersData.js";
-import FormSubmit from "./FormSubmit.js";
-import InputText from "./InputText.js";
+import SendButton from "./SendButton.js";
+import TextInput from "./TextInput.js";
 
 export default function Login({ onID }) {
   const [myError, setMyError] = useState(false);
@@ -50,7 +50,7 @@ export default function Login({ onID }) {
             ? "Good new name"
             : "This name is occupied"}
         </label>
-        <InputText
+        <TextInput
           typeText="name"
           onChange={handleChangeName}
           req={true}
@@ -61,13 +61,13 @@ export default function Login({ onID }) {
             ? "Password"
             : "Password is wrong"}
         </label>
-        <InputText
+        <TextInput
           typeText="pass"
           onChange={handleChangePass}
           req={true}
           ml={"28"}
         />
-        <FormSubmit>In game</FormSubmit>
+        <SendButton>In game</SendButton>
         <p>{myError ? myError : ""}</p>
       </form>
     </div>

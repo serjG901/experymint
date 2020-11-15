@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
-import AppRouter from "./AppRouter.js";
-import AppStart from "./AppStart.js";
+import Router from "./Router.js";
+import Start from "./Start.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 
 function App() {
@@ -26,11 +26,11 @@ function App() {
 
   return userID ? (
     <ThemeColorContext.Provider value={themeColor}>
-      <AppRouter userID={userID} onQuit={handleQuit} />
+      <Router userID={userID} onQuit={handleQuit} />
     </ThemeColorContext.Provider>
   ) : (
     <ThemeColorContext.Provider value={themeColor}>
-      <AppStart onID={handleID} onThemeColor={handleThemeColor} />
+      <Start onID={handleID} onThemeColor={handleThemeColor} />
     </ThemeColorContext.Provider>
   );
 }
