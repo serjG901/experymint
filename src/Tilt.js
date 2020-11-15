@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-
 import * as VanillaTilt from "vanilla-tilt";
 import "./tiltStyle.css";
 
@@ -21,6 +20,7 @@ function Tilt({ children, choiceType }) {
       tiltNode.vanillaTilt.destroy();
     };
   }, []);
+
   return (
     <div ref={tiltRef} className="tilt-root">
       <div

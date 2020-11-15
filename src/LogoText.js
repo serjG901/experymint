@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import ThemeColorContext from "./ThemeColorContext.js";
 
-export default function AppLogoText({ children }) {
+export default function LogoText({ children }) {
   const ref = useRef();
   const themeColor = useContext(ThemeColorContext);
   const style = `

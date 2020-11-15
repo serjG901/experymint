@@ -1,10 +1,10 @@
 import React from "react";
 
-function Hello({ CS, userID }) {
+function Hello({ userID }) {
   return (
     <div>
       <h2>Hello</h2>
-      <div className={CS.nameUser}>{userID}</div>
+      <div className="break-word font-bold text-5xl">{userID}</div>
       <h2>I glade to see You! Let's play.</h2>
       <h2>
         На данный момент приложение хранит данные в localstorage. Можно зайти

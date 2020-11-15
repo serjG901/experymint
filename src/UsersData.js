@@ -15,7 +15,7 @@ for (let entry of data) {
   arrData = [...arrData, entry];
 }
 
-function isNameFree(name) {
+function IsNameFree(name) {
   return !data.has(name);
 }
 
@@ -57,7 +57,6 @@ function setUserData({ name, pass }) {
 }
 
 function IsPassCorrect({ name, pass }) {
-  if (!data.has(name)) return "Ops, this name does not finded";
   const user = data.get(name);
   if (user.pass !== pass) return false;
   return true;
@@ -128,7 +127,7 @@ function updateUserData(userID, typeData, dataSource) {
 }
 
 export {
-  isNameFree,
+  IsNameFree,
   setUserData,
   IsPassCorrect,
   getUserData,

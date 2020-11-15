@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
 import { getCloseIndex } from "./functionChat.js";
 import ChatListItem from "./ChatListItem.js";
-import SendAndShowTextData from "./SendAndShowTextData.js";
+import SaSTextForm from "./SaSTextForm.js";
 
 function getChatList(userData, resultsData) {
   const arrKeysAllResult = Object.keys(resultsData);
@@ -18,37 +18,11 @@ function getChatList(userData, resultsData) {
   return chatList;
 }
 
-function ChatList({ CS, userID }) {
-  const [userData, setUserData] = useState(() => {
-    return {};
-  });
-  const [resultsData, setResultsData] = useState(() => {
-    return {};
-  });
-  const [mistruthData, setMistruthData] = useState(() => {
-    return {};
-  });
-
-  const [scoreData, setScoreData] = useState(() => {
-    return {};
-  });
-
-  const [manifestData, setManifestData] = useState(() => {
-    return {};
-  });
-
-  const [avatarData, setAvatarData] = useState(() => {
-    return {};
-  });
-
-  const [tagsData, setTagsData] = useState(() => {
-    return {};
-  });
-
-  const [chatList, setChatList] = useState(() => {
-    return null;
-  });
-
+function ChatList({ userID }) {
+  const [userData, setUserData] = useState({});
+  const [data, setData] = useState({});
+  const [resultsData, setResultsData] = useState({});
+  const [chatList, setChatList] = useState([]);
   const [changeData, setChangeData] = useState(true);
 
   useEffect(() => {
@@ -60,23 +34,13 @@ function ChatList({ CS, userID }) {
   }, [userID, changeData]);
 
   useEffect(() => {
-    setMistruthData(getDataForType(userID, "mistruth"));
-  }, [userID, changeData]);
-
-  useEffect(() => {
-    setScoreData(getDataForType(userID, "score"));
-  }, [userID, changeData]);
-
-  useEffect(() => {
-    setManifestData(getDataForType(userID, "manifest"));
-  }, [userID, changeData]);
-
-  useEffect(() => {
-    setAvatarData(getDataForType(userID, "avatar"));
-  }, [userID, changeData]);
-
-  useEffect(() => {
-    setTagsData(getDataForType(userID, "tags"));
+    setData({
+      mistruth: getDataForType(userID, "mistruth"),
+      score: getDataForType(userID, "mistruth"),
+      manifest: getDataForType(userID, "manifest"),
+      avatar: getDataForType(userID, "avatar"),
+      tags: getDataForType(userID, "tags")
+    });
   }, [userID, changeData]);
 
   useEffect(() => {
@@ -92,24 +56,24 @@ function ChatList({ CS, userID }) {
 
   return (
     <div>
-      <SendAndShowTextData
+      <SaSTextForm
         onChangeData={handleChangeData}
         userID={userID}
-        typeTextData="filter"
+        typeText="filter"
       />
       {chatList ? (
         chatList.map((item) => {
           const userData = {
             name: item.name,
             closeIndex: item.closeIndex,
-            mistruth: mistruthData[item.name],
-            score: scoreData[item.name],
-            manifest: manifestData[item.name],
-            avatar: avatarData[item.name],
-            tags: tagsData[item.name]
+            mistruth: data.mistruth[item.name],
+            score: data.score[item.name],
+            manifest: data.manifest[item.name],
+            avatar: data.avatar[item.name],
+            tags: data.tags[item.name]
           };
 
-          return <ChatListItem key={item.name} CS={CS} userData={userData} />;
+          return <ChatListItem key={item.name} userData={userData} />;
         })
       ) : (
         <></>

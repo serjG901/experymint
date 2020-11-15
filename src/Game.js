@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Tilt from "./Tilt.js";
 import { updateUserResults } from "./UsersData.js";
+import ThemeColorContext from "./ThemeColorContext.js";
 
 function getNumberImage() {
   const numberOfPictures = 129;
   return Math.round((numberOfPictures - 1) * Math.random());
 }
 
-function Game({ CS, userID }) {
+export default function Game({ userID }) {
+  const themeColor = useContext(ThemeColorContext);
+
   const [numberImage, setNumberImage] = useState(getNumberImage());
   const [load, setLoad] = useState(true);
   const [choiceType, setChoiceType] = useState("");
@@ -48,7 +51,17 @@ function Game({ CS, userID }) {
   }
 
   return (
-    <div className={CS.Main}>
+    <div
+      className={`
+        h-screen
+        App
+        text-white
+        bg-gradient-to-b 
+        from-${themeColor}-500
+        via-${themeColor}-600 
+        to-${themeColor}-300
+        `}
+    >
       <div className="p-2">
         {userID}, imagine that You are the director of an art gallery. Leave the
         right pictures on the walls.
@@ -77,10 +90,20 @@ function Game({ CS, userID }) {
           }}
           disabled={load}
           className={`
-          flex-1 
-          text-2xl
-          ${CS.buttonSend}
-          `}
+            flex-1 
+            text-2xl
+            shadow-md
+            bg-${themeColor}-500 
+            hover:bg-${themeColor}-700 
+            mb-4
+            mx-4 
+            py-2 
+            px-4 
+            rounded 
+            cursor-pointer
+            focus:outline-none 
+            focus:shadow-outline
+            `}
         >
           Leave
         </button>
@@ -91,10 +114,20 @@ function Game({ CS, userID }) {
           }}
           disabled={load}
           className={`
-          flex-1 
-          text-2xl
-          ${CS.buttonSend}
-          `}
+            flex-1 
+            text-2xl
+            shadow-md
+            bg-${themeColor}-500 
+            hover:bg-${themeColor}-700 
+            mb-4
+            mx-4 
+            py-2 
+            px-4 
+            rounded 
+            cursor-pointer
+            focus:outline-none 
+            focus:shadow-outline
+            `}
         >
           Remove
         </button>
@@ -102,5 +135,3 @@ function Game({ CS, userID }) {
     </div>
   );
 }
-
-export default Game;

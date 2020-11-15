@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
 import { reduceImageData, getInQ } from "./functionAccount.js";
-import SendAndShowTextData from "./SendAndShowTextData.js";
+import SaSTextForm from "./SaSTextForm.js";
 import AccountAvatar from "./AccountAvatar.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 
@@ -68,14 +68,7 @@ function Account({ CS, userID }) {
       <div className="flex">
         <AccountAvatar userID={userID} />
         <div className="flex-1 w-1/4">
-          <div
-            className="
-                  break-word
-                  font-bold
-                  text-5xl"
-          >
-            {userData.name}
-          </div>
+          <div className="break-word font-bold text-5xl">{userData.name}</div>
           <div title="the amount of your choice" className={textStyle(`black`)}>
             Score:{userData.score || 0}
           </div>
@@ -88,15 +81,15 @@ function Account({ CS, userID }) {
           <div title="the uniqum index of you" className={textStyle(`black`)}>
             Unique:{inQ || 0}
           </div>
-          <SendAndShowTextData
+          <SaSTextForm
             onChangeData={handleChangeData}
             userID={userID}
-            typeTextData="filter"
+            typeText="filter"
           />
-          <SendAndShowTextData
+          <SaSTextForm
             onChangeData={handleChangeData}
             userID={userID}
-            typeTextData="tags"
+            typeText="tags"
           />
         </div>
       </div>

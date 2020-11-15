@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import "./styles.css";
 import AppRouter from "./AppRouter.js";
-import AppLogin from "./AppLogin.js";
-import { useConstantStyle } from "./UseConstantStyle.js";
+import AppStart from "./AppStart.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 
 function App() {
   const [userID, setUserID] = useState(false);
-  const [CS, setCS] = useConstantStyle();
 
-  const [themeColor, setThemeColor] = useState("teal");
+  const [themeColor, setThemeColor] = useState(
+    window.localStorage.getItem("themeColor") || "teal"
+  );
 
   function handleID(id) {
     setUserID(id);
@@ -19,22 +19,18 @@ function App() {
     setUserID(false);
   }
 
-  function setColorThemeApp(color) {
-    setCS(color);
+  function handleThemeColor(color) {
     setThemeColor(color);
+    window.localStorage.setItem("themeColor", color);
   }
 
   return userID ? (
     <ThemeColorContext.Provider value={themeColor}>
-      <AppRouter CS={CS} userID={userID} onQuit={handleQuit} />
+      <AppRouter userID={userID} onQuit={handleQuit} />
     </ThemeColorContext.Provider>
   ) : (
     <ThemeColorContext.Provider value={themeColor}>
-      <AppLogin
-        CS={CS}
-        handleID={handleID}
-        setColorThemeApp={setColorThemeApp}
-      />
+      <AppStart onID={handleID} onThemeColor={handleThemeColor} />
     </ThemeColorContext.Provider>
   );
 }
