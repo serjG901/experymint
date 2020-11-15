@@ -4,7 +4,8 @@ export default function LogoImage({ children }) {
   const ref = useRef();
   const style = `
   transition-all 
-  duration-1000 
+  duration-1000
+  delay-1000 
   sm:self-start 
   self-center
   `;
