@@ -14,7 +14,6 @@ export default function TextInput({
     w-full
     transition-all 
     duration-1000
-    delay-1000
     mb-4 py-2 px-2 
     text-center
     text-gray-700
