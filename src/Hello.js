@@ -8,8 +8,7 @@ function Hello({ userID }) {
 
   return (
     <div>
-      <h2>Hello</h2>
-      <div className="break-word font-bold text-5xl">{userID}</div>
+      <div className="break-word font-bold text-2xl">Hello {userID}!</div>
       <div className="text-left">
         <div className={textBlockStile}>
           <p>
@@ -57,8 +56,8 @@ function Hello({ userID }) {
         <div className={textBlockStile}>
           <p>
             ЧАТ - это список пользователей приложения, отсортированный по
-            показателю равному проценту совпадения ваших результатов и значению
-            установленного фильтра.
+            показателю IC, равному проценту совпадения ваших результатов, и
+            значению установленного фильтра.
           </p>
           <p>
             В чате вы можете оставить свой manifest, что будет виден всем

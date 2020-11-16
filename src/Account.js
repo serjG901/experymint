@@ -3,7 +3,6 @@ import { getUserData, getDataForType } from "./UsersData.js";
 import { reduceImageData, getInQ } from "./functionAccount.js";
 import SaSTextForm from "./SaSTextForm.js";
 import AccountAvatar from "./AccountAvatar.js";
-import ThemeColorContext from "./ThemeColorContext.js";
 
 const textStyle = (color) => {
   return `
@@ -14,25 +13,10 @@ const textStyle = (color) => {
 };
 
 function DivMain({ children }) {
-  const themeColor = useContext(ThemeColorContext);
-  return (
-    <div
-      className={`
-        h-screen
-        App
-        text-white
-        bg-gradient-to-b 
-        from-${themeColor}-500
-        via-${themeColor}-600 
-        to-${themeColor}-300
-        `}
-    >
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }
 
-function Account({ CS, userID }) {
+function Account({ userID }) {
   const [userData, setUserData] = useState(() => {
     return {};
   });

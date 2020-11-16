@@ -10,7 +10,18 @@ function getNumberImage() {
 
 export default function Game({ userID }) {
   const themeColor = useContext(ThemeColorContext);
-
+  const styleButton = `
+    flex-1 
+    text-2xl
+    shadow-md
+    bg-${themeColor}-500 
+    hover:bg-${themeColor}-700 
+    mb-4 mx-4 py-2 px-4 
+    rounded 
+    cursor-pointer
+    focus:outline-none 
+    focus:shadow-outline
+    `;
   const [numberImage, setNumberImage] = useState(getNumberImage());
   const [load, setLoad] = useState(true);
   const [choiceType, setChoiceType] = useState("");
@@ -55,17 +66,7 @@ export default function Game({ userID }) {
   }
 
   return (
-    <div
-      className={`
-        h-screen
-        App
-        text-white
-        bg-gradient-to-b 
-        from-${themeColor}-500
-        via-${themeColor}-600 
-        to-${themeColor}-300
-        `}
-    >
+    <div>
       <div className="p-2">
         {userID}, imagine that You are the director of an art gallery. Leave the
         right pictures on the walls.
@@ -93,21 +94,7 @@ export default function Game({ userID }) {
             handleChoice(1);
           }}
           disabled={load}
-          className={`
-            flex-1 
-            text-2xl
-            shadow-md
-            bg-${themeColor}-500 
-            hover:bg-${themeColor}-700 
-            mb-4
-            mx-4 
-            py-2 
-            px-4 
-            rounded 
-            cursor-pointer
-            focus:outline-none 
-            focus:shadow-outline
-            `}
+          className={styleButton}
         >
           Leave
         </button>
@@ -117,21 +104,7 @@ export default function Game({ userID }) {
             handleChoice(0);
           }}
           disabled={load}
-          className={`
-            flex-1 
-            text-2xl
-            shadow-md
-            bg-${themeColor}-500 
-            hover:bg-${themeColor}-700 
-            mb-4
-            mx-4 
-            py-2 
-            px-4 
-            rounded 
-            cursor-pointer
-            focus:outline-none 
-            focus:shadow-outline
-            `}
+          className={styleButton}
         >
           Remove
         </button>
