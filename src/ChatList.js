@@ -56,6 +56,7 @@ function ChatList({ userID }) {
 
   return (
     <div>
+      <p className="text-gray-700">Closest people</p>
       <SaSTextForm
         onChangeData={handleChangeData}
         userID={userID}

@@ -1,7 +1,6 @@
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
 function getIndexOfClosest(userResults, anyResults) {
-  console.log(userResults);
   const arrKeysUserResults = Object.keys(userResults);
   let arrIndex = [];
   arrKeysUserResults.forEach((key) => {
