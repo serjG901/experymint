@@ -19,11 +19,12 @@ export default function AppRouter({ userID, onQuit }) {
   `;
   const routerLink = `
     bg-${themeColor}-300 
-    hover:bg-${themeColor}-500 
+    hover:bg-transparent 
     ${routerLinkStyle}
     `;
   const routerLinkActive = `
-    bg-${themeColor}-500
+    bg-transparent
+    ${routerLinkStyle}
     `;
   const routerLinkQuit = `
     text-white
@@ -61,8 +62,7 @@ export default function AppRouter({ userID, onQuit }) {
                   handleActivePage("account");
                 }}
                 className={
-                  routerLink +
-                  (activePage === "account" ? routerLinkActive : "")
+                  activePage === "account" ? routerLinkActive : routerLink
                 }
               >
                 <span className="break-word">{userID}</span>
@@ -75,7 +75,7 @@ export default function AppRouter({ userID, onQuit }) {
                   handleActivePage("game");
                 }}
                 className={
-                  routerLink + (activePage === "game" ? routerLinkActive : "")
+                  activePage === "game" ? routerLinkActive : routerLink
                 }
               >
                 <TestIcon isActive={activePage === "game"} />
@@ -88,7 +88,7 @@ export default function AppRouter({ userID, onQuit }) {
                   handleActivePage("chat");
                 }}
                 className={
-                  routerLink + (activePage === "chat" ? routerLinkActive : "")
+                  activePage === "chat" ? routerLinkActive : routerLink
                 }
               >
                 Chat
