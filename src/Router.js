@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Hello from "./Hello.js";
 import Account from "./Account.js";
@@ -7,10 +7,15 @@ import Chat from "./Chat.js";
 import TestIcon from "./TestIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
+import bodyBgColor from "./bodyBgColor.js";
 
 export default function AppRouter({ onQuit }) {
   const themeColor = useContext(ThemeColorContext);
   const userID = useContext(UserIDContext);
+  
+  useEffect(() => {
+    document.body.style.background = bodyBgColor[themeColor];
+  });
 
   const routerLinkStyle = `
     text-black 
