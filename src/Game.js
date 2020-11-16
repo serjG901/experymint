@@ -16,21 +16,25 @@ export default function Game({ userID }) {
   const [choiceType, setChoiceType] = useState("");
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeIdChoice = setTimeout(() => {
       setChoiceType("new");
     }, 100);
-    setTimeout(() => {
+    const timeIdLoad = setTimeout(() => {
       setLoad(false);
     }, 1000);
-    console.log(numberImage);
+    return () => {
+      clearTimeout(timeIdChoice);
+      clearTimeout(timeIdLoad);
+    };
   }, [numberImage]);
 
   function handleResult(numberImage, choiceType) {
     setChoiceType("");
-    const statusSavedResult = updateUserResults(userID, [
+    const statusSavedResult = updateUserResults(
+      userID,
       numberImage,
       choiceType
-    ]);
+    );
     if (statusSavedResult) {
       const number = getNumberImage();
       if (numberImage !== number) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
-import { getCloseIndex } from "./functionChat.js";
+import { getIndexOfClosest } from "./functionChat.js";
 import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
 
@@ -9,11 +9,11 @@ function getChatList(userData, resultsData) {
   const chatList = arrKeysAllResult.map((key) => {
     return {
       name: key,
-      closeIndex: getCloseIndex(userData.results, resultsData[key])
+      indexOfClosest: getIndexOfClosest(userData.results, resultsData[key])
     };
   });
   chatList.sort((a, b) => {
-    return b.closeIndex - a.closeIndex;
+    return b.indexOfClosest - a.indexOfClosest;
   });
   return chatList;
 }
@@ -65,7 +65,7 @@ function ChatList({ userID }) {
         chatList.map((item) => {
           const userData = {
             name: item.name,
-            closeIndex: item.closeIndex,
+            indexOfClosest: item.indexOfClosest,
             mistruth: data.mistruth[item.name],
             score: data.score[item.name],
             manifest: data.manifest[item.name],

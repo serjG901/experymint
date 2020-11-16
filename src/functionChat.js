@@ -1,6 +1,7 @@
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-function getCloseIndex(userResults, anyResults) {
+function getIndexOfClosest(userResults, anyResults) {
+  console.log(userResults);
   const arrKeysUserResults = Object.keys(userResults);
   let arrIndex = [];
   arrKeysUserResults.forEach((key) => {
@@ -9,11 +10,11 @@ function getCloseIndex(userResults, anyResults) {
       arrIndex = [...arrIndex, diff];
     }
   });
-  const closeIndex =
+  const indexOfClosest =
     arrIndex.length !== 0
       ? Math.floor((arrIndex.reduce(reducer) / arrIndex.length) * 100)
       : 0;
-  return closeIndex;
+  return indexOfClosest;
 }
 
-export { getCloseIndex };
+export { getIndexOfClosest };

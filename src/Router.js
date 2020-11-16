@@ -4,6 +4,7 @@ import Hello from "./Hello.js";
 import Account from "./Account.js";
 import Game from "./Game.js";
 import Chat from "./Chat.js";
+import TestIcon from "./TestIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 
 export default function AppRouter({ userID, onQuit }) {
@@ -77,7 +78,7 @@ export default function AppRouter({ userID, onQuit }) {
                   routerLink + (activePage === "game" ? routerLinkActive : "")
                 }
               >
-                Game
+                <TestIcon isActive={activePage === "game"} />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>

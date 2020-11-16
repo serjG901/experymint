@@ -28,7 +28,7 @@ export default function ChatListItem({ userData }) {
             {userData.name}
           </div>
           <div className={`flex-1`}>
-            <div title="close index">CI:{userData.closeIndex}</div>
+            <div title="index of closest">IC:{userData.indexOfClosest}</div>
             <div title="mistruth">MT:{userData.mistruth}</div>
             <div title="score">S:{userData.score}</div>
           </div>
