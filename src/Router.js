@@ -6,9 +6,12 @@ import Game from "./Game.js";
 import Chat from "./Chat.js";
 import TestIcon from "./TestIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
+import UserIDContext from "./UserIDContext.js";
 
-export default function AppRouter({ userID, onQuit }) {
+export default function AppRouter({ onQuit }) {
   const themeColor = useContext(ThemeColorContext);
+  const userID = useContext(UserIDContext);
+
   const routerLinkStyle = `
     text-black 
     py-2 
@@ -103,16 +106,16 @@ export default function AppRouter({ userID, onQuit }) {
         </nav>
         <Switch>
           <Route path="/game">
-            <Game userID={userID} />
+            <Game />
           </Route>
           <Route path="/chat">
-            <Chat userID={userID} />
+            <Chat />
           </Route>
           <Route path="/account">
-            <Account userID={userID} />
+            <Account />
           </Route>
           <Route path="/">
-            <Hello userID={userID} />
+            <Hello />
           </Route>
         </Switch>
       </div>

@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
 import TestIcon from "./TestIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
+import UserIDContext from "./UserIDContext.js";
 
-function Hello({ userID }) {
+function Hello() {
+  const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
+
   const textBlockStile = `bg-${themeColor}-200 text-black p-4`;
 
   return (

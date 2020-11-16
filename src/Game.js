@@ -2,14 +2,17 @@ import React, { useEffect, useState, useContext } from "react";
 import Tilt from "./Tilt.js";
 import { updateUserResults } from "./UsersData.js";
 import ThemeColorContext from "./ThemeColorContext.js";
+import UserIDContext from "./UserIDContext.js";
 
 function getNumberImage() {
   const numberOfPictures = 129;
   return Math.round((numberOfPictures - 1) * Math.random());
 }
 
-export default function Game({ userID }) {
+export default function Game() {
   const themeColor = useContext(ThemeColorContext);
+  const userID = useContext(UserIDContext);
+
   const styleButton = `
     flex-1 
     text-2xl

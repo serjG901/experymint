@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
 import { getIndexOfClosest } from "./functionChat.js";
 import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
+import UserIDContext from "./UserIDContext.js";
 
 function getChatList(userData, resultsData) {
   const arrKeysAllResult = Object.keys(resultsData);
@@ -18,7 +19,8 @@ function getChatList(userData, resultsData) {
   return chatList;
 }
 
-function ChatList({ userID }) {
+function ChatList() {
+  const userID = useContext(UserIDContext);
   const [userData, setUserData] = useState({});
   const [data, setData] = useState({});
   const [resultsData, setResultsData] = useState({});
