@@ -8,7 +8,7 @@ function App() {
   const [userID, setUserID] = useState(false);
 
   const [themeColor, setThemeColor] = useState(
-    window.localStorage.getItem("themeColor") || "teal"
+    window.localStorage.getItem("themeColor") || "gray"
   );
 
   function handleID(id) {
