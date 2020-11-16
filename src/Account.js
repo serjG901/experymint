@@ -4,18 +4,6 @@ import { reduceImageData, getInQ } from "./functionAccount.js";
 import SaSTextForm from "./SaSTextForm.js";
 import AccountAvatar from "./AccountAvatar.js";
 
-const textStyle = (color) => {
-  return `
-    text-${color}
-    font-bold
-    text-xl
-    `;
-};
-
-function DivMain({ children }) {
-  return <div>{children}</div>;
-}
-
 function Account({ userID }) {
   const [userData, setUserData] = useState(() => {
     return {};
@@ -48,22 +36,27 @@ function Account({ userID }) {
   }
 
   return userData.name ? (
-    <DivMain>
+    <div>
       <div className="flex">
         <AccountAvatar userID={userID} />
-        <div className="flex-1 w-1/4">
-          <div className="break-word font-bold text-5xl">{userData.name}</div>
-          <div title="the amount of your choice" className={textStyle(`black`)}>
-            Score:{userData.score || 0}
-          </div>
-          <div
-            title="the amount of your mistruth"
-            className={textStyle(`black`)}
-          >
-            Mistruth:{userData.mistruth || 0}
-          </div>
-          <div title="the uniqum index of you" className={textStyle(`black`)}>
-            Unique:{inQ || 0}
+        <div className="flex-1">
+          <div className="break-word text-5xl font-bold">{userData.name}</div>
+          <div className="font-bold">
+            <div
+              title="the amount of your choice"
+              className="text-black text-xl"
+            >
+              Score:{userData.score || 0}
+            </div>
+            <div
+              title="the amount of your mistruth"
+              className="text-black text-xl"
+            >
+              Mistruth:{userData.mistruth || 0}
+            </div>
+            <div title="the uniqum index of you" className="text-black text-xl">
+              Unique:{inQ || 0}
+            </div>
           </div>
           <SaSTextForm
             onChangeData={handleChangeData}
@@ -77,9 +70,9 @@ function Account({ userID }) {
           />
         </div>
       </div>
-    </DivMain>
+    </div>
   ) : (
-    <DivMain>""</DivMain>
+    <></>
   );
 }
 
