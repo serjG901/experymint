@@ -18,9 +18,9 @@ export default function ThemeColorSample({ color, onThemeColor, children }) {
   }
 
   useEffect(() => {
-    setTimeout(() => animation(), 2000);
+    const timeId = setTimeout(() => animation(), 2000);
+    return () => clearTimeout(timeId);
   });
-
   return (
     <div
       ref={ref}
