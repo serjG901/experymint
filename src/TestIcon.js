@@ -1,13 +1,8 @@
 import React from "react";
-import "./testIconStyle.css";
 
 export default function TestIcon({ isActive }) {
   return (
-    <svg
-      className={isActive ? "testIconActive" : "testIcon"}
-      width="24"
-      height="24"
-    >
+    <svg className="inline-block transform scale-150" width="24" height="24">
       <circle cx="12" cy="6" r="6" fill="rgba(255,255,0,0.5)" />
       <circle cx="6" cy="12" r="6" fill="rgba(0,255,0,0.5)" />
       <circle cx="12" cy="18" r="6" fill="rgba(255,0,0,0.5)" />

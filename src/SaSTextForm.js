@@ -6,16 +6,12 @@ import TextInput from "./TextInput.js";
 import SendButton from "./SendButton.js";
 import UserIDContext from "./UserIDContext.js";
 
-export default function SaSText({ typeText, onChangeData }) {
+export default function SaSText({ typeText, onChangeData = () => {} }) {
   const userID = useContext(UserIDContext);
   const [statusInput, setStatusInput] = useState(false);
-  const [userData, setUserData] = useState(() => {
-    return {};
-  });
+  const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    setUserData(getUserData(userID));
-  }, [userID]);
+  useEffect(() => setUserData(getUserData(userID)), [userID]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -39,9 +35,9 @@ export default function SaSText({ typeText, onChangeData }) {
         setStatusInput={setStatusInput}
       >
         <SaSTextFormText
+          typeText={typeText}
           statusInput={statusInput}
           userData={userData}
-          typeText={typeText}
         />
       </SaSTextFormLabel>
       {statusInput ? (

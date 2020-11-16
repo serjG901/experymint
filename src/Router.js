@@ -12,49 +12,46 @@ import bodyBgColor from "./bodyBgColor.js";
 export default function AppRouter({ onQuit }) {
   const themeColor = useContext(ThemeColorContext);
   const userID = useContext(UserIDContext);
-  
+
   useEffect(() => {
     document.body.style.background = bodyBgColor[themeColor];
   });
 
-  const routerLinkStyle = `
-    text-black 
-    py-2 
-    px-4 
-    block
-    text-center
-    h-full
+  const linkStyle = `
+    text-black text-center font-bold
+    py-2 px-4 
+    block h-full
   `;
-  const routerLink = `
+  const linkNotActive = `
     bg-${themeColor}-300 
     hover:bg-transparent 
-    ${routerLinkStyle}
+    ${linkStyle}
     `;
-  const routerLinkActive = `
+  const linkActive = `
     bg-transparent
-    ${routerLinkStyle}
+    ${linkStyle}
     `;
-  const routerLinkQuit = `
+  const linkQuit = `
+    ${linkStyle}
     text-white
-    font-bold 
     bg-gray-600 
     hover:bg-gray-700 
-    ${routerLinkStyle}
     `;
 
-  const [activePage, setActivePage] = useState(null);
+  const [activePage, setActivePage] = useState(
+    window.localStorage.getItem("activePage") || null
+  );
 
   function handleActivePage(page) {
     setActivePage(page);
+    window.localStorage.setItem("activePage", page);
   }
 
   return (
     <Router>
       <div
         className={`
-          h-screen
-          App
-          text-white
+          App h-screen text-white
           bg-gradient-to-b 
           from-${themeColor}-500
           via-${themeColor}-600 
@@ -65,12 +62,13 @@ export default function AppRouter({ onQuit }) {
           <ul className="flex">
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="to account"
                 to="/account"
                 onClick={() => {
                   handleActivePage("account");
                 }}
                 className={
-                  activePage === "account" ? routerLinkActive : routerLink
+                  activePage === "account" ? linkActive : linkNotActive
                 }
               >
                 <span className="break-word">{userID}</span>
@@ -78,32 +76,38 @@ export default function AppRouter({ onQuit }) {
             </li>
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="To the game"
                 to="/game"
                 onClick={() => {
                   handleActivePage("game");
                 }}
-                className={
-                  activePage === "game" ? routerLinkActive : routerLink
-                }
+                className={activePage === "game" ? linkActive : linkNotActive}
               >
                 <TestIcon isActive={activePage === "game"} />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="To the chat"
                 to="/chat"
                 onClick={() => {
                   handleActivePage("chat");
                 }}
-                className={
-                  activePage === "chat" ? routerLinkActive : routerLink
-                }
+                className={activePage === "chat" ? linkActive : linkNotActive}
               >
                 Chat
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
-              <Link to="/" onClick={onQuit} className={routerLinkQuit}>
+              <Link
+                title="Sign out"
+                to="/"
+                onClick={() => {
+                  handleActivePage(null);
+                  onQuit();
+                }}
+                className={linkQuit}
+              >
                 X
               </Link>
             </li>

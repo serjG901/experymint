@@ -9,8 +9,8 @@ export default function Account() {
   return userID ? (
     <div>
       <div className="flex">
-        <AvatarOfUser userID={userID} />
-        <InfoOfUser userID={userID} />
+        <AvatarOfUser />
+        <InfoOfUser />
       </div>
     </div>
   ) : (

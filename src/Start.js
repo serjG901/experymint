@@ -16,12 +16,10 @@ export default function Start({ onID, onThemeColor }) {
   return (
     <div
       className={` 
-        App
-        flex 
-        flex-col 
+        App h-screen
+        flex flex-col 
         items-center 
         justify-center
-        h-screen
         text-white
         bg-gradient-to-b 
         from-${themeColor}-500
@@ -32,7 +30,7 @@ export default function Start({ onID, onThemeColor }) {
       <Logo image="logo.png">ExperyMint</Logo>
       <Login onID={onID} />
       <ThemeColorSetter onThemeColor={onThemeColor} />
-      <Copyright />
+      <Copyright>&copy;2020 ExperyMint.</Copyright>
     </div>
   );
 }

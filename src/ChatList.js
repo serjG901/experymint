@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
-import { getIndexOfClosest } from "./functionChat.js";
+import { getIndexOfClosest } from "./getIndexFunctions";
 import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
 import UserIDContext from "./UserIDContext.js";
@@ -19,7 +19,7 @@ function getChatList(userData, resultsData) {
   return chatList;
 }
 
-function ChatList() {
+export default function ChatList() {
   const userID = useContext(UserIDContext);
   const [userData, setUserData] = useState({});
   const [data, setData] = useState({});
@@ -59,11 +59,7 @@ function ChatList() {
   return (
     <div>
       <p className="text-gray-700">Closest people</p>
-      <SaSTextForm
-        onChangeData={handleChangeData}
-        userID={userID}
-        typeText="filter"
-      />
+      <SaSTextForm onChangeData={handleChangeData} typeText="filter" />
       {chatList ? (
         chatList.map((item) => {
           const userData = {
@@ -84,5 +80,3 @@ function ChatList() {
     </div>
   );
 }
-
-export default ChatList;

@@ -3,16 +3,10 @@ const localData =
 
 let data = new Map();
 
-let arrData = [];
-
 if (localData.size > 0) {
   for (let entry of localData) {
     data.set(entry[0], entry[1]);
   }
-}
-
-for (let entry of data) {
-  arrData = [...arrData, entry];
 }
 
 function IsNameFree(name) {

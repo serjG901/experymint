@@ -8,11 +8,10 @@ export default function AvatarOfUser() {
   const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
   const styleLikeButton = `
-    shadow-md
     bg-${themeColor}-500 
     hover:bg-${themeColor}-700 
     mx-4 py-2 px-4 
-    rounded 
+    rounded shadow-md
     cursor-pointer
     focus:outline-none 
     focus:shadow-outline
@@ -23,33 +22,34 @@ export default function AvatarOfUser() {
   );
 
   useEffect(() => {
-    const timeId = setTimeout(() => {
-      setMyError("");
-    }, 5000);
-    return () => {
-      clearTimeout(timeId);
-    };
+    const timeId = setTimeout(() => setMyError(""), 5000);
+    return () => clearTimeout(timeId);
   }, [myError]);
 
   function handleInputForAva(event) {
     let file = event.currentTarget.files[0];
     if (!file) return;
     if (file.size > 1200000) {
-      setMyError(
-        "This image is big, try to upload smaller image (less than 1,2Mb)"
-      );
+      const newError = `
+      This image is big,
+      try to upload smaller image (less than 1,2Mb)
+      `;
+      setMyError(newError);
       return;
     }
     let reader = new FileReader();
     reader.readAsDataURL(file);
-
     reader.onload = () => {
       setUserAvatar(reader.result);
       updateUserData(userID, "avatar", reader.result);
     };
     reader.onerror = () => {
       console.log(reader.error);
-      setMyError(reader.error);
+      const newError = `
+      Failed to read file,
+      try to upload other image
+      `;
+      setMyError(newError);
     };
   }
 
@@ -60,22 +60,14 @@ export default function AvatarOfUser() {
 
   return (
     <div className="flex-1 p-4">
-      {userAvatar ? (
-        <div className="flex flex-col items-center">
-          <img src={userAvatar} alt="avatar" />
-        </div>
-      ) : (
-        <></>
-      )}
+      {userAvatar ? <img src={userAvatar} alt="avatar" /> : <></>}
       <form
         encType="multipart/form-data"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
+        onSubmit={(event) => event.preventDefault()}
       >
         <label
           htmlFor="avatar"
-          title="click to set your avatar"
+          title="Click to set your avatar"
           className={styleLikeButton}
         >
           Avatar
@@ -83,7 +75,7 @@ export default function AvatarOfUser() {
         <MyError>{myError}</MyError>
         {userAvatar ? (
           <span
-            title="click to delete your avatar"
+            title="Click to delete your avatar"
             className={styleLikeButton}
             onClick={handleDeleteAvatar}
           >

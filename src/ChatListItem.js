@@ -3,46 +3,51 @@ import ThemeColorContext from "./ThemeColorContext.js";
 
 export default function ChatListItem({ userData }) {
   const themeColor = useContext(ThemeColorContext);
-
   const [openBody, setOpenBody] = useState(false);
+  const [mouseInBody, setMouseInBody] = useState(false);
 
   function handleOpenBody() {
+    if (mouseInBody) return;
     setOpenBody(!openBody);
   }
 
   return (
     <div
       key={userData.name}
-      onClick={handleOpenBody}
+      title="Click for see user info"
       className={`
         cursor-pointer
         bg-${themeColor}-200 
         hover:bg-${themeColor}-400 
         text-black
         `}
-      title="click for see user info"
+      onClick={handleOpenBody}
     >
       <div className="flex items-center p-2 my-2">
         <div className="flex w-1/2 items-center">
-          <div title="name" className="flex-1 font-bold w-1/2 break-word">
+          <div title="Name" className="flex-1 font-bold w-1/2 break-word">
             {userData.name}
           </div>
           <div className={`flex-1`}>
-            <div title="index of closest">IC:{userData.indexOfClosest}</div>
-            <div title="mistruth">MT:{userData.mistruth}</div>
-            <div title="score">S:{userData.score}</div>
+            <div title="Index of closest">IC:{userData.indexOfClosest}</div>
+            <div title="Mistruth">MT:{userData.mistruth}</div>
+            <div title="Score">S:{userData.score}</div>
           </div>
         </div>
-        <div title="manifest" className="w-1/2 font-bold break-words">
+        <div title="Manifest" className="w-1/2 font-bold break-words">
           {userData.manifest}
         </div>
       </div>
-      <div className={openBody ? "" : "hidden"}>
+      <div
+        className={openBody ? "" : "hidden"}
+        onMouseOver={() => setMouseInBody(true)}
+        onMouseOut={() => setMouseInBody(false)}
+      >
         <div className={`flex`}>
-          <div title="avatar" className="w-1/3 p-4">
+          <div title="Avatar" className="w-1/3 p-4">
             {userData.avatar ? <img src={userData.avatar} alt="avatar" /> : ""}
           </div>
-          <div className="w-2/3 p-4" title="tags">
+          <div title="Tags" className="w-2/3 p-4">
             <span className="text-gray-700">tags:</span>
             <p className="font-bold break-words">
               {userData.tags || "no tags"}
