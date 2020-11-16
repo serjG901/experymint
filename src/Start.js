@@ -27,7 +27,6 @@ export default function Start({ onID, onThemeColor }) {
 
   return (
     <div
-      id="start"
       className={` 
         App
         flex 
