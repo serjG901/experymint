@@ -6,9 +6,7 @@ const copyright = `
     `;
 
 function Copyright() {
-  return (
-    <p className={copyright}>&copy;2020 ExperyMint. All rights reserved.</p>
-  );
+  return <p className={copyright}>&copy;2020 ExperyMint.</p>;
 }
 
 export default Copyright;
