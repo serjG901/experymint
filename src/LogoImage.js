@@ -5,12 +5,13 @@ export default function LogoImage({ children }) {
   const style = `
   transition-all 
   duration-1000
-  delay-1000 
+  delay-1000
+  w-1/4 
   sm:self-start 
   self-center
   `;
-  const start = `w-0`;
-  const fin = `w-1/4`;
+  const start = `opacity-0`;
+  const fin = `opacity-100`;
 
   function animation() {
     ref.current.className = style + fin;

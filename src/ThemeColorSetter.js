@@ -21,7 +21,7 @@ export default function ThemeColorSetter({ onThemeColor }) {
   return (
     <div className="flex flex-col justify-center m-4">
       <div>Set color theme</div>
-      <div className="flex justify-center">
+      <div className="flex justify-center h-6">
         {themeColors.map((color) => (
           <ThemeColorSample
             key={color}

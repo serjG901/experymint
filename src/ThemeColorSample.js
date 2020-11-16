@@ -3,28 +3,22 @@ import React, { useEffect, useRef } from "react";
 export default function ThemeColorSample({ color, onThemeColor, children }) {
   const ref = useRef();
 
-  const start = `
+  const style = `
   delay-1000
   transition-all 
   duration-1000
-  absolute 
+  h-6 w-6
+  cursor-pointer
   `;
-  const fin = `
-    delay-1000
-    transition-all 
-    duration-1000 
-    flex-1 
-    h-6 w-6 
-    cursor-pointer 
-    bg-${color}-500
-    `;
+  const start = `absolute`;
+  const fin = `flex-1 bg-${color}-500`;
 
   function animation() {
-    ref.current.className = fin;
+    ref.current.className = style + fin;
   }
 
   useEffect(() => {
-    animation();
+    setTimeout(() => animation(), 2000);
   });
 
   return (
@@ -32,7 +26,7 @@ export default function ThemeColorSample({ color, onThemeColor, children }) {
       ref={ref}
       onClick={() => onThemeColor(color)}
       title={`set ${color} theme`}
-      className={start}
+      className={style + start}
     >
       {children}
     </div>
