@@ -8,6 +8,8 @@ export default function AvatarOfUser() {
   const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
   const styleLikeButton = `
+    transition-all 
+    duration-1000
     bg-${themeColor}-500 
     hover:bg-${themeColor}-700 
     mx-4 py-2 px-4 
