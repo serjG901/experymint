@@ -1,36 +1,40 @@
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-function reduceImageData(imageData) {
-  const arrKeys = Object.keys(imageData);
-  const allImage = {};
-  arrKeys.forEach((key) => {
-    const arrKeysAllImage = Object.keys(allImage);
-    const arrKeysImageData = Object.keys(imageData[key]);
-    if (arrKeysAllImage.length) {
-      arrKeysAllImage.forEach((keyAll) => {
-        arrKeysImageData.forEach((keyData) => {
-          if (keyAll !== keyData) {
-            allImage[keyData] = allImage[keyData]
-              ? allImage[keyData]
-              : [imageData[key][keyData]];
+function getAllResultsReduce(resultsData) {
+  const usersID = Object.keys(resultsData);
+  const allResults = {};
+  usersID.forEach((userID) => {
+    const imagesIDAll = Object.keys(allResults);
+    const imagesIDFromUser = Object.keys(resultsData[userID]);
+    if (imagesIDAll.length) {
+      imagesIDAll.forEach((imageIDAll) => {
+        imagesIDFromUser.forEach((imageIDFromUser) => {
+          if (imageIDAll !== imageIDFromUser) {
+            allResults[imageIDFromUser] = allResults[imageIDFromUser] || [
+              resultsData[userID][imageIDFromUser]
+            ];
           } else {
-            allImage[keyAll] = [...allImage[keyAll], imageData[key][keyData]];
+            allResults[imageIDAll] = [
+              ...allResults[imageIDAll],
+              resultsData[userID][imageIDFromUser]
+            ];
           }
         });
       });
     } else {
-      const arrKeysImageDataFirst = Object.keys(imageData[key]);
-      arrKeysImageDataFirst.forEach((keyData) => {
-        allImage[keyData] = [imageData[key][keyData]];
+      const imagesIDAllFirst = Object.keys(resultsData[userID]);
+      imagesIDAllFirst.forEach((imageIDAll) => {
+        allResults[imageIDAll] = [resultsData[userID][imageIDAll]];
       });
     }
   });
-  const arrKeysAllImage = Object.keys(allImage);
-  arrKeysAllImage.forEach((key) => {
-    const length = allImage[key].length;
-    allImage[key] = allImage[key].reduce(reducer) / length;
+  const imagesID = Object.keys(allResults);
+  const allResultsReduce = {};
+  imagesID.forEach((imageID) => {
+    const length = allResults[imageID].length;
+    allResultsReduce[imageID] = allResults[imageID].reduce(reducer) / length;
   });
-  return allImage;
+  return allResultsReduce;
 }
 
 function getInQ(userResults, allResults) {
@@ -43,7 +47,7 @@ function getInQ(userResults, allResults) {
   const clearArrInQ = arrInQ.filter((item) => item !== null);
   const inQ =
     clearArrInQ.length !== 0
-      ? Math.floor((clearArrInQ.reduce(reducer) / clearArrInQ.length) * 100)
+      ? Math.round((clearArrInQ.reduce(reducer) / clearArrInQ.length) * 100)
       : 0;
   return inQ;
 }
@@ -59,9 +63,9 @@ function getIndexOfClosest(userResults, anyResults) {
   const clearArrIndex = arrIndex.filter((item) => item !== null);
   const indexOfClosest =
     clearArrIndex.length !== 0
-      ? Math.floor((clearArrIndex.reduce(reducer) / clearArrIndex.length) * 100)
+      ? Math.round((clearArrIndex.reduce(reducer) / clearArrIndex.length) * 100)
       : 0;
   return { IC: indexOfClosest, amount: clearArrIndex.length };
 }
 
-export { reduceImageData, getInQ, getIndexOfClosest };
+export { getAllResultsReduce, getInQ, getIndexOfClosest };
