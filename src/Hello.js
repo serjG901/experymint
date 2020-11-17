@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import TestIcon from "./TestIcon.js";
+import GameIcon from "./GameIcon.js";
+import ChatIcon from "./ChatIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 
@@ -45,9 +46,9 @@ export default function Hello() {
         <br />
         <div className={textBlockStyle}>
           <p>
-            <TestIcon isActive={true} /> - это вкладка игры, при прохождении
-            которой приложение определяет процент уникальности Вашего результата
-            (показатель Uniqum) по сравнению с остальными пользователями.{" "}
+            <GameIcon /> - это вкладка игры, при прохождении которой приложение
+            определяет процент уникальности Вашего результата (показатель
+            Uniqum) по сравнению с остальными пользователями.{" "}
           </p>
           <p>
             Также результат игры (и чем больше вы ее пройдете) помогает находить
@@ -57,7 +58,7 @@ export default function Hello() {
         <br />
         <div className={textBlockStyle}>
           <p>
-            ЧАТ - это вкладка чата, где вы увидете список пользователей
+            <ChatIcon /> - это вкладка чата, где вы увидете список пользователей
             приложения, отсортированный по показателю IC, равному проценту
             совпадения ваших результатов, и значению установленного фильтра.
           </p>
