@@ -14,7 +14,7 @@ function getChatList(userData, resultsData) {
     };
   });
   chatList.sort((a, b) => {
-    return b.indexOfClosest - a.indexOfClosest;
+    return b.indexOfClosest.IC - a.indexOfClosest.IC;
   });
   return chatList;
 }
