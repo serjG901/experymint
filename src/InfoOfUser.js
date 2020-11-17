@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { reduceImageData, getInQ } from "./getIndexFunctions";
+import { getAllResultsReduce, getInQ } from "./getIndexFunctions";
 import { getUserData, getDataForType } from "./UsersData.js";
 import SaSTextForm from "./SaSTextForm.js";
 import UserIDContext from "./UserIDContext.js";
@@ -12,7 +12,7 @@ export default function InfoOfUser() {
   const [changeData, setChangeData] = useState(true);
 
   useEffect(() => {
-    const allResults = reduceImageData(resultsData);
+    const allResults = getAllResultsReduce(resultsData);
     const userResults = userData.results;
     if (allResults && userResults) {
       setInQ(getInQ(userResults, allResults));
