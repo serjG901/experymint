@@ -12,6 +12,7 @@ import Game from "./Game.js";
 import Chat from "./Chat.js";
 import TestIcon from "./TestIcon.js";
 import ChatIcon from "./ChatIcon.js";
+import QuitIcon from "./QuitIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 import bodyBgColor from "./bodyBgColor.js";
@@ -119,7 +120,7 @@ export default function AppRouter({ onQuit }) {
                 }}
                 className={linkQuit}
               >
-                X
+                <QuitIcon />
               </Link>
             </li>
           </ul>
