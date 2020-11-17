@@ -33,13 +33,16 @@ export default function InfoOfUser() {
       <div className="break-word text-5xl font-bold">{userData.name}</div>
       <div className="font-bold">
         <div title="The amount of your choice" className="text-black text-xl">
-          Score:{userData.score || 0}
+          <span className="text-gray-700">Score:</span>
+          {userData.score || 0}
         </div>
         <div title="The amount of your mistruth" className="text-black text-xl">
-          Mistruth:{userData.mistruth || 0}
+          <span className="text-gray-700">Mistruth:</span>
+          {userData.mistruth || 0}
         </div>
         <div title="The uniqum index of you" className="text-black text-xl">
-          Unique:{inQ || 0}
+          <span className="text-gray-700">Unique:</span>
+          {inQ || 0}
         </div>
       </div>
       <SaSTextForm onChangeData={handleChangeData} typeText="filter" />
