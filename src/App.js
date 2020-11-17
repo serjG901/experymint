@@ -20,13 +20,13 @@ function App() {
   }
 
   function handleQuit() {
-    setUserID(false);
+    setUserID(null);
+    window.localStorage.removeItem("userID");
   }
 
   function handleThemeColor(color) {
     setThemeColor(color);
     window.localStorage.setItem("themeColor", color);
-    window.localStorage.setItem("userID", null);
   }
 
   return userID ? (
