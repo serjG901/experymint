@@ -15,14 +15,25 @@ export default function Game() {
   const userID = useContext(UserIDContext);
 
   const styleButton = `
+    transition-all 
+    duration-1000
     flex-1 text-2xl
-    bg-${themeColor}-500 
-    hover:bg-${themeColor}-700 
-    mb-4 mx-4 py-2 px-4 
-    rounded shadow-md
-    cursor-pointer
+    mb-4 mx-4 py-2 px-4
     focus:outline-none 
     focus:shadow-outline
+    `;
+
+  const styleButtonEnabled = `
+    ${styleButton}
+    bg-${themeColor}-500 
+    hover:bg-${themeColor}-700 
+    rounded shadow-md
+    cursor-pointer
+    `;
+  const styleButtonDisabled = `
+    ${styleButton}
+    bg-transparent 
+    cursor-default
     `;
 
   const [numberImage, setNumberImage] = useState(getNumberImage());
@@ -78,8 +89,8 @@ export default function Game() {
   return (
     <div>
       <div className="p-2">
-        {userID}, imagine that You're the director of an art gallery. Leave on
-        the wall pictures that you'd like.
+        {userID}, imagine that You're the director of an modern art gallery.
+        Leave on the wall pictures that you'd like.
       </div>
       <div className="flex">
         <div className="flex-1"></div>
@@ -101,7 +112,7 @@ export default function Game() {
       <div className="flex content-center p-2">
         <button
           tilte="Leave the picture"
-          className={styleButton}
+          className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => {
             handleChoice(1);
@@ -111,7 +122,7 @@ export default function Game() {
         </button>
         <button
           tilte="Remove the picture"
-          className={styleButton}
+          className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => {
             handleChoice(0);
