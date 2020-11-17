@@ -29,11 +29,18 @@ export default function ChatListItem({ userData }) {
             {userData.name}
           </div>
           <div className={`flex-1`}>
-            <div title="Index of closest">IC:{userData.indexOfClosest.IC}</div>
-            <div title="Amount of compared pictures">
-              Am:{userData.indexOfClosest.amount}
+            <div title="Index of closest">
+              <span className="text-gray-700">IC:</span>
+              {userData.indexOfClosest.IC}
             </div>
-            <div title="Mistruth">MT:{userData.mistruth}</div>
+            <div title="Amount of compared pictures">
+              <span className="text-gray-700">Am:</span>
+              {userData.indexOfClosest.amount}
+            </div>
+            <div title="Mistruth">
+              <span className="text-gray-700">MT:</span>
+              {userData.mistruth}
+            </div>
           </div>
         </div>
         <div title="Manifest" className="w-1/2 font-bold break-words">
