@@ -52,7 +52,7 @@ export default function ChatListItem({ userData }) {
         onMouseOver={() => setMouseInBody(true)}
         onMouseOut={() => setMouseInBody(false)}
       >
-        <div className={`flex`}>
+        <div className={`flex cursor-default`}>
           <div title="Avatar" className="w-1/3 p-4">
             {userData.avatar ? <img src={userData.avatar} alt="avatar" /> : ""}
           </div>
