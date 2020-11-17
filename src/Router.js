@@ -11,6 +11,7 @@ import Account from "./Account.js";
 import Game from "./Game.js";
 import Chat from "./Chat.js";
 import TestIcon from "./TestIcon.js";
+import ChatIcon from "./ChatIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 import bodyBgColor from "./bodyBgColor.js";
@@ -93,7 +94,7 @@ export default function AppRouter({ onQuit }) {
                 }}
                 className={activePage === "game" ? linkActive : linkNotActive}
               >
-                <TestIcon isActive={activePage === "game"} />
+                <TestIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
@@ -105,7 +106,7 @@ export default function AppRouter({ onQuit }) {
                 }}
                 className={activePage === "chat" ? linkActive : linkNotActive}
               >
-                Chat
+                <ChatIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
