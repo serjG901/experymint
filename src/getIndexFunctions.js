@@ -61,7 +61,7 @@ function getIndexOfClosest(userResults, anyResults) {
     clearArrIndex.length !== 0
       ? Math.floor((clearArrIndex.reduce(reducer) / clearArrIndex.length) * 100)
       : 0;
-  return indexOfClosest;
+  return { IC: indexOfClosest, amount: clearArrIndex.length };
 }
 
 export { reduceImageData, getInQ, getIndexOfClosest };
