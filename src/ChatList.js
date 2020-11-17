@@ -38,7 +38,6 @@ export default function ChatList() {
   useEffect(() => {
     setData({
       mistruth: getDataForType(userID, "mistruth"),
-      score: getDataForType(userID, "mistruth"),
       manifest: getDataForType(userID, "manifest"),
       avatar: getDataForType(userID, "avatar"),
       tags: getDataForType(userID, "tags")
@@ -66,7 +65,6 @@ export default function ChatList() {
             name: item.name,
             indexOfClosest: item.indexOfClosest,
             mistruth: data.mistruth[item.name],
-            score: data.score[item.name],
             manifest: data.manifest[item.name],
             avatar: data.avatar[item.name],
             tags: data.tags[item.name]
