@@ -133,7 +133,7 @@ export default function AppRouter({ onQuit }) {
           <Route path="/account">
             <Account />
           </Route>
-          <Route exact path="/">
+          <Route path="/">
             {activePage ? <Redirect to={`/${activePage}`} /> : <Hello />}
           </Route>
         </Switch>
