@@ -50,7 +50,7 @@ export default function ChatListItem({ userData }) {
             {userData.avatar ? <img src={userData.avatar} alt="avatar" /> : ""}
           </div>
           <div title="Tags" className="w-2/3 p-4">
-            <span className="text-gray-700">tags:</span>
+            <span className="text-gray-700">tags</span>
             <p className="font-bold break-words">
               {userData.tags || "no tags"}
             </p>
