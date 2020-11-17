@@ -5,18 +5,18 @@ import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
 import UserIDContext from "./UserIDContext.js";
 
-function getChatList(userData, resultsData) {
-  const arrKeysAllResult = Object.keys(resultsData);
-  const chatList = arrKeysAllResult.map((key) => {
+function getClosestUsers(userData, resultsData) {
+  const usersID = Object.keys(resultsData);
+  const closestUsers = usersID.map((userID) => {
     return {
-      name: key,
-      indexOfClosest: getIndexOfClosest(userData.results, resultsData[key])
+      name: userID,
+      indexOfClosest: getIndexOfClosest(userData.results, resultsData[userID])
     };
   });
-  chatList.sort((a, b) => {
+  closestUsers.sort((a, b) => {
     return b.indexOfClosest.IC - a.indexOfClosest.IC;
   });
-  return chatList;
+  return closestUsers;
 }
 
 export default function ChatList() {
@@ -46,8 +46,8 @@ export default function ChatList() {
 
   useEffect(() => {
     if (userData && resultsData) {
-      const list = getChatList(userData, resultsData);
-      setChatList(list);
+      const closestUsers = getClosestUsers(userData, resultsData);
+      setChatList(closestUsers);
     }
   }, [userData, resultsData, changeData]);
 
