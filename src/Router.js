@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 import Hello from "./Hello.js";
 import Account from "./Account.js";
 import Game from "./Game.js";
@@ -44,7 +50,11 @@ export default function AppRouter({ onQuit }) {
 
   function handleActivePage(page) {
     setActivePage(page);
-    window.localStorage.setItem("activePage", page);
+    if (page) {
+      window.localStorage.setItem("activePage", page);
+      return;
+    }
+    window.localStorage.removeItem("activePage");
   }
 
   return (
@@ -123,8 +133,8 @@ export default function AppRouter({ onQuit }) {
           <Route path="/account">
             <Account />
           </Route>
-          <Route path="/">
-            <Hello />
+          <Route exact path="/">
+            {activePage ? <Redirect to={`/${activePage}`} /> : <Hello />}
           </Route>
         </Switch>
       </div>
