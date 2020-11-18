@@ -132,7 +132,7 @@ export default function Game() {
         </button>
       </div>
       <div className="flex justify-center">
-        <StatisticOfUser />
+        <StatisticOfUser isDataChange={load} />
       </div>
     </div>
   );
