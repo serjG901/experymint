@@ -4,6 +4,7 @@ import { updateUserResults } from "./UsersData.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 import MyError from "./MyError.js";
+import StatisticOfUser from "./StatisticOfUser.js";
 
 function getNumberImage() {
   const numberOfPictures = 129;
@@ -22,13 +23,12 @@ export default function Game() {
     focus:outline-none 
     focus:shadow-outline
     `;
-
   const styleButtonEnabled = `
     ${styleButton}
-    bg-${themeColor}-500 
-    hover:bg-${themeColor}-700 
     rounded shadow-md
     cursor-pointer
+    ${themeColor.bg500} 
+    ${themeColor.hbg700} 
     `;
   const styleButtonDisabled = `
     ${styleButton}
@@ -130,6 +130,9 @@ export default function Game() {
         >
           Remove
         </button>
+      </div>
+      <div className="flex justify-center">
+        <StatisticOfUser />
       </div>
     </div>
   );

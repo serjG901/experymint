@@ -7,21 +7,21 @@ import UserIDContext from "./UserIDContext.js";
 export default function AvatarOfUser() {
   const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
+  const [myError, setMyError] = useState("");
+  const [userAvatar, setUserAvatar] = useState(
+    getUserData(userID).avatar || null
+  );
   const styleLikeButton = `
     transition-all 
     duration-1000
-    bg-${themeColor}-500 
-    hover:bg-${themeColor}-700 
     mx-4 py-2 px-4 
     rounded shadow-md
     cursor-pointer
     focus:outline-none 
     focus:shadow-outline
+    ${themeColor.bg500}
+    ${themeColor.hbg700}
     `;
-  const [myError, setMyError] = useState("");
-  const [userAvatar, setUserAvatar] = useState(
-    getUserData(userID).avatar || null
-  );
 
   useEffect(() => {
     const timeId = setTimeout(() => setMyError(""), 5000);
@@ -61,8 +61,12 @@ export default function AvatarOfUser() {
   }
 
   return (
-    <div className="flex-1 p-4">
-      {userAvatar ? <img src={userAvatar} alt="avatar" /> : <></>}
+    <div className="p-4">
+      {userAvatar ? (
+        <img src={userAvatar} alt="avatar" className="inline-block" />
+      ) : (
+        <></>
+      )}
       <form
         encType="multipart/form-data"
         onSubmit={(event) => event.preventDefault()}

@@ -1,3 +1,5 @@
+import { User } from "./currentUser.js";
+
 const localDataUsers =
   new Map(JSON.parse(window.localStorage.getItem("dataUsers"))) || new Map();
 
@@ -42,7 +44,11 @@ function setUserData({ name, pass }) {
   if (!dataUsers.has(name)) {
     dataUsers.set(name, user);
     const statusSavedData = addDataInStorage();
-    if (statusSavedData) return true;
+    if (statusSavedData) {
+      User.currentID = name;
+      console.log(User.currentID);
+      return true;
+    }
     dataUsers.delete(name);
     return false;
   } else {
@@ -53,6 +59,8 @@ function setUserData({ name, pass }) {
 function IsPassCorrect({ name, pass }) {
   const user = dataUsers.get(name);
   if (user.pass !== pass) return false;
+  User.currentID = name;
+  console.log(User.currentID);
   return true;
 }
 

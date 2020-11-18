@@ -7,9 +7,9 @@ export default function LogoText({ children }) {
   const style = `
     transition-all 
     duration-1000
-    text-${themeColor}-300 
-    font-bold
     text-5xl 
+    font-bold
+    ${themeColor.text300} 
     `;
   const start = `opacity-0`;
   const fin = `opacity-100`;

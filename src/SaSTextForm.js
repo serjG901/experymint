@@ -28,17 +28,15 @@ export default function SaSText({ typeText, onChangeData = () => {} }) {
   }
 
   return userData ? (
-    <form className="px-2 pt-2 pb-2 mb-2" onSubmit={handleSubmit}>
+    <form className="p-2 mb-2" onSubmit={handleSubmit}>
       <SaSTextFormLabel
         typeText={typeText}
         statusInput={statusInput}
         setStatusInput={setStatusInput}
       >
-        <SaSTextFormText
-          typeText={typeText}
-          statusInput={statusInput}
-          userData={userData}
-        />
+        <SaSTextFormText typeText={typeText} statusInput={statusInput}>
+          {userData[typeText]}
+        </SaSTextFormText>
       </SaSTextFormLabel>
       {statusInput ? (
         <>

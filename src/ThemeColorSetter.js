@@ -28,7 +28,7 @@ export default function ThemeColorSetter({ onThemeColor }) {
             onThemeColor={onThemeColor}
             color={color}
           >
-            {themeColor === color && <>&#10003;</>}
+            {themeColor.color === color && <>&#10003;</>}
           </ThemeColorSample>
         ))}
       </div>

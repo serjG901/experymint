@@ -8,31 +8,31 @@ import {
 } from "react-router-dom";
 import Hello from "./Hello.js";
 import Account from "./Account.js";
+
 import Game from "./Game.js";
 import Chat from "./Chat.js";
+import AccountIcon from "./AccountIcon.js";
 import GameIcon from "./GameIcon.js";
 import ChatIcon from "./ChatIcon.js";
 import QuitIcon from "./QuitIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
-import UserIDContext from "./UserIDContext.js";
 import bodyBgColor from "./bodyBgColor.js";
 
 export default function AppRouter({ onQuit }) {
   const themeColor = useContext(ThemeColorContext);
-  const userID = useContext(UserIDContext);
 
   useEffect(() => {
-    document.body.style.background = bodyBgColor[themeColor];
+    document.body.style.background = bodyBgColor[themeColor.color];
   });
 
   const linkStyle = `
-    text-black text-center font-bold
+    text-black text-center
     py-2 px-4 
     block h-full
   `;
   const linkNotActive = `
-    bg-${themeColor}-300 
-    hover:bg-transparent 
+    ${themeColor.bg300}
+    hover:bg-transparent
     ${linkStyle}
     `;
   const linkActive = `
@@ -53,17 +53,11 @@ export default function AppRouter({ onQuit }) {
     window.localStorage.removeItem("activePage");
   }
 
+  const style = `App h-screen text-white`;
+
   return (
     <Router>
-      <div
-        className={`
-          App h-screen text-white
-          bg-gradient-to-b 
-          from-${themeColor}-500
-          via-${themeColor}-600 
-          to-${themeColor}-300
-          `}
-      >
+      <div className={[style, themeColor.lbg].join(" ")}>
         <nav>
           <ul className="flex">
             <li className={`flex-1 w-1/4`}>
@@ -77,7 +71,7 @@ export default function AppRouter({ onQuit }) {
                   activePage === "account" ? linkActive : linkNotActive
                 }
               >
-                <span className="break-word">{userID}</span>
+                <AccountIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>

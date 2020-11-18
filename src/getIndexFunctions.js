@@ -1,6 +1,6 @@
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-function getAllResultsReduce(resultsData) {
+export function getAllResultsReduce(resultsData) {
   const usersID = Object.keys(resultsData);
   const allResults = {};
   usersID.forEach((userID) => {
@@ -37,7 +37,7 @@ function getAllResultsReduce(resultsData) {
   return allResultsReduce;
 }
 
-function getInQ(userResults, allResults) {
+export function getInQ(userResults, allResults) {
   const arrKeysUserResults = Object.keys(userResults);
   const arrInQ = arrKeysUserResults.map((key) => {
     if (allResults.hasOwnProperty(key))
@@ -52,7 +52,7 @@ function getInQ(userResults, allResults) {
   return inQ;
 }
 
-function getIndexOfClosest(userResults, anyResults) {
+export function getIndexOfClosest(userResults, anyResults) {
   const arrKeysUserResults = Object.keys(userResults);
   const arrIndex = arrKeysUserResults.map((key) => {
     if (anyResults.hasOwnProperty(key)) {
@@ -68,4 +68,16 @@ function getIndexOfClosest(userResults, anyResults) {
   return { IC: indexOfClosest, amount: clearArrIndex.length };
 }
 
-export { getAllResultsReduce, getInQ, getIndexOfClosest };
+export function getClosestUsers(userData, resultsData) {
+  const usersID = Object.keys(resultsData);
+  const closestUsers = usersID.map((userID) => {
+    return {
+      name: userID,
+      indexOfClosest: getIndexOfClosest(userData.results, resultsData[userID])
+    };
+  });
+  closestUsers.sort((a, b) => {
+    return b.indexOfClosest.IC - a.indexOfClosest.IC;
+  });
+  return closestUsers;
+}

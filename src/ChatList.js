@@ -1,23 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
-import { getIndexOfClosest } from "./getIndexFunctions";
+import { getClosestUsers } from "./getIndexFunctions";
 import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
 import UserIDContext from "./UserIDContext.js";
-
-function getClosestUsers(userData, resultsData) {
-  const usersID = Object.keys(resultsData);
-  const closestUsers = usersID.map((userID) => {
-    return {
-      name: userID,
-      indexOfClosest: getIndexOfClosest(userData.results, resultsData[userID])
-    };
-  });
-  closestUsers.sort((a, b) => {
-    return b.indexOfClosest.IC - a.indexOfClosest.IC;
-  });
-  return closestUsers;
-}
 
 export default function ChatList() {
   const userID = useContext(UserIDContext);
