@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./styles.css";
 import Router from "./Router.js";
 import Start from "./Start.js";
-import ThemeColorContext from "./ThemeColorContext.js";
+import ThemeColorContext, { themeColorStyle } from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 
 function App() {
@@ -20,23 +20,23 @@ function App() {
   }
 
   function handleQuit() {
-    setUserID(false);
+    setUserID(null);
+    window.localStorage.removeItem("userID");
   }
 
   function handleThemeColor(color) {
     setThemeColor(color);
     window.localStorage.setItem("themeColor", color);
-    window.localStorage.setItem("userID", null);
   }
 
   return userID ? (
     <UserIDContext.Provider value={userID}>
-      <ThemeColorContext.Provider value={themeColor}>
+      <ThemeColorContext.Provider value={themeColorStyle[themeColor]}>
         <Router onQuit={handleQuit} />
       </ThemeColorContext.Provider>
     </UserIDContext.Provider>
   ) : (
-    <ThemeColorContext.Provider value={themeColor}>
+    <ThemeColorContext.Provider value={themeColorStyle[themeColor]}>
       <Start onID={handleID} onThemeColor={handleThemeColor} />
     </ThemeColorContext.Provider>
   );

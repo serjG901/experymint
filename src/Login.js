@@ -67,7 +67,7 @@ export default function Login({ onID }) {
           req={true}
           ml={"28"}
         />
-        <SendButton>In game</SendButton>
+        <SendButton>Sign in</SendButton>
         <p>{myError ? myError : ""}</p>
       </form>
     </div>

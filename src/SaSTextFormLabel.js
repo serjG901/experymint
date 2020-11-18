@@ -8,17 +8,10 @@ export default function SaSTextFormLabel({
 }) {
   return (
     <label
-      onClick={() => {
-        setStatusInput(!statusInput);
-      }}
-      className={`
-        block 
-        text-sm 
-        mb-2
-        cursor-pointer
-        `}
       htmlFor={typeText}
-      title={statusInput ? "" : `click to change your ${typeText}`}
+      title={statusInput ? "" : `Click to change your ${typeText}`}
+      className="block text-sm cursor-pointer"
+      onClick={() => setStatusInput(!statusInput)}
     >
       {children}
     </label>

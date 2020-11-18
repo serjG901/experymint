@@ -1,25 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { getUserData, getDataForType } from "./UsersData.js";
-import { getIndexOfClosest } from "./functionChat.js";
+import { getClosestUsers } from "./getIndexFunctions";
 import ChatListItem from "./ChatListItem.js";
 import SaSTextForm from "./SaSTextForm.js";
 import UserIDContext from "./UserIDContext.js";
 
-function getChatList(userData, resultsData) {
-  const arrKeysAllResult = Object.keys(resultsData);
-  const chatList = arrKeysAllResult.map((key) => {
-    return {
-      name: key,
-      indexOfClosest: getIndexOfClosest(userData.results, resultsData[key])
-    };
-  });
-  chatList.sort((a, b) => {
-    return b.indexOfClosest - a.indexOfClosest;
-  });
-  return chatList;
-}
-
-function ChatList() {
+export default function ChatList() {
   const userID = useContext(UserIDContext);
   const [userData, setUserData] = useState({});
   const [data, setData] = useState({});
@@ -38,7 +24,6 @@ function ChatList() {
   useEffect(() => {
     setData({
       mistruth: getDataForType(userID, "mistruth"),
-      score: getDataForType(userID, "mistruth"),
       manifest: getDataForType(userID, "manifest"),
       avatar: getDataForType(userID, "avatar"),
       tags: getDataForType(userID, "tags")
@@ -47,8 +32,8 @@ function ChatList() {
 
   useEffect(() => {
     if (userData && resultsData) {
-      const list = getChatList(userData, resultsData);
-      setChatList(list);
+      const closestUsers = getClosestUsers(userData, resultsData);
+      setChatList(closestUsers);
     }
   }, [userData, resultsData, changeData]);
 
@@ -59,18 +44,13 @@ function ChatList() {
   return (
     <div>
       <p className="text-gray-700">Closest people</p>
-      <SaSTextForm
-        onChangeData={handleChangeData}
-        userID={userID}
-        typeText="filter"
-      />
+      <SaSTextForm onChangeData={handleChangeData} typeText="filter" />
       {chatList ? (
         chatList.map((item) => {
           const userData = {
             name: item.name,
             indexOfClosest: item.indexOfClosest,
             mistruth: data.mistruth[item.name],
-            score: data.score[item.name],
             manifest: data.manifest[item.name],
             avatar: data.avatar[item.name],
             tags: data.tags[item.name]
@@ -84,5 +64,3 @@ function ChatList() {
     </div>
   );
 }
-
-export default ChatList;

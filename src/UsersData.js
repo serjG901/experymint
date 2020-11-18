@@ -1,30 +1,26 @@
-const localData =
-  new Map(JSON.parse(window.localStorage.getItem("data"))) || new Map();
+import { User } from "./currentUser.js";
 
-let data = new Map();
+const localDataUsers =
+  new Map(JSON.parse(window.localStorage.getItem("dataUsers"))) || new Map();
 
-let arrData = [];
+let dataUsers = new Map();
 
-if (localData.size > 0) {
-  for (let entry of localData) {
-    data.set(entry[0], entry[1]);
+if (localDataUsers.size > 0) {
+  for (let entry of localDataUsers) {
+    dataUsers.set(entry[0], entry[1]);
   }
 }
 
-for (let entry of data) {
-  arrData = [...arrData, entry];
-}
-
 function IsNameFree(name) {
-  return !data.has(name);
+  return !dataUsers.has(name);
 }
 
 function addDataInStorage() {
   let err = false;
   try {
     window.localStorage.setItem(
-      "data",
-      JSON.stringify(Array.from(data.entries()))
+      "dataUsers",
+      JSON.stringify(Array.from(dataUsers.entries()))
     );
   } catch (e) {
     console.log(e);
@@ -45,11 +41,15 @@ function setUserData({ name, pass }) {
     tags: "",
     filter: ""
   };
-  if (!data.has(name)) {
-    data.set(name, user);
+  if (!dataUsers.has(name)) {
+    dataUsers.set(name, user);
     const statusSavedData = addDataInStorage();
-    if (statusSavedData) return true;
-    data.delete(name);
+    if (statusSavedData) {
+      User.currentID = name;
+      console.log(User.currentID);
+      return true;
+    }
+    dataUsers.delete(name);
     return false;
   } else {
     return false;
@@ -57,13 +57,15 @@ function setUserData({ name, pass }) {
 }
 
 function IsPassCorrect({ name, pass }) {
-  const user = data.get(name);
+  const user = dataUsers.get(name);
   if (user.pass !== pass) return false;
+  User.currentID = name;
+  console.log(User.currentID);
   return true;
 }
 
 function getUserData(userID) {
-  const userData = data.get(userID);
+  const userData = dataUsers.get(userID);
   return { ...userData, pass: "***" };
 }
 
@@ -82,7 +84,7 @@ function addResultInUser(results, numberImage, choiceType) {
 }
 
 function updateUserResults(userID, numberImage, choiceType) {
-  const userData = data.get(userID);
+  const userData = dataUsers.get(userID);
   const { newResults, newMistruth } = addResultInUser(
     userData.results,
     numberImage,
@@ -94,17 +96,17 @@ function updateUserResults(userID, numberImage, choiceType) {
     score: userData.score + 1,
     mistruth: userData.mistruth + newMistruth
   };
-  data.set(userID, newUserData);
+  dataUsers.set(userID, newUserData);
   const statusSavedData = addDataInStorage();
   if (statusSavedData) return true;
-  data.set(userID, userData);
+  dataUsers.set(userID, userData);
   return false;
 }
 
 function getDataForType(userID, typeData) {
   let outData = {};
-  const filterTags = data.get(userID).filter.toLowerCase();
-  for (let entry of data) {
+  const filterTags = dataUsers.get(userID).filter.toLowerCase();
+  for (let entry of dataUsers) {
     if (entry[0] !== userID) {
       if (entry[1]["tags"].toLowerCase().indexOf(filterTags) !== -1)
         outData = { ...outData, [entry[0]]: entry[1][typeData] };
@@ -114,15 +116,15 @@ function getDataForType(userID, typeData) {
 }
 
 function updateUserData(userID, typeData, dataSource) {
-  const userData = data.get(userID);
+  const userData = dataUsers.get(userID);
   const newUserData = {
     ...userData,
     [typeData]: dataSource
   };
-  data.set(userID, newUserData);
+  dataUsers.set(userID, newUserData);
   const statusSavedData = addDataInStorage();
   if (statusSavedData) return true;
-  data.set(userID, userData);
+  dataUsers.set(userID, userData);
   return false;
 }
 

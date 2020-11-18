@@ -3,10 +3,6 @@
   text-align: center;
 }
 
-body {
-  background-color: #888;
-}
-
 .break-word {
   word-wrap: break-word;
 }

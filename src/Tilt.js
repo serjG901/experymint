@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import * as VanillaTilt from "vanilla-tilt";
 import "./tiltStyle.css";
 
-function Tilt({ children, choiceType }) {
+export default function Tilt({ children, choiceType }) {
   const tiltRef = useRef();
 
   useEffect(() => {
@@ -39,5 +39,3 @@ function Tilt({ children, choiceType }) {
     </div>
   );
 }
-
-export default Tilt;

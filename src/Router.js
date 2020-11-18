@@ -1,110 +1,114 @@
 import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 import Hello from "./Hello.js";
 import Account from "./Account.js";
+
 import Game from "./Game.js";
 import Chat from "./Chat.js";
-import TestIcon from "./TestIcon.js";
+import AccountIcon from "./AccountIcon.js";
+import GameIcon from "./GameIcon.js";
+import ChatIcon from "./ChatIcon.js";
+import QuitIcon from "./QuitIcon.js";
 import ThemeColorContext from "./ThemeColorContext.js";
-import UserIDContext from "./UserIDContext.js";
 import bodyBgColor from "./bodyBgColor.js";
 
 export default function AppRouter({ onQuit }) {
   const themeColor = useContext(ThemeColorContext);
-  const userID = useContext(UserIDContext);
-  
+
   useEffect(() => {
-    document.body.style.background = bodyBgColor[themeColor];
+    document.body.style.background = bodyBgColor[themeColor.color];
   });
 
-  const routerLinkStyle = `
-    text-black 
-    py-2 
-    px-4 
-    block
-    text-center
-    h-full
+  const linkStyle = `
+    text-black text-center
+    py-2 px-4 
+    block h-full
   `;
-  const routerLink = `
-    bg-${themeColor}-300 
-    hover:bg-transparent 
-    ${routerLinkStyle}
+  const linkNotActive = `
+    ${themeColor.bg300}
+    hover:bg-transparent
+    ${linkStyle}
     `;
-  const routerLinkActive = `
+  const linkActive = `
     bg-transparent
-    ${routerLinkStyle}
-    `;
-  const routerLinkQuit = `
-    text-white
-    font-bold 
-    bg-gray-600 
-    hover:bg-gray-700 
-    ${routerLinkStyle}
+    ${linkStyle}
     `;
 
-  const [activePage, setActivePage] = useState(null);
+  const [activePage, setActivePage] = useState(
+    window.localStorage.getItem("activePage") || null
+  );
 
   function handleActivePage(page) {
     setActivePage(page);
+    if (page) {
+      window.localStorage.setItem("activePage", page);
+      return;
+    }
+    window.localStorage.removeItem("activePage");
   }
+
+  const style = `App h-screen text-white`;
 
   return (
     <Router>
-      <div
-        className={`
-          h-screen
-          App
-          text-white
-          bg-gradient-to-b 
-          from-${themeColor}-500
-          via-${themeColor}-600 
-          to-${themeColor}-300
-          `}
-      >
+      <div className={[style, themeColor.lbg].join(" ")}>
         <nav>
           <ul className="flex">
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="To the user account"
                 to="/account"
                 onClick={() => {
                   handleActivePage("account");
                 }}
                 className={
-                  activePage === "account" ? routerLinkActive : routerLink
+                  activePage === "account" ? linkActive : linkNotActive
                 }
               >
-                <span className="break-word">{userID}</span>
+                <AccountIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="To the game"
                 to="/game"
                 onClick={() => {
                   handleActivePage("game");
                 }}
-                className={
-                  activePage === "game" ? routerLinkActive : routerLink
-                }
+                className={activePage === "game" ? linkActive : linkNotActive}
               >
-                <TestIcon isActive={activePage === "game"} />
+                <GameIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
               <Link
+                title="To the chat"
                 to="/chat"
                 onClick={() => {
                   handleActivePage("chat");
                 }}
-                className={
-                  activePage === "chat" ? routerLinkActive : routerLink
-                }
+                className={activePage === "chat" ? linkActive : linkNotActive}
               >
-                Chat
+                <ChatIcon />
               </Link>
             </li>
             <li className={`flex-1 w-1/4`}>
-              <Link to="/" onClick={onQuit} className={routerLinkQuit}>
-                X
+              <Link
+                title="Sign out"
+                to="/"
+                onClick={() => {
+                  handleActivePage(null);
+                  onQuit();
+                }}
+                className={linkNotActive}
+              >
+                <QuitIcon />
               </Link>
             </li>
           </ul>
@@ -120,7 +124,7 @@ export default function AppRouter({ onQuit }) {
             <Account />
           </Route>
           <Route path="/">
-            <Hello />
+            {activePage ? <Redirect to={`/${activePage}`} /> : <Hello />}
           </Route>
         </Switch>
       </div>

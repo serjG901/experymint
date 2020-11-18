@@ -1,40 +1,44 @@
 import React, { useContext } from "react";
-import TestIcon from "./TestIcon.js";
+import AccountIcon from "./AccountIcon.js";
+import GameIcon from "./GameIcon.js";
+import ChatIcon from "./ChatIcon.js";
+import Copyright from "./Copyright.js";
 import ThemeColorContext from "./ThemeColorContext.js";
 import UserIDContext from "./UserIDContext.js";
 
-function Hello() {
+export default function Hello() {
   const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
 
-  const textBlockStile = `bg-${themeColor}-200 text-black p-4`;
+  const textBlockStyle = `${themeColor.bg200} text-black p-4`;
 
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="break-word font-bold text-2xl">Hello {userID}!</div>
-      <div className="text-left">
-        <div className={textBlockStile}>
+      <div className="text-justify">
+        <div className={textBlockStyle}>
+          <p>Проходите нашу игру и находите близких Вам людей.</p>
           <p>
-            ExperyMint предлагает пользователю проходить тест и, на основе его
-            результата, находит пользователей со схожим результатом.
-          </p>
-          <p>
-            Мотивация приложения - найти собеседника и компанию для общего дела
-            или понять, что ты не одинок в своих взглядах и убеждениях.
+            Мотивация приложения - найти собеседника со схожими взглядами и
+            компанию для общего дела.
           </p>
         </div>
         <br />
-        <div className={textBlockStile}>
+
+        <div className={textBlockStyle}>
+          <div className="flex justify-center">
+            <AccountIcon />
+          </div>
           <p>
-            {userID} - это Ваш аккаунт, в котором Вы можете узнать результат
-            прохождения теста, установить свою аватарку, указать информацию о
+            Вкладка Вашего аккаунт, в котором Вы можете узнать результат
+            прохождения игры, установить свою аватарку, указать информацию о
             себе в поле тэгов, чтобы пользователи могли Вас найти, применив
             фильтр.
           </p>
           <p>Score - это общее количество Ваших ответов.</p>{" "}
           <p>
             Mistruth - это количество изменения Ваших ответов при прохождении
-            теста.
+            игры.
           </p>
           <p>
             Uniqum - процент уникальности Вашего результата в сравнении с общим
@@ -43,42 +47,57 @@ function Hello() {
           </p>{" "}
         </div>
         <br />
-        <div className={textBlockStile}>
+        <div className={textBlockStyle}>
+          <div className="flex justify-center">
+            <GameIcon />
+          </div>
           <p>
-            <TestIcon isActive={true} /> - это тест, при прохождении которого
-            приложение определяет процент Вашего уникального выбора (показатель
-            Uniqum) по сравнению с остальными пользователями.{" "}
+            Вкладка игры, при прохождении которой приложение определяет процент
+            уникальности Вашего результата (показатель Uniqum) по сравнению с
+            остальными пользователями.{" "}
           </p>
           <p>
-            Так же результат теста (и чем больше вы его пройдете) помогает
-            находить пользователей, что сделали наиболее близкий к Вашему
-            результату выбор.
+            Также результат игры (и чем больше вы ее пройдете) помогает находить
+            пользователей, что наиболее близки к Вашему результату.
           </p>{" "}
         </div>
         <br />
-        <div className={textBlockStile}>
+        <div className={textBlockStyle}>
+          <div className="flex justify-center">
+            <ChatIcon />
+          </div>
           <p>
-            ЧАТ - это список пользователей приложения, отсортированный по
-            показателю IC, равному проценту совпадения ваших результатов, и
-            значению установленного фильтра.
+            Вкладка чата, где вы увидете список пользователей приложения,
+            отсортированный по показателю IC, равному проценту совпадения ваших
+            результатов, и значению установленного фильтра.
           </p>
           <p>
             В чате вы можете оставить свой manifest, что будет виден всем
             пользователям.{" "}
           </p>
-          Manifest других пользователей Вы можете увидеть в списке чата справа
-          от имени пользователя и его статистики (IC, MT, S).{" "}
-          <p>IC - процент схожести результатов теста. </p>
+          <p>
+            Manifest других пользователей Вы можете увидеть в списке чата справа
+            от имени пользователя и его статистики (IC, Am, MT).{" "}
+          </p>
+          <p>IC - процент схожести результата игры. </p>
+          <p>Am - количество сравниваемых картинок.</p>
           <p>MT - mistruth пользователя.</p>
-          <p>S - score пользователя.</p>
+
           <p>
             Нажав на пользователя в списке Вы сможете увидеть дополнительную
             информацию о нем.
           </p>
         </div>
+        <br />
+        <div className={textBlockStyle}>
+          <p className="text-center">
+            Найдите действительно близких Вам людей!
+          </p>
+        </div>
+        <div className="flex justify-center">
+          <Copyright>&copy;2020 ExperyMint.</Copyright>
+        </div>
       </div>
     </div>
   );
 }
-
-export default Hello;

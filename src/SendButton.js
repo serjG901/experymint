@@ -8,21 +8,19 @@ export default function SendButton({ children }) {
     transition-all 
     duration-1000
     mb-4 mx-4 py-2 px-4 
-    rounded 
-    cursor-pointer
+    text-white
+    rounded cursor-pointer
     focus:outline-none 
     focus:shadow-outline
     `;
   const start = `shadow-none bg-transparent`;
-  const fin = `shadow-md bg-${themeColor}-500 hover:bg-${themeColor}-700`;
+  const fin = `shadow-md ${themeColor.bg500} ${themeColor.hbg700}`;
 
   function animation() {
     ref.current.className = style + fin;
   }
 
-  useEffect(() => {
-    animation();
-  });
+  useEffect(() => animation());
 
   return (
     <button ref={ref} className={style + start} type="submit">
