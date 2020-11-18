@@ -5,7 +5,7 @@ import UserIDContext from "./UserIDContext.js";
 import ShowTextData from "./ShowTextData.js";
 import SaSTextForm from "./SaSTextForm.js";
 
-export default function StatisticOfUser() {
+export default function StatisticOfUser({ isDataChange = true }) {
   const userID = useContext(UserIDContext);
   const [userData, setUserData] = useState({});
   const [resultsData, setResultsData] = useState({});
@@ -23,7 +23,7 @@ export default function StatisticOfUser() {
   useEffect(() => {
     setResultsData(getDataForType(userID, "results"));
     setUserData(getUserData(userID));
-  }, [userID, changeData]);
+  }, [userID, changeData, isDataChange]);
 
   function handleChangeData() {
     setChangeData(!changeData);
