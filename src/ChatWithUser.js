@@ -5,47 +5,51 @@ import Message from "./Message.js";
 import SendButton from "./SendButton.js";
 import TextareaAutosize from "react-textarea-autosize";
 
-export default function ChatWithUser({ otherUserID }) {
+export default function ChatWithUser({ openBody, otherUserID }) {
   const userID = useContext(UserIDContext);
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState(getMessages(otherUserID));
+  const [draft, setDraft] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [isSync, setIsSync] = useState(true);
 
   function getMessageID(...args) {
-    console.log([...args].join(""));
     return [...args].join("");
   }
 
-  function handleMessageChange(event) {
-    const draft = event.currentTarget.value;
-    setMessage(draft);
+  function handleDraftChange(event) {
+    setDraft(event.currentTarget.value);
   }
 
   function handleMessageSubmit(event) {
     event.preventDefault();
     const currentDate = Date.now();
     const oldMessages = messages;
-    const oldMessage = message;
+    const oldMessage = draft;
     setMessages([
       ...messages,
       {
         id: getMessageID(otherUserID, currentDate),
         from: userID,
         to: otherUserID,
-        text: message,
-        date: currentDate
+        text: draft,
+        date: currentDate,
+        isSend: false,
+        isRead: false
       }
     ]);
-    setMessage("");
-    const status = sendMessage(otherUserID, message, currentDate);
+    setDraft("");
+    const status = sendMessage(otherUserID, draft, currentDate);
     if (!status) {
       setMessages(oldMessages);
-      setMessage(oldMessage);
+      setDraft(oldMessage);
+      return;
     }
+    setIsSync(true);
   }
 
   useEffect(() => {
     setMessages(getMessages(otherUserID));
-  }, [otherUserID]);
+    setIsSync(false);
+  }, [otherUserID, isSync]);
 
   function handleDeleteMessage(id) {
     const oldMessages = messages;
@@ -61,6 +65,7 @@ export default function ChatWithUser({ otherUserID }) {
       <div className="flex flex-col">
         {messages.map((msg) => (
           <Message
+            openBody={openBody}
             key={msg.id}
             msg={msg}
             onDeleteMessage={handleDeleteMessage}
@@ -79,8 +84,8 @@ export default function ChatWithUser({ otherUserID }) {
             focus:outline-none 
             focus:shadow-outline"
           placeholder={`message for ${otherUserID}`}
-          onChange={handleMessageChange}
-          value={message}
+          onChange={handleDraftChange}
+          value={draft}
         />
         <SendButton>Send</SendButton>
       </form>

@@ -10,6 +10,14 @@ function getMessageID(...args) {
   return [...args].join("");
 }
 
+export function setIsRead(id) {
+  messages = messages.map((msg) =>
+    msg.id === id ? { ...msg, isRead: true } : msg
+  );
+  addMessagesInStorage();
+  return true;
+}
+
 export function sendMessage(otherUserID, message, currentDate) {
   messages = [
     ...messages,
@@ -18,7 +26,9 @@ export function sendMessage(otherUserID, message, currentDate) {
       from: User.currentID,
       to: otherUserID,
       text: message,
-      date: currentDate
+      date: currentDate,
+      isSend: true,
+      isRead: false
     }
   ];
   addMessagesInStorage();

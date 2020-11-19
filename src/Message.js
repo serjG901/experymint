@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import UserIDContext from "./UserIDContext.js";
 import ThemeColorContext from "./ThemeColorContext.js";
+import { setIsRead } from "./messageData.js";
 
-export default function Message({ msg, onDeleteMessage }) {
+export default function Message({ openBody, msg, onDeleteMessage }) {
   const userID = useContext(UserIDContext);
   const themeColor = useContext(ThemeColorContext);
 
@@ -32,26 +33,35 @@ export default function Message({ msg, onDeleteMessage }) {
     hover:text-gray-700
     `;
 
-  const Right = () => (
+  useEffect(() => {
+    if (openBody && userID !== msg.from && !msg.isRead) {
+      setIsRead(msg.id);
+      console.log(msg.id);
+    }
+  }, [openBody, msg.id, userID, msg.from, msg.isRead]);
+
+  const Right = ({ rmsg }) => (
     <div className={styleRight}>
-      <div onClick={() => onDeleteMessage(msg.id)} className={styleDelete}>
+      <div onClick={() => onDeleteMessage(rmsg.id)} className={styleDelete}>
         x
       </div>
-      <p className="text-lg w-11/12 break-word">{msg.text}</p>
+      <p className="text-lg w-11/12 break-word">{rmsg.text}</p>
       <div className="text-xs text-right text-gray-700">
-        {new Date(msg.date).toLocaleString()}{" "}
+        {new Date(rmsg.date).toLocaleString()}{" "}
+        {rmsg.isSend ? <>&#10003;</> : <></>}
+        {rmsg.isRead ? <>&#10003;</> : <></>}
       </div>
     </div>
   );
 
-  const Left = () => (
+  const Left = ({ lmsg }) => (
     <div className={styleLeft}>
-      <p className="text-lg break-word">{msg.text}</p>
+      <p className="text-lg break-word">{lmsg.text}</p>
       <div className="text-xs text-left text-gray-700">
-        {new Date(msg.date).toLocaleString()}{" "}
+        {new Date(lmsg.date).toLocaleString()}{" "}
       </div>
     </div>
   );
 
-  return userID === msg.from ? <Right /> : <Left />;
+  return userID === msg.from ? <Right rmsg={msg} /> : <Left lmsg={msg} />;
 }

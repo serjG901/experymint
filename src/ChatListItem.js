@@ -29,7 +29,7 @@ export default function ChatListItem({ userData }) {
       </div>
       <div className={openBody ? "" : "hidden"}>
         <InfoOfOtherUserBody avatar={userData.avatar} tags={userData.tags} />
-        <ChatWithUser otherUserID={userData.name} />
+        <ChatWithUser openBody={openBody} otherUserID={userData.name} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
+import { User } from "./currentUser.js";
 import Router from "./Router.js";
 import Start from "./Start.js";
 import ThemeColorContext, { themeColorStyle } from "./ThemeColorContext.js";
@@ -13,7 +14,7 @@ function App() {
   const [themeColor, setThemeColor] = useState(
     window.localStorage.getItem("themeColor") || "gray"
   );
-  
+
   useEffect(() => {
     User.currentID = userID;
   }, [userID]);
