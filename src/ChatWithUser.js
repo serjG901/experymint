@@ -73,7 +73,6 @@ export default function ChatWithUser({ otherUserID }) {
           type="text"
           className="w-2/3             
             mb-4 py-2 px-2 
-            text-center
             text-gray-700
             rounded shadow
             appearance-none 
