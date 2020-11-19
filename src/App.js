@@ -13,6 +13,10 @@ function App() {
   const [themeColor, setThemeColor] = useState(
     window.localStorage.getItem("themeColor") || "gray"
   );
+  
+  useEffect(() => {
+    User.currentID = userID;
+  }, [userID]);
 
   function handleID(id) {
     setUserID(id);
