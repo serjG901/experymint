@@ -8,24 +8,20 @@
   ],
   "main": "src/index.js",
   "dependencies": {
-    "react": "17.0.0",
-    "react-dom": "17.0.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
     "react-router-dom": "5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "4.0.0",
     "react-textarea-autosize": "8.3.0",
-    "tailwindcss": "2.0.1",
     "vanilla-tilt": "1.7.0"
   },
   "devDependencies": {
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.output.css",
-    "prestart": "npm run build:tailwind",
-    "prebuild": "npm run build:tailwind",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "browserslist": [
