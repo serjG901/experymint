@@ -124,4 +124,20 @@ export const themeColorStyle = {
 };
 
 const ThemeColorContext = React.createContext(themeColorStyle["gray"]);
-export default ThemeColorContext;
+
+export const useTheme = () => {
+  return useContext(ThemeColorContext).theme;
+};
+
+export const useThemeSet = () => {
+  return useContext(ThemeColorContext).setCurrentTheme;
+}
+
+export const ThemeProvider = ({children}) => {
+  const [currentTheme, setCurrentTheme] = useState('gray');
+  return (
+    <ThemeColorContext.Provider value={{setCurrentTheme, theme: themeColorStyle[currentTheme]}}>
+      {children}
+    </ThemeColorContext.Provider>
+  );
+};
