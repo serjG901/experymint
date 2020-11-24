@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
-import { getAllResultsReduce, getInQ } from "./getIndexFunctions";
-import { getUserData, getDataForType } from "./UsersData.js";
-import UserIDContext from "./UserIDContext.js";
-import ShowTextData from "./ShowTextData.js";
-import SaSTextForm from "./SaSTextForm.js";
+import React, { useState, useEffect } from "react";
+import { getAllResultsReduce, getUniqumIndex } from "./getIndexFunctions";
+import { getUserData, getDataForType } from "./usersData";
+import { useUserID } from "./UserIDProvider";
+import FormSendAndShowText from "./FormSendAndShowText";
 
 export default function StatisticOfUser({ isDataChange = true }) {
-  const userID = useContext(UserIDContext);
+  const userID = useUserID();
   const [userData, setUserData] = useState({});
   const [resultsData, setResultsData] = useState({});
-  const [inQ, setInQ] = useState(0);
+  const [uniqumIndex, setUniqumIndex] = useState(0);
   const [changeData, setChangeData] = useState(true);
 
   useEffect(() => {
     const allResults = getAllResultsReduce(resultsData);
     const userResults = userData.results;
     if (allResults && userResults) {
-      setInQ(getInQ(userResults, allResults));
+      setUniqumIndex(getUniqumIndex(userResults, allResults));
     }
   }, [resultsData, userData]);
 
@@ -41,12 +40,13 @@ export default function StatisticOfUser({ isDataChange = true }) {
       </div>
       <div title="The uniqum index of you" className="text-black text-xl">
         <span className="text-gray-700">Unique:</span>
-        <span className="font-bold">{inQ || 0}</span>
+        <span className="font-bold">{uniqumIndex || 0}</span>
       </div>
-      <ShowTextData typeText={"Filtred by"}>
+      <p className="px-2 break-words text-black">
+        <span className="text-gray-700">Filtred by</span>{" "}
         {userData.filter || "all"}
-      </ShowTextData>
-      <SaSTextForm onChangeData={handleChangeData} typeText="filter" />
+      </p>
+      <FormSendAndShowText onChangeData={handleChangeData} typeText="filter" />
     </div>
   );
 }

@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-import { getUserData, getDataForType } from "./UsersData.js";
+import React, { useEffect, useState } from "react";
+import { getUserData, getDataForType } from "./usersData";
 import { getClosestUsers } from "./getIndexFunctions";
-import ChatListItem from "./ChatListItem.js";
-import SaSTextForm from "./SaSTextForm.js";
-import UserIDContext from "./UserIDContext.js";
+import ChatListItem from "./ChatListItem";
+import FormSendAndShowText from "./FormSendAndShowText";
+import { useUserID } from "./UserIDProvider";
 
 export default function ChatList() {
-  const userID = useContext(UserIDContext);
+  const userID = useUserID();
   const [userData, setUserData] = useState({});
   const [data, setData] = useState({});
   const [resultsData, setResultsData] = useState({});
@@ -44,23 +44,21 @@ export default function ChatList() {
   return (
     <div>
       <p className="text-gray-700">Closest people</p>
-      <SaSTextForm onChangeData={handleChangeData} typeText="filter" />
-      {chatList ? (
-        chatList.map((item) => {
-          const userData = {
-            name: item.name,
-            indexOfClosest: item.indexOfClosest,
-            mistruth: data.mistruth[item.name],
-            manifest: data.manifest[item.name],
-            avatar: data.avatar[item.name],
-            tags: data.tags[item.name]
-          };
+      <FormSendAndShowText onChangeData={handleChangeData} typeText="filter" />
+      {chatList
+        ? chatList.map((item) => {
+            const userData = {
+              name: item.name,
+              indexOfClosest: item.indexOfClosest,
+              mistruth: data.mistruth[item.name],
+              manifest: data.manifest[item.name],
+              avatar: data.avatar[item.name],
+              tags: data.tags[item.name]
+            };
 
-          return <ChatListItem key={item.name} userData={userData} />;
-        })
-      ) : (
-        <></>
-      )}
+            return <ChatListItem key={item.name} userData={userData} />;
+          })
+        : null}
     </div>
   );
 }

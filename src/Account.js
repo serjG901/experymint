@@ -1,23 +1,19 @@
-import React, { useContext } from "react";
-import AvatarOfUser from "./AvatarOfUser.js";
-import UserIDContext from "./UserIDContext.js";
-import UserInfo from "./UserInfo.js";
-import StatisticOfUser from "./StatisticOfUser.js";
+import React from "react";
+import Avatar from "./Avatar";
+
+import UserInfo from "./UserInfo";
+import StatisticOfUser from "./StatisticOfUser";
 
 export default function Account() {
-  const userID = useContext(UserIDContext);
-
-  return userID ? (
+  return (
     <div>
       <div className="flex flex-col">
-        <AvatarOfUser />
+        <Avatar />
         <div className="flex justify-center">
           <UserInfo />
           <StatisticOfUser />
         </div>
       </div>
     </div>
-  ) : (
-    <></>
   );
 }

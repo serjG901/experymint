@@ -1,71 +1,87 @@
-import React, { useState } from "react";
-import { IsNameFree, setUserData, IsPassCorrect } from "./UsersData.js";
-import SendButton from "./SendButton.js";
-import TextInput from "./TextInput.js";
+import React, { useEffect, useState } from "react";
+import { isNameFree, setUserData, isPasswordCorrect } from "./usersData";
+import SendButton from "./SendButton";
+import TextInput from "./TextInput";
+import { useUserIDSet } from "./UserIDProvider";
 
-export default function Login({ onID }) {
+export default function Login() {
   const [myError, setMyError] = useState(false);
-  const [isNameFree, setIsNameFree] = useState("new");
-  const [isPassCorrect, setIsPassCorrect] = useState("new");
+  const [nameStatus, setNameStatus] = useState(true);
+  const [passwordStatus, setPasswordStatus] = useState(true);
+  const [changeName, setChangeName] = useState(false);
+  const [nameDraft, setNameDraft] = useState("");
+  const [passwordDraft, setPasswordDraft] = useState("");
+
+  const setUserID = useUserIDSet();
 
   function handleSubmit(event) {
     event.preventDefault();
     const user = {
-      name: event.target.elements.name.value,
-      pass: event.target.elements.pass.value
+      name: nameDraft,
+      pass: passwordDraft
     };
-    if (isNameFree) {
+    if (nameStatus) {
       const statusDataSaved = setUserData(user);
       if (statusDataSaved) {
-        onID(user.name);
+        setUserID(user.name);
         return;
       }
       setMyError("Not saved data, try once");
       return;
     }
-    const statusLogin = IsPassCorrect(user);
-    setIsPassCorrect(statusLogin);
-    if (statusLogin) onID(user.name);
+    const statusLogin = isPasswordCorrect(user);
+    setPasswordStatus(statusLogin);
+    if (statusLogin) setUserID(user.name);
   }
 
-  function handleChangeName(event) {
-    if (event.target.value === "") {
-      setIsNameFree("new");
+  useEffect(() => {
+    if (nameDraft === "") {
+      setChangeName(false);
+      setNameStatus(true);
       return;
     }
-    setIsNameFree(IsNameFree(event.target.value));
+    setChangeName(true);
+    setNameStatus(isNameFree(nameDraft));
+  }, [nameDraft]);
+
+  useEffect(() => {
+    setPasswordStatus(true);
+  }, [passwordDraft]);
+
+  function handleChangeName(event) {
+    setNameDraft(event.target.value.trim());
   }
 
-  function handleChangePass() {
-    setIsPassCorrect("new");
+  function handleChangePassword(event) {
+    setPasswordDraft(event.target.value.trim());
   }
 
   return (
     <div className="w-full max-w-xs">
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">
-          {isNameFree === "new"
+          {!changeName
             ? "Unique name"
-            : isNameFree
+            : nameStatus
             ? "Good new name"
             : "This name is occupied"}
         </label>
         <TextInput
           typeText="name"
           onChange={handleChangeName}
-          req={true}
-          ml={"28"}
+          required
+          maxLength={"28"}
+          value={nameDraft}
         />
         <label htmlFor="pass">
-          {isPassCorrect === "new" || isPassCorrect
-            ? "Password"
-            : "Password is wrong"}
+          {passwordStatus ? "Password" : "Password is wrong"}
         </label>
         <TextInput
-          typeText="pass"
-          onChange={handleChangePass}
-          req={true}
-          ml={"28"}
+          typeText="password"
+          onChange={handleChangePassword}
+          required
+          maxLength={"28"}
+          value={passwordDraft}
         />
         <SendButton>Sign in</SendButton>
         <p>{myError ? myError : ""}</p>

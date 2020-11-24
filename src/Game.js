@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
-import Tilt from "./Tilt.js";
-import { updateUserResults } from "./UsersData.js";
-import ThemeColorContext from "./ThemeColorContext.js";
-import UserIDContext from "./UserIDContext.js";
-import MyError from "./MyError.js";
-import StatisticOfUser from "./StatisticOfUser.js";
-
-function getNumberImage() {
-  const numberOfPictures = 129;
-  return Math.round((numberOfPictures - 1) * Math.random());
-}
+import React, { useEffect, useState } from "react";
+import Tilt from "./Tilt";
+import { updateUserResults } from "./usersData";
+import { useTheme } from "./ThemeProvider";
+import { useUserID } from "./UserIDProvider";
+import SomeError from "./SomeError";
+import StatisticOfUser from "./StatisticOfUser";
+import { getRandomImage } from "./imageForGame";
 
 export default function Game() {
-  const themeColor = useContext(ThemeColorContext);
-  const userID = useContext(UserIDContext);
+  const themeColor = useTheme();
+  const userID = useUserID();
 
   const styleButton = `
     transition-all 
@@ -36,10 +32,10 @@ export default function Game() {
     cursor-default
     `;
 
-  const [numberImage, setNumberImage] = useState(getNumberImage());
+  const [numberImage, setNumberImage] = useState(getRandomImage());
   const [load, setLoad] = useState(true);
   const [choiceType, setChoiceType] = useState("");
-  const [myError, setMyError] = useState("");
+  const [someError, setSomeError] = useState("");
 
   useEffect(() => {
     const timeIdChoice = setTimeout(() => setChoiceType("new"), 100);
@@ -50,40 +46,36 @@ export default function Game() {
     };
   }, [numberImage]);
 
-  function handleResult(numberImage, choiceType) {
+  function handleResult(numberImage, choice) {
     setChoiceType("");
-    const statusSavedResult = updateUserResults(
-      userID,
-      numberImage,
-      choiceType
-    );
+    const statusSavedResult = updateUserResults(userID, numberImage, choice);
     if (statusSavedResult) {
-      const number = getNumberImage();
+      const number = getRandomImage();
       if (numberImage !== number) {
         setNumberImage(number);
         return;
       }
-      setNumberImage(getNumberImage());
+      setNumberImage(getRandomImage());
       return;
     }
     const newError = `
       Don't saved choice,
       something wrong with server.
       `;
-    setMyError(newError);
+    setSomeError(newError);
     setChoiceType("new");
     setLoad(false);
   }
 
   useEffect(() => {
-    const timeId = setTimeout(() => setMyError(""), 5000);
-    return () => clearTimeout(timeId);
-  }, [myError]);
+    const timeoutId = setTimeout(() => setSomeError(""), 5000);
+    return () => clearTimeout(timeoutId);
+  }, [someError]);
 
-  function handleChoice(choiceType) {
+  function handleChoice(choice) {
     setLoad(true);
-    setChoiceType(choiceType);
-    setTimeout(() => handleResult(numberImage, choiceType), 2000);
+    setChoiceType(choice ? "leave" : "remove");
+    setTimeout(() => handleResult(numberImage, choice), 2000);
   }
 
   return (
@@ -96,15 +88,8 @@ export default function Game() {
         <div className="flex-1"></div>
         <Tilt className="flex-1" choiceType={choiceType}>
           <div className="totally-centered">
-            <img
-              alt="img on wall"
-              src={
-                numberImage > 104
-                  ? require(`../img/${numberImage}.png`)
-                  : require(`../img/${numberImage}.jpg`)
-              }
-            />
-            <MyError w={"w-full"}>{myError}</MyError>
+            <img alt="img on wall" src={require(`../img/${numberImage}`)} />
+            <SomeError w={"w-full"}>{someError}</SomeError>
           </div>
         </Tilt>
         <div className="flex-1"></div>
@@ -115,7 +100,7 @@ export default function Game() {
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => {
-            handleChoice(1);
+            handleChoice(true);
           }}
         >
           Leave
@@ -125,7 +110,7 @@ export default function Game() {
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => {
-            handleChoice(0);
+            handleChoice(false);
           }}
         >
           Remove

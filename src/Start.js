@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
-import ThemeColorContext from "./ThemeColorContext.js";
-import Logo from "./Logo.js";
-import Login from "./Login.js";
-import ThemeColorSetter from "./ThemeColorSetter.js";
-import Copyright from "./Copyright.js";
-import bodyBgColor from "./bodyBgColor.js";
+import React, { useEffect } from "react";
+import { useTheme } from "./ThemeProvider";
+import Logo from "./Logo";
+import Login from "./Login";
+import ThemeColorSetter from "./ThemeColorSetter";
+import Copyright from "./Copyright";
+import bodyBgColor from "./bodyBgColor";
 
-export default function Start({ onID, onThemeColor }) {
-  const themeColor = useContext(ThemeColorContext);
+export default function Start({ onSetUserID, onSetThemeColor }) {
+  const themeColor = useTheme();
 
   useEffect(() => {
     document.body.style.background = bodyBgColor[themeColor.color];
@@ -24,10 +24,10 @@ export default function Start({ onID, onThemeColor }) {
 
   return (
     <div className={style}>
-      <Logo image="logo.png">ExperyMint</Logo>
-      <Login onID={onID} />
-      <ThemeColorSetter onThemeColor={onThemeColor} />
-      <Copyright>&copy;2020 ExperyMint.</Copyright>
+      <Logo />
+      <Login onSetUserID={onSetUserID} />
+      <ThemeColorSetter />
+      <Copyright />
     </div>
   );
 }

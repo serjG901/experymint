@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import UserIDContext from "./UserIDContext.js";
-import ThemeColorContext from "./ThemeColorContext.js";
-import { setIsRead } from "./messageData.js";
+import React, { useEffect } from "react";
+import { useUserID } from "./UserIDProvider";
+import { useTheme } from "./ThemeProvider";
+import { setIsRead } from "./messageData";
 
-export default function Message({ openBody, msg, onDeleteMessage }) {
-  const userID = useContext(UserIDContext);
-  const themeColor = useContext(ThemeColorContext);
+export default function Message({ isSeen, msg, onDeleteMessage }) {
+  const userID = useUserID();
+  const themeColor = useTheme();
 
   const styleLeft = `
     self-start w-1/2 
@@ -34,22 +34,23 @@ export default function Message({ openBody, msg, onDeleteMessage }) {
     `;
 
   useEffect(() => {
-    if (openBody && userID !== msg.from && !msg.isRead) {
+    if (isSeen && userID !== msg.from && !msg.isRead) {
       setIsRead(msg.id);
-      console.log(msg.id);
     }
-  }, [openBody, msg.id, userID, msg.from, msg.isRead]);
+  }, [isSeen, msg.id, userID, msg.from, msg.isRead]);
 
   const Right = ({ rmsg }) => (
     <div className={styleRight}>
-      <div onClick={() => onDeleteMessage(rmsg.id)} className={styleDelete}>
-        x
-      </div>
+      {msg.id ? (
+        <div onClick={() => onDeleteMessage(rmsg.id)} className={styleDelete}>
+          x
+        </div>
+      ) : null}
       <p className="text-lg w-11/12 break-word">{rmsg.text}</p>
       <div className="text-xs text-right text-gray-700">
         {new Date(rmsg.date).toLocaleString()}{" "}
-        {rmsg.isSend ? <>&#10003;</> : <></>}
-        {rmsg.isRead ? <>&#10003;</> : <></>}
+        {rmsg.isSend ? <>&#10003;</> : null}
+        {rmsg.isRead ? <>&#10003;</> : null}
       </div>
     </div>
   );

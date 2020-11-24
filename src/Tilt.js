@@ -25,9 +25,9 @@ export default function Tilt({ children, choiceType }) {
     <div ref={tiltRef} className="tilt-root">
       <div
         className={
-          choiceType === 1
+          choiceType === "leave"
             ? "tilt-child tilt-child-new tilt-child-leave"
-            : choiceType === 0
+            : choiceType === "remove"
             ? "tilt-child tilt-child-new tilt-child-remove"
             : choiceType === "new"
             ? "tilt-child tilt-child-new"

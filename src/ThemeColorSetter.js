@@ -1,33 +1,18 @@
-import React, { useContext } from "react";
-import ThemeColorContext from "./ThemeColorContext.js";
-import ThemeColorSample from "./ThemeColorSample.js";
+import React from "react";
+import { useTheme, themeColorStyle } from "./ThemeProvider";
+import ThemeColorSample from "./ThemeColorSample";
 
-const themeColors = [
-  "red",
-  "orange",
-  "yellow",
-  "green",
-  "teal",
-  "blue",
-  "indigo",
-  "purple",
-  "pink",
-  "gray"
-];
+const themeColors = Object.keys(themeColorStyle);
 
-export default function ThemeColorSetter({ onThemeColor }) {
-  const themeColor = useContext(ThemeColorContext);
+export default function ThemeColorSetter() {
+  const themeColor = useTheme();
 
   return (
     <div className="flex flex-col justify-center m-4">
       <div>Set color theme</div>
       <div className="flex justify-center h-6">
         {themeColors.map((color) => (
-          <ThemeColorSample
-            key={color}
-            onThemeColor={onThemeColor}
-            color={color}
-          >
+          <ThemeColorSample key={color} color={color}>
             {themeColor.color === color && <>&#10003;</>}
           </ThemeColorSample>
         ))}

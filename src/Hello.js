@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
-import AccountIcon from "./AccountIcon.js";
-import GameIcon from "./GameIcon.js";
-import ChatIcon from "./ChatIcon.js";
-import Copyright from "./Copyright.js";
-import ThemeColorContext from "./ThemeColorContext.js";
-import UserIDContext from "./UserIDContext.js";
+import React from "react";
+import { ReactComponent as AccountIcon } from "./AccountIcon.svg";
+import { ReactComponent as GameIcon } from "./GameIcon.svg";
+import { ReactComponent as ChatIcon } from "./ChatIcon.svg";
+import Copyright from "./Copyright";
+import { useTheme } from "./ThemeProvider";
+import { useUserID } from "./UserIDProvider";
 
 export default function Hello() {
-  const userID = useContext(UserIDContext);
-  const themeColor = useContext(ThemeColorContext);
+  const userID = useUserID();
+  const themeColor = useTheme();
 
   const textBlockStyle = `${themeColor.bg200} text-black p-4`;
 
@@ -95,7 +95,7 @@ export default function Hello() {
           </p>
         </div>
         <div className="flex justify-center">
-          <Copyright>&copy;2020 ExperyMint.</Copyright>
+          <Copyright />
         </div>
       </div>
     </div>

@@ -1,25 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function LogoImage({ children }) {
-  const ref = useRef();
-  const style = `
+export default function LogoImage() {
+  const [style, setStyle] = useState(
+    `opacity-0
     transition-all 
     duration-1000
     delay-1000
     w-1/4 
     sm:self-start 
     self-center
-    `;
-  const start = `opacity-0`;
-  const fin = `opacity-100`;
+    `
+  );
 
   function animation() {
-    ref.current.className = style + fin;
+    setStyle(
+      `
+      opacity-100
+      transition-all 
+      duration-1000
+      delay-1000
+      w-1/4 
+      sm:self-start 
+      self-center
+      `
+    );
   }
 
   useEffect(() => {
     animation();
   });
 
-  return <img ref={ref} className={style + start} src={children} alt="logo" />;
+  return <img className={style} src="logo.png" alt="logo" />;
 }

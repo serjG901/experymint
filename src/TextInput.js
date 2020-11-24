@@ -1,43 +1,44 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function TextInput({
   typeText,
   onChange = () => {},
-  req = false,
-  ml = "128"
+  required = false,
+  maxLength = "128",
+  value
 }) {
-  const ref = useRef();
-
-  const startStyle = `opacity-0`;
-  const finStyle = `
-    opacity-100
-    w-full shadow
-    transition-all 
-    duration-1000
-    mb-4 py-2 px-2 
-    text-center
-    text-gray-700
-    rounded 
-    appearance-none 
-    focus:outline-none 
-    focus:shadow-outline`;
+  const [style, setStyle] = useState(`opacity-0`);
 
   function animation() {
-    ref.current.className = finStyle;
+    setStyle(
+      `
+      opacity-100
+      w-full shadow
+      transition-all 
+      duration-1000
+      mb-4 py-2 px-2 
+      text-center
+      text-gray-700
+      rounded 
+      appearance-none 
+      focus:outline-none 
+      focus:shadow-outline
+      `
+    );
   }
 
   useEffect(() => animation());
 
   return (
     <input
-      ref={ref}
       id={typeText}
-      type={typeText === "pass" ? "password" : "text"}
+      type={typeText === "password" ? "password" : "text"}
       placeholder={`Input your ${typeText}`}
-      required={req}
-      maxLength={ml}
-      className={startStyle}
+      required={required}
+      maxLength={maxLength}
+      className={style}
       onChange={onChange}
+      value={value}
     />
   );
 }

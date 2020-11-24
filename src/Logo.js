@@ -1,12 +1,12 @@
 import React from "react";
-import LogoImage from "./LogoImage.js";
-import LogoText from "./LogoText.js";
+import LogoImage from "./LogoImage";
+import LogoText from "./LogoText";
 
-export default function Logo({ children, image }) {
+export default function Logo() {
   return (
     <div className="flex flex-col items-center">
-      <LogoImage>{image}</LogoImage>
-      <LogoText>{children}</LogoText>
+      <LogoImage />
+      <LogoText />
     </div>
   );
 }

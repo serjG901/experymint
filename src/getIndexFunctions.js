@@ -1,5 +1,3 @@
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
 export function getAllResultsReduce(resultsData) {
   const usersID = Object.keys(resultsData);
   const allResults = {};
@@ -32,24 +30,29 @@ export function getAllResultsReduce(resultsData) {
   const allResultsReduce = {};
   imagesID.forEach((imageID) => {
     const length = allResults[imageID].length;
-    allResultsReduce[imageID] = allResults[imageID].reduce(reducer) / length;
+    allResultsReduce[imageID] =
+      allResults[imageID].reduce((a, b) => a + b) / length;
   });
   return allResultsReduce;
 }
 
-export function getInQ(userResults, allResults) {
+export function getUniqumIndex(userResults, allResults) {
   const arrKeysUserResults = Object.keys(userResults);
-  const arrInQ = arrKeysUserResults.map((key) => {
+  const arrUniqumIndex = arrKeysUserResults.map((key) => {
     if (allResults.hasOwnProperty(key))
       return Math.abs(userResults[key] - allResults[key]);
     return null;
   });
-  const clearArrInQ = arrInQ.filter((item) => item !== null);
-  const inQ =
-    clearArrInQ.length !== 0
-      ? Math.round((clearArrInQ.reduce(reducer) / clearArrInQ.length) * 100)
+  const clearArrUniqumIndex = arrUniqumIndex.filter((item) => item !== null);
+  const uniqumIndex =
+    clearArrUniqumIndex.length !== 0
+      ? Math.round(
+          (clearArrUniqumIndex.reduce((a, b) => a + b) /
+            clearArrUniqumIndex.length) *
+            100
+        )
       : 0;
-  return inQ;
+  return uniqumIndex;
 }
 
 export function getIndexOfClosest(userResults, anyResults) {
@@ -63,9 +66,11 @@ export function getIndexOfClosest(userResults, anyResults) {
   const clearArrIndex = arrIndex.filter((item) => item !== null);
   const indexOfClosest =
     clearArrIndex.length !== 0
-      ? Math.round((clearArrIndex.reduce(reducer) / clearArrIndex.length) * 100)
+      ? Math.round(
+          (clearArrIndex.reduce((a, b) => a + b) / clearArrIndex.length) * 100
+        )
       : 0;
-  return { IC: indexOfClosest, amount: clearArrIndex.length };
+  return { index: indexOfClosest, amount: clearArrIndex.length };
 }
 
 export function getClosestUsers(userData, resultsData) {
@@ -77,7 +82,10 @@ export function getClosestUsers(userData, resultsData) {
     };
   });
   closestUsers.sort((a, b) => {
-    return b.indexOfClosest.IC - a.indexOfClosest.IC;
+    return (
+      b.indexOfClosest.index * b.indexOfClosest.amount -
+      a.indexOfClosest.index * a.indexOfClosest.amount
+    );
   });
   return closestUsers;
 }

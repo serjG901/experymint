@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
-import { sendMessage, getMessages, deleteMessage } from "./messageData.js";
-import UserIDContext from "./UserIDContext.js";
-import Message from "./Message.js";
-import SendButton from "./SendButton.js";
+import React, { useEffect, useState } from "react";
+import { sendMessage, getMessages, deleteMessage } from "./messageData";
+import { useUserID } from "./UserIDProvider";
+import Message from "./Message";
+import SendButton from "./SendButton";
 import TextareaAutosize from "react-textarea-autosize";
 
-export default function ChatWithUser({ openBody, otherUserID }) {
-  const userID = useContext(UserIDContext);
+export default function OtherUserChat({ isOpen, otherUserID }) {
+  const userID = useUserID();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState([]);
   const [isSync, setIsSync] = useState(true);
-
-  function getMessageID(...args) {
-    return [...args].join("");
-  }
 
   function handleDraftChange(event) {
     setDraft(event.currentTarget.value);
@@ -27,7 +23,6 @@ export default function ChatWithUser({ openBody, otherUserID }) {
     setMessages([
       ...messages,
       {
-        id: getMessageID(otherUserID, currentDate),
         from: userID,
         to: otherUserID,
         text: draft,
@@ -65,8 +60,8 @@ export default function ChatWithUser({ openBody, otherUserID }) {
       <div className="flex flex-col">
         {messages.map((msg) => (
           <Message
-            openBody={openBody}
-            key={msg.id}
+            isSeen={isOpen}
+            key={msg.date}
             msg={msg}
             onDeleteMessage={handleDeleteMessage}
           />

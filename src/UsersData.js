@@ -1,4 +1,4 @@
-import { User } from "./currentUser.js";
+import { User } from "./currentUser";
 
 const localDataUsers =
   new Map(JSON.parse(window.localStorage.getItem("dataUsers"))) || new Map();
@@ -11,7 +11,7 @@ if (localDataUsers.size > 0) {
   }
 }
 
-function IsNameFree(name) {
+function isNameFree(name) {
   return !dataUsers.has(name);
 }
 
@@ -56,7 +56,7 @@ function setUserData({ name, pass }) {
   }
 }
 
-function IsPassCorrect({ name, pass }) {
+function isPasswordCorrect({ name, pass }) {
   const user = dataUsers.get(name);
   if (user.pass !== pass) return false;
   User.currentID = name;
@@ -69,26 +69,26 @@ function getUserData(userID) {
   return { ...userData, pass: "***" };
 }
 
-function addResultInUser(results, numberImage, choiceType) {
+function addResultInUser(results, numberImage, choice) {
   let newMistruth = false;
   if (results.hasOwnProperty(numberImage)) {
-    newMistruth = results[numberImage] !== choiceType;
+    newMistruth = results[numberImage] !== choice;
     const newResults = {
       ...results,
-      [numberImage]: choiceType
+      [numberImage]: choice
     };
     return { newResults, newMistruth };
   }
-  const newResults = { ...results, [numberImage]: choiceType };
+  const newResults = { ...results, [numberImage]: choice };
   return { newResults, newMistruth };
 }
 
-function updateUserResults(userID, numberImage, choiceType) {
+function updateUserResults(userID, numberImage, choice) {
   const userData = dataUsers.get(userID);
   const { newResults, newMistruth } = addResultInUser(
     userData.results,
     numberImage,
-    choiceType
+    choice
   );
   const newUserData = {
     ...userData,
@@ -129,9 +129,9 @@ function updateUserData(userID, typeData, dataSource) {
 }
 
 export {
-  IsNameFree,
+  isNameFree,
   setUserData,
-  IsPassCorrect,
+  isPasswordCorrect,
   getUserData,
   updateUserResults,
   getDataForType,

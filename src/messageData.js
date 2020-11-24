@@ -1,4 +1,4 @@
-import { User } from "./currentUser.js";
+import { User } from "./currentUser";
 
 let messages = Array.from(
   JSON.parse(window.localStorage.getItem("messages")) || []
