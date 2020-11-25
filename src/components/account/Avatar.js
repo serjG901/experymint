@@ -51,7 +51,7 @@ export default function Avatar() {
   }
 
   function handleDeleteAvatar() {
-    avatarSet(null);
+    avatarSet("");
   }
 
   return (

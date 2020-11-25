@@ -13,16 +13,19 @@ export default function StatisticOfUser() {
       <PropertyUserProvider>
         <SimpleIndex nameProperty="score" />
       </PropertyUserProvider>
+
       <PropertyUserProvider>
         <SimpleIndex nameProperty="mistruth" />
       </PropertyUserProvider>
-      <PropertyUserProvider>
-        <PropertyOtherUsersProvider>
+
+      <PropertyOtherUsersProvider>
+        <PropertyUserProvider>
           <UniqueIndexProvider>
             <UniqueIndex />
           </UniqueIndexProvider>
-        </PropertyOtherUsersProvider>
-      </PropertyUserProvider>
+        </PropertyUserProvider>
+      </PropertyOtherUsersProvider>
+
       <PropertyUserProvider>
         <FilterStatus />
         <FormSendAndShowText nameProperty="filter" />

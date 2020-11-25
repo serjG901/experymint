@@ -4,8 +4,6 @@ let messages = Array.from(
   JSON.parse(window.localStorage.getItem("messages")) || []
 );
 
-console.log(messages);
-
 function getMessageID(...args) {
   return [...args].join("");
 }

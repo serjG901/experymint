@@ -24,12 +24,11 @@ export const PropertyUserProvider = ({ children }) => {
   useEffect(() => {
     if (!namePropertyUser) return;
     const userData = getUserData(userID);
-    console.log(userData, namePropertyUser);
     setPropertyUser(userData[namePropertyUser]);
   }, [namePropertyUser, userID]);
 
   useEffect(() => {
-    if (!namePropertyUser || namePropertyUser === "name") return;
+    if (!namePropertyUser || propertyUser === null) return;
     updateUserData(userID, namePropertyUser, propertyUser);
   }, [userID, propertyUser, namePropertyUser]);
 

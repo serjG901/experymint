@@ -291,7 +291,7 @@ export const themeColorStyle = {
     colorTextLogo: "text-yellow-400",
     colorTextData: "text-yellow-400",
     colorTextLabel: "text-white",
-    colorTextMain: "text-white",
+    colorTextMain: "text-gray-700",
     colorTextOtherUser: "text-black",
     colorTextExplane: "text-gray-500",
     bgTextBlock: "bg-yellow-400",
