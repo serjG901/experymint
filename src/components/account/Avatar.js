@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useUser, useUserSet } from "../core/UserProvider";
-import SomeError from "../common/SomeError";
 import AvatarSetDelete from "./AvatarSetDelete";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 
 export default function Avatar() {
   const user = useUser();
-  const userSet = useUserSet();
-
-  const [someError, setSomeError] = useState("");
-
-  useEffect(() => {
-    if (someError === "") return;
-    const timeoutId = setTimeout(() => setSomeError(""), 5000);
-    return () => clearTimeout(timeoutId);
-  }, [someError]);
+  const setUser = useUserSet();
+  const setPushUpError = usePushUpErrorSet();
 
   function handleSetAvatar(event) {
     const file = event.currentTarget.files[0];
@@ -24,13 +17,13 @@ export default function Avatar() {
       try to upload smaller image 
       (less than 1,2Mb)
       `;
-      setSomeError(newError);
+      setPushUpError(newError);
       return;
     }
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      userSet({ ...user, avatar: reader.result });
+      setUser({ ...user, avatar: reader.result });
     };
     reader.onerror = () => {
       console.log(reader.error);
@@ -38,12 +31,12 @@ export default function Avatar() {
       Failed to read file,
       try to upload other image
       `;
-      setSomeError(newError);
+      setPushUpError(newError);
     };
   }
 
   function handleDeleteAvatar() {
-    userSet({ ...user, avatar: "" });
+    setUser({ ...user, avatar: "" });
   }
 
   return (
@@ -60,7 +53,6 @@ export default function Avatar() {
           onSetAvatar={handleSetAvatar}
           onDeleteAvatar={handleDeleteAvatar}
         />
-        <SomeError>{someError}</SomeError>
       </form>
     </div>
   );

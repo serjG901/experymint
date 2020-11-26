@@ -35,7 +35,6 @@ export default function Game() {
   const [image, setImage] = useState(getRandomImage());
   const [load, setLoad] = useState(true);
   const [choiceType, setChoiceType] = useState("");
-  const [someError, setSomeError] = useState("");
 
   useEffect(() => {
     const timeIdChoice = setTimeout(() => setChoiceType("new"), 100);
@@ -47,20 +46,25 @@ export default function Game() {
   }, [image]);
 
   function handleResult(image, choice) {
-    setChoiceType("");
-    const score = user.score ? user.score + 1 : 1;
-    const mistruth = user.mistruth ? user.mistruth : 0;
-    let addMistruth = 0;
-    if (user.results[image] !== undefined) {
-      addMistruth = user.results[image] === choice ? 0 : 1;
-    }
+    const score = user.score + 1;
+    const mistruth = user.mistruth;
+    const addMistruth =
+      user.results[image] === undefined
+        ? 0
+        : user.results[image] === choice
+        ? 0
+        : 1;
     setUser({
       ...user,
       mistruth: mistruth + addMistruth,
       score,
       results: { ...user.results, [image]: choice }
     });
+    setTimeout(() => getNewRandomImage(), 2000);
+  }
 
+  function getNewRandomImage() {
+    setChoiceType("");
     const number = getRandomImage();
     if (image !== number) {
       setImage(number);
@@ -69,15 +73,10 @@ export default function Game() {
     setImage(getRandomImage());
   }
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => setSomeError(""), 5000);
-    return () => clearTimeout(timeoutId);
-  }, [someError]);
-
   function handleChoice(choice) {
     setLoad(true);
     setChoiceType(choice ? "leave" : "remove");
-    setTimeout(() => handleResult(image, choice), 2000);
+    handleResult(image, choice);
   }
 
   return (

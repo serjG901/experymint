@@ -17,11 +17,13 @@ import { ReactComponent as ChatIcon } from "./ChatIcon.svg";
 import { ReactComponent as QuitIcon } from "./QuitIcon.svg";
 import { useTheme, bodyBgColor } from "../core/ThemeProvider";
 import { useUserID, useUserIDSet } from "../core/UserIDProvider";
+import { usePushUpError } from "../core/PushUpErrorProvider";
 
 export default function AppRouter() {
   const themeColor = useTheme();
   const userID = useUserID();
   const setUserID = useUserIDSet();
+  const pushUpError = usePushUpError();
 
   useEffect(() => {
     document.body.style.background = bodyBgColor[themeColor.color];
@@ -66,60 +68,67 @@ export default function AppRouter() {
     ${themeColor.bgApp}
     `;
 
-  return userID ? (
-    <Router>
-      <div className={style}>
-        <nav className="flex">
-          <Link
-            title="To the user account"
-            to="/account"
-            onClick={() => handleActivePage("account")}
-            className={activePage === "account" ? linkActive : linkNotActive}
-          >
-            <AccountIcon />
-          </Link>
-          <Link
-            title="To the game"
-            to="/game"
-            onClick={() => handleActivePage("game")}
-            className={activePage === "game" ? linkActive : linkNotActive}
-          >
-            <GameIcon />
-          </Link>
-          <Link
-            title="To the chat"
-            to="/chat"
-            onClick={() => handleActivePage("chat")}
-            className={activePage === "chat" ? linkActive : linkNotActive}
-          >
-            <ChatIcon />
-          </Link>
-          <Link
-            title="Sign out"
-            to="/"
-            onClick={() => handleQuit()}
-            className={linkNotActive}
-          >
-            <QuitIcon />
-          </Link>
-        </nav>
-        <Switch>
-          <Route path="/game">
-            <Game />
-          </Route>
-          <Route path="/chat">
-            <Chat />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route path="/">
-            {activePage ? <Redirect to={`/${activePage}`} /> : <Hello />}
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  ) : (
-    <Start />
+  return (
+    <>
+      {userID ? (
+        <Router>
+          <div className={style}>
+            <nav className="flex">
+              <Link
+                title="To the user account"
+                to="/account"
+                onClick={() => handleActivePage("account")}
+                className={
+                  activePage === "account" ? linkActive : linkNotActive
+                }
+              >
+                <AccountIcon />
+              </Link>
+              <Link
+                title="To the game"
+                to="/game"
+                onClick={() => handleActivePage("game")}
+                className={activePage === "game" ? linkActive : linkNotActive}
+              >
+                <GameIcon />
+              </Link>
+              <Link
+                title="To the chat"
+                to="/chat"
+                onClick={() => handleActivePage("chat")}
+                className={activePage === "chat" ? linkActive : linkNotActive}
+              >
+                <ChatIcon />
+              </Link>
+              <Link
+                title="Sign out"
+                to="/"
+                onClick={() => handleQuit()}
+                className={linkNotActive}
+              >
+                <QuitIcon />
+              </Link>
+            </nav>
+            <Switch>
+              <Route path="/game">
+                <Game />
+              </Route>
+              <Route path="/chat">
+                <Chat />
+              </Route>
+              <Route path="/account">
+                <Account />
+              </Route>
+              <Route path="/">
+                {activePage ? <Redirect to={`/${activePage}`} /> : <Hello />}
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      ) : (
+        <Start />
+      )}
+      {pushUpError}
+    </>
   );
 }

@@ -6,7 +6,7 @@ import { useUser, useUserSet } from "../core/UserProvider";
 
 export default function FormSendAndShowText({ nameProperty }) {
   const user = useUser();
-  const userSet = useUserSet();
+  const setUser = useUserSet();
   const themeColor = useTheme();
 
   const [statusInput, setStatusInput] = useState(false);
@@ -15,7 +15,7 @@ export default function FormSendAndShowText({ nameProperty }) {
   function handleSubmit(event) {
     event.preventDefault();
     const dataSource = draftInput.trim();
-    userSet({ ...user, [nameProperty]: dataSource });
+    setUser({ ...user, [nameProperty]: dataSource });
     setDraftInput("");
     setStatusInput(false);
   }
