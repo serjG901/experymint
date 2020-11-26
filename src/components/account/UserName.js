@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-import {
-  usePropertyUser,
-  useNamePropertyUserSet
-} from "../core/PropertyUserProvider";
+import React from "react";
+import { useUser } from "../core/UserProvider";
 
 export default function UserName() {
-  const namePropertyUserSet = useNamePropertyUserSet();
-  const name = usePropertyUser();
-
-  useEffect(() => {
-    namePropertyUserSet("name");
-  });
-
-  return <div className="break-word text-5xl font-bold">{name}</div>;
+  const user = useUser();
+  const style = `
+  break-word
+  text-5xl
+  font-bold
+  `;
+  return <div className={style}>{user.name}</div>;
 }

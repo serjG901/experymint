@@ -17,13 +17,13 @@ export default function LogoText() {
   function animation() {
     setStyle(
       `
-    opacity-100
-    transition-all 
-    duration-1000
-    text-5xl 
-    font-bold
-    ${themeColor.colorTextLogo} 
-    `
+      opacity-100
+      transition-all 
+      duration-1000
+      text-5xl 
+      font-bold
+      ${themeColor.colorTextLogo} 
+      `
     );
   }
 

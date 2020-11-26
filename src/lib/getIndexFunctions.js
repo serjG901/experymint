@@ -1,28 +1,28 @@
-export function getAllResultsReduce(resultsData) {
-  const usersID = Object.keys(resultsData);
+export function getAllResultsReduce(otherUserInfo) {
+  const usersID = Object.keys(otherUserInfo);
   const allResults = {};
   usersID.forEach((userID) => {
     const imagesIDAll = Object.keys(allResults);
-    const imagesIDFromUser = Object.keys(resultsData[userID]);
+    const imagesIDFromUser = Object.keys(otherUserInfo[userID].results);
     if (imagesIDAll.length) {
       imagesIDAll.forEach((imageIDAll) => {
         imagesIDFromUser.forEach((imageIDFromUser) => {
           if (imageIDAll !== imageIDFromUser) {
             allResults[imageIDFromUser] = allResults[imageIDFromUser] || [
-              resultsData[userID][imageIDFromUser]
+              otherUserInfo[userID].results[imageIDFromUser]
             ];
           } else {
             allResults[imageIDAll] = [
               ...allResults[imageIDAll],
-              resultsData[userID][imageIDFromUser]
+              otherUserInfo[userID].results[imageIDFromUser]
             ];
           }
         });
       });
     } else {
-      const imagesIDAllFirst = Object.keys(resultsData[userID]);
+      const imagesIDAllFirst = Object.keys(otherUserInfo[userID].results);
       imagesIDAllFirst.forEach((imageIDAll) => {
-        allResults[imageIDAll] = [resultsData[userID][imageIDAll]];
+        allResults[imageIDAll] = [otherUserInfo[userID].results[imageIDAll]];
       });
     }
   });
@@ -73,12 +73,20 @@ export function getIndexOfClosest(userResults, anyResults) {
   return { index: indexOfClosest, amount: clearArrIndex.length };
 }
 
-export function getClosestUsers(userData, resultsData) {
-  const usersID = Object.keys(resultsData);
-  const closestUsers = usersID.map((userID) => {
+export function getClosestUsers(user, otherUsers) {
+  const otherUsersID = Object.keys(otherUsers);
+  const closestUsers = otherUsersID.map((otherUserID) => {
     return {
-      name: userID,
-      indexOfClosest: getIndexOfClosest(userData.results, resultsData[userID])
+      id: otherUserID,
+      name: otherUsers[otherUserID].name,
+      manifest: otherUsers[otherUserID].manifest,
+      mistruth: otherUsers[otherUserID].mistruth,
+      avatar: otherUsers[otherUserID].avatar,
+      tags: otherUsers[otherUserID].tags,
+      indexOfClosest: getIndexOfClosest(
+        user.results,
+        otherUsers[otherUserID].results
+      )
     };
   });
   closestUsers.sort((a, b) => {

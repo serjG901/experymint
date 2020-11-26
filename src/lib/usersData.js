@@ -11,11 +11,11 @@ if (localDataUsers.size > 0) {
   }
 }
 
-function isNameFree(name) {
+export function isNameFree(name) {
   return !dataUsers.has(name);
 }
 
-function addDataInStorage() {
+export function addDataInStorage() {
   let err = false;
   try {
     window.localStorage.setItem(
@@ -30,7 +30,7 @@ function addDataInStorage() {
   return true;
 }
 
-function setUserData({ name, pass }) {
+export function setUserData({ name, pass }) {
   const user = {
     name,
     pass,
@@ -56,7 +56,7 @@ function setUserData({ name, pass }) {
   }
 }
 
-function isPasswordCorrect({ name, pass }) {
+export function isPasswordCorrect({ name, pass }) {
   const user = dataUsers.get(name);
   if (user.pass !== pass) return false;
   User.currentID = name;
@@ -64,12 +64,12 @@ function isPasswordCorrect({ name, pass }) {
   return true;
 }
 
-function getUserData(userID) {
+export function getUserData(userID) {
   const userData = dataUsers.get(userID);
   return { ...userData, pass: "***" };
 }
 
-function addResultInUser(results, numberImage, choice) {
+export function addResultInUser(results, numberImage, choice) {
   let newMistruth = false;
   if (results.hasOwnProperty(numberImage)) {
     newMistruth = results[numberImage] !== choice;
@@ -83,7 +83,7 @@ function addResultInUser(results, numberImage, choice) {
   return { newResults, newMistruth };
 }
 
-function updateUserResults(userID, numberImage, choice) {
+export function updateUserResults(userID, numberImage, choice) {
   const userData = dataUsers.get(userID);
   const { newResults, newMistruth } = addResultInUser(
     userData.results,
@@ -103,11 +103,12 @@ function updateUserResults(userID, numberImage, choice) {
   return false;
 }
 
-function getDataForType(userID, typeData) {
+export function getDataForType(userID, typeData) {
   let outData = {};
   const filterTags = dataUsers.get(userID).filter
     ? dataUsers.get(userID).filter.toLowerCase()
     : "";
+
   for (let entry of dataUsers) {
     if (entry[0] !== userID) {
       if (entry[1]["tags"].toLowerCase().indexOf(filterTags) !== -1)
@@ -117,7 +118,7 @@ function getDataForType(userID, typeData) {
   return outData;
 }
 
-function updateUserData(userID, typeData, dataSource) {
+export function updateUserData(userID, typeData, dataSource) {
   const userData = dataUsers.get(userID);
   const newUserData = {
     ...userData,
@@ -130,12 +131,55 @@ function updateUserData(userID, typeData, dataSource) {
   return false;
 }
 
-export {
-  isNameFree,
-  setUserData,
-  isPasswordCorrect,
-  getUserData,
-  updateUserResults,
-  getDataForType,
-  updateUserData
-};
+export function updateUser(userID, user) {
+  //console.log(userID, user);
+  const userData = dataUsers.get(userID);
+  const newUserData = {
+    ...user,
+    pass: userData.pass
+  };
+  dataUsers.set(userID, newUserData);
+  const statusSavedData = addDataInStorage();
+  if (statusSavedData) return true;
+  dataUsers.set(userID, userData);
+  return false;
+}
+
+export function getOtherUsersResults(userID, filter) {
+  let otherUsersResults = {};
+  const filterTags = filter ? filter.toLowerCase() : "";
+
+  for (let entry of dataUsers) {
+    if (entry[0] !== userID) {
+      if (entry[1]["tags"].toLowerCase().indexOf(filterTags) !== -1)
+        otherUsersResults = {
+          ...otherUsersResults,
+          [entry[0]]: entry[1].results
+        };
+    }
+  }
+  return otherUsersResults;
+}
+
+export function getOtherUsers(userID, filter) {
+  let otherUsersInfo = {};
+  const filterTags = filter ? filter.toLowerCase() : "";
+
+  for (let entry of dataUsers) {
+    if (entry[0] !== userID) {
+      if (entry[1]["tags"].toLowerCase().indexOf(filterTags) !== -1)
+        otherUsersInfo = {
+          ...otherUsersInfo,
+          [entry[0]]: {
+            name: entry[1].name,
+            manifest: entry[1].manifest,
+            mistruth: entry[1].mistruth,
+            avatar: entry[1].avatar,
+            tags: entry[1].tags,
+            results: entry[1].results
+          }
+        };
+    }
+  }
+  return otherUsersInfo;
+}

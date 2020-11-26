@@ -4,17 +4,21 @@ import { ReactComponent as GameIcon } from "./GameIcon.svg";
 import { ReactComponent as ChatIcon } from "./ChatIcon.svg";
 import Copyright from "../common/Copyright";
 import { useTheme } from "../core/ThemeProvider";
-import { useUserID } from "../core/UserIDProvider";
+import { useUser } from "../core/UserProvider";
 
 export default function Hello() {
-  const userID = useUserID();
+  const user = useUser();
   const themeColor = useTheme();
 
-  const textBlockStyle = `${themeColor.bgTextBlock} text-black p-4`;
+  const textBlockStyle = `
+    ${themeColor.bgTextBlock} 
+    ${themeColor.colorTextExplane}
+    p-4
+    `;
 
   return (
     <div className="flex flex-col">
-      <div className="break-word font-bold text-2xl">Hello {userID}!</div>
+      <div className="break-word font-bold text-2xl">Hello {user.name}!</div>
       <div className="text-justify">
         <div className={textBlockStyle}>
           <p>Проходите нашу игру и находите близких Вам людей.</p>
@@ -24,7 +28,6 @@ export default function Hello() {
           </p>
         </div>
         <br />
-
         <div className={textBlockStyle}>
           <div className="flex justify-center">
             <AccountIcon />
@@ -82,7 +85,6 @@ export default function Hello() {
           <p>IC - процент схожести результата игры. </p>
           <p>Am - количество сравниваемых картинок.</p>
           <p>MT - mistruth пользователя.</p>
-
           <p>
             Нажав на пользователя в списке Вы сможете увидеть дополнительную
             информацию о нем, а также отправить ему сообшение.

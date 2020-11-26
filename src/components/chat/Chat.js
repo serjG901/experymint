@@ -1,19 +1,20 @@
 import React from "react";
 import ChatList from "./ChatList";
 import FormSendAndShowText from "../common/FormSendAndShowText";
-import { PropertyUserProvider } from "../core/PropertyUserProvider";
 import UserName from "../account/UserName";
+import { OtherUsersProvider } from "../core/OtherUsersProvider";
+import { ChatListProvider } from "../core/ChatListProvider";
 
 export default function Chat() {
   return (
     <div>
-      <PropertyUserProvider>
-        <UserName />
-      </PropertyUserProvider>
-      <PropertyUserProvider>
-        <FormSendAndShowText nameProperty="manifest" />
-      </PropertyUserProvider>
-      <ChatList />
+      <UserName />
+      <FormSendAndShowText nameProperty="manifest" />
+      <OtherUsersProvider>
+        <ChatListProvider>
+          <ChatList />
+        </ChatListProvider>
+      </OtherUsersProvider>
     </div>
   );
 }

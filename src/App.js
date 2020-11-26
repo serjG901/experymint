@@ -3,12 +3,15 @@ import "./styles.css";
 import AppRouter from "./components/approuter/AppRouter";
 import { ThemeProvider } from "./components/core/ThemeProvider";
 import { UserIDProvider } from "./components/core/UserIDProvider";
+import { UserProvider } from "./components/core/UserProvider";
 
 function App() {
   return (
     <ThemeProvider>
       <UserIDProvider>
-        <AppRouter />
+        <UserProvider>
+          <AppRouter />
+        </UserProvider>
       </UserIDProvider>
     </ThemeProvider>
   );

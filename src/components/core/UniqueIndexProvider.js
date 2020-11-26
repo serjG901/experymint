@@ -3,14 +3,8 @@ import {
   getAllResultsReduce,
   getUniqumIndex
 } from "../../lib/getIndexFunctions";
-import {
-  usePropertyUser,
-  useNamePropertyUserSet
-} from "./PropertyUserProvider";
-import {
-  usePropertyOtherUsers,
-  useNamePropertyOtherUsersSet
-} from "./PropertyOtherUsersProvider";
+import { useUser } from "./UserProvider";
+import { useOtherUsers } from "./OtherUsersProvider";
 
 const UniqueIndexContext = React.createContext();
 
@@ -19,24 +13,17 @@ export const useUniqueIndex = () => {
 };
 
 export function UniqueIndexProvider({ children }) {
-  const namePropertyUserSet = useNamePropertyUserSet();
-  const userResults = usePropertyUser();
-  const namePropertyOtherUsersSet = useNamePropertyOtherUsersSet();
-  const otherUsersResults = usePropertyOtherUsers();
-
-  useEffect(() => {
-    namePropertyUserSet("results");
-    namePropertyOtherUsersSet("results");
-  });
+  const user = useUser();
+  const otherUsers = useOtherUsers();
 
   const [uniqueIndex, setUniqueIndex] = useState(0);
 
   useEffect(() => {
-    if (otherUsersResults && userResults) {
-      const allResults = getAllResultsReduce(otherUsersResults);
-      setUniqueIndex(getUniqumIndex(userResults, allResults));
+    if (user && otherUsers) {
+      const allResults = getAllResultsReduce(otherUsers);
+      setUniqueIndex(getUniqumIndex(user.results, allResults));
     }
-  }, [otherUsersResults, userResults]);
+  }, [user, otherUsers]);
 
   return (
     <UniqueIndexContext.Provider value={{ uniqueIndex }}>

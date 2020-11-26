@@ -17,7 +17,7 @@ export default function OtherUserStatistic({ indexOfClosest, mistruth }) {
       </div>
       <div className="w-1/3">
         <span className={`${themeColor.colorTextExplane}`}>mistruth:</span>
-        {mistruth}
+        {mistruth || 0}
       </div>
     </div>
   );

@@ -1,62 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { getUserData, getDataForType } from "../../lib/usersData";
-import { getClosestUsers } from "../../lib/getIndexFunctions";
+import React from "react";
 import OtherUser from "./OtherUser";
 import FormSendAndShowText from "../common/FormSendAndShowText";
-import { useUserID } from "../core/UserIDProvider";
+import { useChatList } from "../core/ChatListProvider";
 import { useTheme } from "../core/ThemeProvider";
-import { PropertyUserProvider } from "../core/PropertyUserProvider";
 
 export default function ChatList() {
-  const userID = useUserID();
-  const [userData, setUserData] = useState({});
-  const [data, setData] = useState({});
-  const [resultsData, setResultsData] = useState({});
-  const [chatList, setChatList] = useState([]);
+  const chatList = useChatList();
   const themeColor = useTheme();
-
-  useEffect(() => {
-    setUserData(getUserData(userID));
-  }, [userID]);
-
-  useEffect(() => {
-    setResultsData(getDataForType(userID, "results"));
-  }, [userID]);
-
-  useEffect(() => {
-    setData({
-      mistruth: getDataForType(userID, "mistruth"),
-      manifest: getDataForType(userID, "manifest"),
-      avatar: getDataForType(userID, "avatar"),
-      tags: getDataForType(userID, "tags")
-    });
-  }, [userID]);
-
-  useEffect(() => {
-    if (userData && resultsData) {
-      const closestUsers = getClosestUsers(userData, resultsData);
-      setChatList(closestUsers);
-    }
-  }, [userData, resultsData]);
 
   return (
     <div>
       <p className={`${themeColor.colorTextExplane}`}>Closest people</p>
-      <PropertyUserProvider>
-        <FormSendAndShowText nameProperty="filter" />
-      </PropertyUserProvider>
+      <FormSendAndShowText nameProperty="filter" />
       {chatList
         ? chatList.map((item) => {
-            const userData = {
+            const otherUser = {
               name: item.name,
               indexOfClosest: item.indexOfClosest,
-              mistruth: data.mistruth[item.name],
-              manifest: data.manifest[item.name],
-              avatar: data.avatar[item.name],
-              tags: data.tags[item.name]
+              mistruth: item.mistruth,
+              manifest: item.manifest,
+              avatar: item.avatar,
+              tags: item.tags
             };
 
-            return <OtherUser key={item.name} userData={userData} />;
+            return <OtherUser key={item.id} otherUser={otherUser} />;
           })
         : null}
     </div>

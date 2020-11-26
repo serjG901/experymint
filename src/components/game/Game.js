@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Tilt from "./Tilt";
-import { updateUserResults } from "../../lib/usersData";
 import { useTheme } from "../core/ThemeProvider";
-import { useUserID } from "../core/UserIDProvider";
-import SomeError from "../common/SomeError";
+import { useUser, useUserSet } from "../core/UserProvider";
 import StatisticOfUser from "../account/StatisticOfUser";
 import { getRandomImage } from "./imageForGame";
 
 export default function Game() {
   const themeColor = useTheme();
-  const userID = useUserID();
+  const user = useUser();
+  const setUser = useUserSet();
 
   const styleButton = `
     transition-all 
     duration-1000
     flex-1 text-2xl
     mb-4 mx-4 py-2 px-4
+    rounded 
     focus:outline-none 
     focus:shadow-outline
     `;
   const styleButtonEnabled = `
     ${styleButton}
-    rounded shadow-md
+    shadow-md
     cursor-pointer
     ${themeColor.bgButton} 
     ${themeColor.hbgButton} 
@@ -32,7 +32,7 @@ export default function Game() {
     cursor-default
     `;
 
-  const [numberImage, setNumberImage] = useState(getRandomImage());
+  const [image, setImage] = useState(getRandomImage());
   const [load, setLoad] = useState(true);
   const [choiceType, setChoiceType] = useState("");
   const [someError, setSomeError] = useState("");
@@ -44,27 +44,29 @@ export default function Game() {
       clearTimeout(timeIdChoice);
       clearTimeout(timeIdLoad);
     };
-  }, [numberImage]);
+  }, [image]);
 
-  function handleResult(numberImage, choice) {
+  function handleResult(image, choice) {
     setChoiceType("");
-    const statusSavedResult = updateUserResults(userID, numberImage, choice);
-    if (statusSavedResult) {
-      const number = getRandomImage();
-      if (numberImage !== number) {
-        setNumberImage(number);
-        return;
-      }
-      setNumberImage(getRandomImage());
+    const score = user.score ? user.score + 1 : 1;
+    const mistruth = user.mistruth ? user.mistruth : 0;
+    let addMistruth = 0;
+    if (user.results[image] !== undefined) {
+      addMistruth = user.results[image] === choice ? 0 : 1;
+    }
+    setUser({
+      ...user,
+      mistruth: mistruth + addMistruth,
+      score,
+      results: { ...user.results, [image]: choice }
+    });
+
+    const number = getRandomImage();
+    if (image !== number) {
+      setImage(number);
       return;
     }
-    const newError = `
-      Don't saved choice,
-      something wrong with server.
-      `;
-    setSomeError(newError);
-    setChoiceType("new");
-    setLoad(false);
+    setImage(getRandomImage());
   }
 
   useEffect(() => {
@@ -75,21 +77,20 @@ export default function Game() {
   function handleChoice(choice) {
     setLoad(true);
     setChoiceType(choice ? "leave" : "remove");
-    setTimeout(() => handleResult(numberImage, choice), 2000);
+    setTimeout(() => handleResult(image, choice), 2000);
   }
 
   return (
     <div>
       <div className="p-2">
-        {userID}, imagine that You're the director of an modern art gallery.
+        {user.name}, imagine that You're the director of an modern art gallery.
         Leave on the wall pictures that you'd like.
       </div>
       <div className="flex">
         <div className="flex-1"></div>
         <Tilt className="flex-1" choiceType={choiceType}>
           <div className="totally-centered">
-            <img alt="img on wall" src={require(`./img/${numberImage}`)} />
-            <SomeError w={"w-full"}>{someError}</SomeError>
+            <img alt="img on wall" src={require(`./img/${image}`)} />
           </div>
         </Tilt>
         <div className="flex-1"></div>

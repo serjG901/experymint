@@ -78,7 +78,6 @@ export default function AppRouter() {
           >
             <AccountIcon />
           </Link>
-
           <Link
             title="To the game"
             to="/game"

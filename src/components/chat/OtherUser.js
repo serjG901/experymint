@@ -6,7 +6,7 @@ import OtherUserAvatarAndTags from "./OtherUserAvatarAndTags";
 import OtherUserName from "./OtherUserName";
 import OtherUserManifest from "./OtherUserManifest";
 
-export default function OtherUser({ userData }) {
+export default function OtherUser({ otherUser }) {
   const themeColor = useTheme();
 
   const [openOtherUserInfoAndChat, setOpenOtherUserInfoAndChat] = useState(
@@ -19,7 +19,7 @@ export default function OtherUser({ userData }) {
 
   return (
     <div
-      key={userData.name}
+      key={otherUser.name}
       title={openOtherUserInfoAndChat ? "" : "Click for open user info"}
       className={
         openOtherUserInfoAndChat
@@ -32,19 +32,22 @@ export default function OtherUser({ userData }) {
         onClick={handleOpenBody}
       >
         <div className={`flex p-2 my-2`}>
-          <OtherUserName>{userData.name}</OtherUserName>
-          <OtherUserManifest>{userData.manifest}</OtherUserManifest>
+          <OtherUserName>{otherUser.name}</OtherUserName>
+          <OtherUserManifest>{otherUser.manifest}</OtherUserManifest>
         </div>
       </div>
       <div className={openOtherUserInfoAndChat ? "cursor-default" : "hidden"}>
         <OtherUserStatistic
-          indexOfClosest={userData.indexOfClosest}
-          mistruth={userData.mistruth}
+          indexOfClosest={otherUser.indexOfClosest}
+          mistruth={otherUser.mistruth}
         />
-        <OtherUserAvatarAndTags avatar={userData.avatar} tags={userData.tags} />
+        <OtherUserAvatarAndTags
+          avatar={otherUser.avatar}
+          tags={otherUser.tags}
+        />
         <OtherUserChat
           isOpen={openOtherUserInfoAndChat}
-          otherUserID={userData.name}
+          otherUserID={otherUser.name}
         />
       </div>
     </div>

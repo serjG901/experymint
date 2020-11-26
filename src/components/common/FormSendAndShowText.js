@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextInput from "./TextInput";
 import SendButton from "./SendButton";
 import { useTheme } from "../core/ThemeProvider";
-import {
-  usePropertyUser,
-  usePropertyUserSet,
-  useNamePropertyUserSet
-} from "../core/PropertyUserProvider";
+import { useUser, useUserSet } from "../core/UserProvider";
 
 export default function FormSendAndShowText({ nameProperty }) {
-  const namePropertyUserSet = useNamePropertyUserSet();
-  const text = usePropertyUser();
-  const textSet = usePropertyUserSet();
-
-  useEffect(() => {
-    namePropertyUserSet(nameProperty);
-  });
-
+  const user = useUser();
+  const userSet = useUserSet();
   const themeColor = useTheme();
 
   const [statusInput, setStatusInput] = useState(false);
@@ -25,7 +15,7 @@ export default function FormSendAndShowText({ nameProperty }) {
   function handleSubmit(event) {
     event.preventDefault();
     const dataSource = draftInput.trim();
-    textSet(dataSource);
+    userSet({ ...user, [nameProperty]: dataSource });
     setDraftInput("");
     setStatusInput(false);
   }
@@ -52,7 +42,7 @@ export default function FormSendAndShowText({ nameProperty }) {
               : `${themeColor.colorTextData} break-words text-2xl font-bold`
           }
         >
-          {text}
+          {user[nameProperty]}
         </p>
       </label>
       {statusInput ? (

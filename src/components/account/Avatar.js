@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  usePropertyUser,
-  usePropertyUserSet,
-  useNamePropertyUserSet
-} from "../core/PropertyUserProvider";
+import { useUser, useUserSet } from "../core/UserProvider";
 import SomeError from "../common/SomeError";
 import AvatarSetDelete from "./AvatarSetDelete";
 
 export default function Avatar() {
-  const namePropertyUserSet = useNamePropertyUserSet();
-  const avatar = usePropertyUser();
-  const avatarSet = usePropertyUserSet();
-
-  useEffect(() => {
-    namePropertyUserSet("avatar");
-  });
+  const user = useUser();
+  const userSet = useUserSet();
 
   const [someError, setSomeError] = useState("");
 
@@ -30,7 +21,8 @@ export default function Avatar() {
     if (file.size > 1200000) {
       const newError = `
       This image is big,
-      try to upload smaller image (less than 1,2Mb)
+      try to upload smaller image 
+      (less than 1,2Mb)
       `;
       setSomeError(newError);
       return;
@@ -38,7 +30,7 @@ export default function Avatar() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      avatarSet(reader.result);
+      userSet({ ...user, avatar: reader.result });
     };
     reader.onerror = () => {
       console.log(reader.error);
@@ -51,20 +43,20 @@ export default function Avatar() {
   }
 
   function handleDeleteAvatar() {
-    avatarSet("");
+    userSet({ ...user, avatar: "" });
   }
 
   return (
     <div className="p-4">
-      {avatar ? (
-        <img src={avatar} alt="avatar" className="inline-block" />
+      {user.avatar ? (
+        <img src={user.avatar} alt="avatar" className="inline-block" />
       ) : null}
       <form
         encType="multipart/form-data"
         onSubmit={(event) => event.preventDefault()}
       >
         <AvatarSetDelete
-          avatar={avatar}
+          avatar={user.avatar}
           onSetAvatar={handleSetAvatar}
           onDeleteAvatar={handleDeleteAvatar}
         />
