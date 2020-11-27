@@ -1,11 +1,10 @@
 import React from "react";
 import { useTheme } from "../core/ThemeProvider";
+import { useUser, useUserSet } from "../core/UserProvider";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import Resizer from "react-image-file-resizer";
 
-export default function AvatarSetDelete({
-  avatar,
-  onSetAvatar,
-  onDeleteAvatar
-}) {
+export default function AvatarSetDelete() {
   const themeColor = useTheme();
 
   const styleLikeButton = `
@@ -20,8 +19,56 @@ export default function AvatarSetDelete({
   ${themeColor.hbgButton}
   `;
 
+  const user = useUser();
+  const setUser = useUserSet();
+  const setPushUpError = usePushUpErrorSet();
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "PNG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "blob",
+        200,
+        200
+      );
+    });
+
+  async function handleSetAvatar(event) {
+    const file = event.currentTarget.files[0];
+    if (!file) return;
+    const image = await resizeFile(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = () => {
+      setUser({ ...user, avatar: reader.result });
+    };
+    reader.onerror = () => {
+      console.log(reader.error);
+      const readError = `
+      Failed to read file,
+      try to upload other image
+      `;
+      setPushUpError(readError);
+    };
+  }
+
+  function handleDeleteAvatar() {
+    setUser({ ...user, avatar: "" });
+  }
+
   return (
-    <div>
+    <form
+      encType="multipart/form-data"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <label
         htmlFor="avatar"
         title="Click to set your avatar"
@@ -34,17 +81,17 @@ export default function AvatarSetDelete({
         type="file"
         accept="image/png, image/jpeg"
         className="uploadAvatar"
-        onChange={onSetAvatar}
+        onChange={handleSetAvatar}
       />
-      {avatar ? (
+      {user.avatar ? (
         <span
           title="Click to delete your avatar"
           className={styleLikeButton}
-          onClick={onDeleteAvatar}
+          onClick={handleDeleteAvatar}
         >
           X
         </span>
       ) : null}
-    </div>
+    </form>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,19 +15,16 @@ import { ReactComponent as AccountIcon } from "./AccountIcon.svg";
 import { ReactComponent as GameIcon } from "./GameIcon.svg";
 import { ReactComponent as ChatIcon } from "./ChatIcon.svg";
 import { ReactComponent as QuitIcon } from "./QuitIcon.svg";
-import { useTheme, bodyBgColor } from "../core/ThemeProvider";
+import { useTheme } from "../core/ThemeProvider";
 import { useUserID, useUserIDSet } from "../core/UserIDProvider";
 import { usePushUpError } from "../core/PushUpErrorProvider";
+import Background from "../common/Background";
 
 export default function AppRouter() {
   const themeColor = useTheme();
   const userID = useUserID();
   const setUserID = useUserIDSet();
   const pushUpError = usePushUpError();
-
-  useEffect(() => {
-    document.body.style.background = bodyBgColor[themeColor.color];
-  });
 
   const linkStyle = `
     flex-1 w-1/4
@@ -62,17 +59,11 @@ export default function AppRouter() {
     handleActivePage(null);
   }
 
-  const style = `
-    App h-screen 
-    ${themeColor.colorTextMain} 
-    ${themeColor.bgApp}
-    `;
-
   return (
-    <>
+    <div className={themeColor.colorTextMain}>
       {userID ? (
         <Router>
-          <div className={style}>
+          <div className="AppFontFamily h-screen text-center">
             <nav className="flex">
               <Link
                 title="To the user account"
@@ -129,6 +120,7 @@ export default function AppRouter() {
         <Start />
       )}
       {pushUpError}
-    </>
+      <Background />
+    </div>
   );
 }

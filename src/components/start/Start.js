@@ -1,24 +1,16 @@
-import React, { useEffect } from "react";
-import { useTheme, bodyBgColor } from "../core/ThemeProvider";
+import React from "react";
 import Logo from "./Logo";
 import Login from "./Login";
 import ThemeColorSetter from "./ThemeColorSetter";
 import Copyright from "../common/Copyright";
 
-export default function Start({ onSetUserID, onSetThemeColor }) {
-  const themeColor = useTheme();
-
-  useEffect(() => {
-    document.body.style.background = bodyBgColor[themeColor.color];
-  });
-
+export default function Start({ onSetUserID }) {
   const style = ` 
-    App h-screen
+    AppFontFamily h-screen
     flex flex-col 
     items-center 
     justify-center
-    ${themeColor.colorTextMain}
-    ${themeColor.bgApp}
+    text-center
     `;
 
   return (

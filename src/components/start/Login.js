@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  isNameFree,
   setUserData,
+  isNameFree,
   isPasswordCorrect
 } from "../../lib/usersData";
 import SendButton from "../common/SendButton";
 import TextInput from "../common/TextInput";
 import { useUserIDSet } from "../core/UserIDProvider";
 import { useTheme } from "../core/ThemeProvider";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 
 export default function Login() {
-  const [myError, setMyError] = useState(false);
   const [nameStatus, setNameStatus] = useState(true);
   const [passwordStatus, setPasswordStatus] = useState(true);
   const [changeName, setChangeName] = useState(false);
@@ -19,20 +19,18 @@ export default function Login() {
 
   const setUserID = useUserIDSet();
   const themeColor = useTheme();
+  const setPushUpError = usePushUpErrorSet();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const user = {
-      name: nameDraft,
-      pass: passwordDraft
-    };
+    const user = { name: nameDraft, pass: passwordDraft };
     if (nameStatus) {
       const statusDataSaved = setUserData(user);
       if (statusDataSaved) {
         setUserID(user.name);
         return;
       }
-      setMyError("Not saved data, try once");
+      setPushUpError("Not saved data, try once");
       return;
     }
     const statusLogin = isPasswordCorrect(user);
@@ -91,7 +89,6 @@ export default function Login() {
           value={passwordDraft}
         />
         <SendButton>Sign in</SendButton>
-        <p>{myError ? myError : ""}</p>
       </form>
     </div>
   );

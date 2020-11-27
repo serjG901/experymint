@@ -6,10 +6,8 @@ export default function SendButton({ children }) {
   const [style, setStyle] = useState(
     `
     shadow-none bg-transparent
-    transition-all 
-    duration-1000
+    transition-all duration-1000
     mb-4 mx-4 py-2 px-4 
-    ${themeColor.colorTextMain}
     rounded cursor-pointer
     focus:outline-none 
     focus:shadow-outline
@@ -20,14 +18,13 @@ export default function SendButton({ children }) {
     setStyle(
       `
       shadow-md bg-transparent
-      transition-all 
-      duration-1000
+      transition-all duration-1000
       mb-4 mx-4 py-2 px-4 
-      ${themeColor.colorTextMain}
       rounded cursor-pointer
       focus:outline-none 
       focus:shadow-outline
-      shadow-md ${themeColor.bgButton} ${themeColor.hbgButton}
+      ${themeColor.bgButton} 
+      ${themeColor.hbgButton}
       `
     );
   }

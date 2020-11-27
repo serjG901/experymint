@@ -28,26 +28,11 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export const bodyBgColor = {
-  red: "#feb2b2",
-  orange: "#fbd38d",
-  yellow: "#faf089",
-  green: "#9ae6b4",
-  teal: "#81e6d9",
-  blue: "#90cdf4",
-  indigo: "#a3bffa",
-  purple: "#d6bcfa",
-  pink: "#fbb6ce",
-  gray: "#e2e8f0",
-  dark: "#1a202c",
-  light: "#f7fafc",
-  bee: "#000000"
-};
-
 export const themeColorStyle = {
   red: {
     color: "red",
     sample: "bg-red-500",
+    bodyColor: "bg-red-300",
     colorTextLogo: "text-red-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -68,6 +53,7 @@ export const themeColorStyle = {
   orange: {
     color: "orange",
     sample: "bg-orange-500",
+    bodyColor: "bg-orange-300",
     colorTextLogo: "text-orange-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -88,6 +74,7 @@ export const themeColorStyle = {
   yellow: {
     color: "yellow",
     sample: "bg-yellow-500",
+    bodyColor: "bg-yellow-300",
     colorTextLogo: "text-yellow-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -108,6 +95,7 @@ export const themeColorStyle = {
   green: {
     color: "green",
     sample: "bg-green-500",
+    bodyColor: "bg-green-300",
     colorTextLogo: "text-green-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -128,6 +116,7 @@ export const themeColorStyle = {
   teal: {
     color: "teal",
     sample: "bg-teal-500",
+    bodyColor: "bg-teal-300",
     colorTextLogo: "text-teal-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -148,6 +137,7 @@ export const themeColorStyle = {
   blue: {
     color: "blue",
     sample: "bg-blue-500",
+    bodyColor: "bg-blue-300",
     colorTextLogo: "text-blue-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -168,6 +158,7 @@ export const themeColorStyle = {
   indigo: {
     color: "indigo",
     sample: "bg-indigo-500",
+    bodyColor: "bg-indigo-300",
     colorTextLogo: "text-indigo-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -188,6 +179,7 @@ export const themeColorStyle = {
   purple: {
     color: "purple",
     sample: "bg-purple-500",
+    bodyColor: "bg-purple-300",
     colorTextLogo: "text-purple-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -208,6 +200,7 @@ export const themeColorStyle = {
   pink: {
     color: "pink",
     sample: "bg-pink-500",
+    bodyColor: "bg-pink-300",
     colorTextLogo: "text-pink-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -228,6 +221,7 @@ export const themeColorStyle = {
   gray: {
     color: "gray",
     sample: "bg-gray-500",
+    bodyColor: "bg-gray-300",
     colorTextLogo: "text-gray-300",
     colorTextData: "text-black",
     colorTextLabel: "text-white",
@@ -248,6 +242,7 @@ export const themeColorStyle = {
   dark: {
     color: "dark",
     sample: "bg-gray-900",
+    bodyColor: "bg-gray-900",
     colorTextLogo: "text-gray-900",
     colorTextData: "text-white",
     colorTextLabel: "text-gray-300",
@@ -268,6 +263,7 @@ export const themeColorStyle = {
   light: {
     color: "light",
     sample: "bg-gray-100",
+    bodyColor: "bg-gray-100",
     colorTextLogo: "text-gray-100",
     colorTextData: "text-black",
     colorTextLabel: "text-gray-600",
@@ -288,6 +284,7 @@ export const themeColorStyle = {
   bee: {
     color: "bee",
     sample: "bg-gradient-to-b from-black via-yellow-400 to-black",
+    bodyColor: "bg-black",
     colorTextLogo: "text-yellow-400",
     colorTextData: "text-yellow-400",
     colorTextLabel: "text-white",

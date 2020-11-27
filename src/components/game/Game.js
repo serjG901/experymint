@@ -15,13 +15,12 @@ export default function Game() {
     duration-1000
     flex-1 text-2xl
     mb-4 mx-4 py-2 px-4
-    rounded 
+    rounded shadow-md 
     focus:outline-none 
     focus:shadow-outline
     `;
   const styleButtonEnabled = `
     ${styleButton}
-    shadow-md
     cursor-pointer
     ${themeColor.bgButton} 
     ${themeColor.hbgButton} 
@@ -30,6 +29,7 @@ export default function Game() {
     ${styleButton}
     bg-transparent 
     cursor-default
+    shadow-none
     `;
 
   const [image, setImage] = useState(getRandomImage());
@@ -99,9 +99,7 @@ export default function Game() {
           tilte="Leave the picture"
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
-          onClick={() => {
-            handleChoice(true);
-          }}
+          onClick={() => handleChoice(true)}
         >
           Leave
         </button>
@@ -109,9 +107,7 @@ export default function Game() {
           tilte="Remove the picture"
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
-          onClick={() => {
-            handleChoice(false);
-          }}
+          onClick={() => handleChoice(false)}
         >
           Remove
         </button>

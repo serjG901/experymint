@@ -1,6 +1,9 @@
-.App {
+.AppFontFamily {
   font-family: "Syne Mono", monospace;
-  text-align: center;
+}
+
+.back {
+  z-index: -10;
 }
 
 .break-word {
