@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  setUserData,
-  isNameFree,
-  isPasswordCorrect
-} from "../../lib/usersData";
+//import { setUserData, isPasswordCorrect } from "../../lib/usersData";
+import { isNameFree, login, setUser } from "../../lib/fetchData";
 import SendButton from "../common/SendButton";
 import TextInput from "../common/TextInput";
-import { useUserIDSet } from "../core/UserIDProvider";
+import { useLoginSet } from "../core/LoginProvider";
 import { useTheme } from "../core/ThemeProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 
@@ -17,25 +14,27 @@ export default function Login() {
   const [nameDraft, setNameDraft] = useState("");
   const [passwordDraft, setPasswordDraft] = useState("");
 
-  const setUserID = useUserIDSet();
+  const setLogin = useLoginSet();
   const themeColor = useTheme();
   const setPushUpError = usePushUpErrorSet();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const user = { name: nameDraft, pass: passwordDraft };
+    const user = { name: nameDraft, password: passwordDraft };
     if (nameStatus) {
-      const statusDataSaved = setUserData(user);
-      if (statusDataSaved) {
-        setUserID(user.name);
-        return;
-      }
-      setPushUpError("Not saved data, try once");
-      return;
+      setUser(user).then((statusDataSaved) => {
+        if (statusDataSaved) {
+          setLogin(true);
+        } else {
+          setPushUpError("Not saved data, try once");
+        }
+      });
+    } else {
+      login(user).then((statusLogin) => {
+        setPasswordStatus(statusLogin);
+        if (statusLogin) setLogin(true);
+      });
     }
-    const statusLogin = isPasswordCorrect(user);
-    setPasswordStatus(statusLogin);
-    if (statusLogin) setUserID(user.name);
   }
 
   useEffect(() => {
@@ -45,7 +44,9 @@ export default function Login() {
       return;
     }
     setChangeName(true);
-    setNameStatus(isNameFree(nameDraft));
+    isNameFree(nameDraft).then((status) => {
+      setNameStatus(status);
+    });
   }, [nameDraft]);
 
   useEffect(() => {

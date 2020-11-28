@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useUser } from "./UserProvider";
-import { getOtherUsers } from "../../lib/usersData";
+import { getOtherUsers } from "../../lib/fetchData";
 
 const OtherUsersContext = React.createContext();
 
@@ -14,8 +14,9 @@ export const OtherUsersProvider = ({ children }) => {
 
   useEffect(() => {
     if (user.name) {
-      const otherUsersData = getOtherUsers(user.name, user.filter);
-      setOtherUsers(otherUsersData);
+      getOtherUsers(user.filter).then((otherUsersData) => {
+        setOtherUsers(otherUsersData);
+      });
     }
   }, [user]);
 

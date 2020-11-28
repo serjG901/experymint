@@ -8,7 +8,7 @@ import { UniqueIndexProvider } from "../core/UniqueIndexProvider";
 
 export default function StatisticOfUser() {
   return (
-    <div className="w-1/2">
+    <div className="w-1/2 pb-8">
       <SimpleIndex nameProperty="score" />
       <SimpleIndex nameProperty="mistruth" />
 

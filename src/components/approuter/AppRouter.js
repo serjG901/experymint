@@ -16,14 +16,14 @@ import { ReactComponent as GameIcon } from "./GameIcon.svg";
 import { ReactComponent as ChatIcon } from "./ChatIcon.svg";
 import { ReactComponent as QuitIcon } from "./QuitIcon.svg";
 import { useTheme } from "../core/ThemeProvider";
-import { useUserID, useUserIDSet } from "../core/UserIDProvider";
+import { useLogin, useLoginSet } from "../core/LoginProvider";
 import { usePushUpError } from "../core/PushUpErrorProvider";
 import Background from "../common/Background";
 
 export default function AppRouter() {
   const themeColor = useTheme();
-  const userID = useUserID();
-  const setUserID = useUserIDSet();
+  const isLogin = useLogin();
+  const setLogin = useLoginSet();
   const pushUpError = usePushUpError();
 
   const linkStyle = `
@@ -55,13 +55,13 @@ export default function AppRouter() {
   }
 
   function handleQuit() {
-    setUserID(null);
+    setLogin(false);
     handleActivePage(null);
   }
 
   return (
     <div className={themeColor.colorTextMain}>
-      {userID ? (
+      {isLogin ? (
         <Router>
           <div className="AppFontFamily h-screen text-center">
             <nav className="flex">

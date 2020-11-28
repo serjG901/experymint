@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "../core/ThemeProvider";
 import { useUser, useUserSet } from "../core/UserProvider";
-import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 import Resizer from "react-image-file-resizer";
 
 export default function AvatarSetDelete() {
@@ -21,23 +20,20 @@ export default function AvatarSetDelete() {
 
   const user = useUser();
   const setUser = useUserSet();
-  const setPushUpError = usePushUpErrorSet();
 
   const resizeFile = (file) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        300,
-        300,
+        400,
+        400,
         "PNG",
-        100,
+        50,
         0,
         (uri) => {
           resolve(uri);
         },
-        "blob",
-        200,
-        200
+        "base64"
       );
     });
 
@@ -45,19 +41,7 @@ export default function AvatarSetDelete() {
     const file = event.currentTarget.files[0];
     if (!file) return;
     const image = await resizeFile(file);
-    const reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onload = () => {
-      setUser({ ...user, avatar: reader.result });
-    };
-    reader.onerror = () => {
-      console.log(reader.error);
-      const readError = `
-      Failed to read file,
-      try to upload other image
-      `;
-      setPushUpError(readError);
-    };
+    setUser({ ...user, avatar: image });
   }
 
   function handleDeleteAvatar() {

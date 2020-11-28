@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { sendMessage, getMessages, deleteMessage } from "../../lib/messageData";
-import { useUserID } from "../core/UserIDProvider";
+import {
+  sendMessage,
+  getMessages,
+  deleteMessage
+} from "../../lib/fetchMessages";
+import { useUser } from "../core/UserProvider";
 import Message from "./Message";
 import SendButton from "../common/SendButton";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTheme } from "../core/ThemeProvider";
 
 export default function OtherUserChat({ isOpen, otherUserID }) {
-  const userID = useUserID();
+  const user = useUser();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState([]);
   const [isSync, setIsSync] = useState(true);
@@ -26,7 +30,7 @@ export default function OtherUserChat({ isOpen, otherUserID }) {
     setMessages([
       ...messages,
       {
-        from: userID,
+        from: user.name,
         to: otherUserID,
         text: draft,
         date: currentDate,
@@ -35,25 +39,29 @@ export default function OtherUserChat({ isOpen, otherUserID }) {
       }
     ]);
     setDraft("");
-    const status = sendMessage(otherUserID, draft, currentDate);
-    if (!status) {
-      setMessages(oldMessages);
-      setDraft(oldMessage);
-      return;
-    }
-    setIsSync(true);
+    sendMessage(otherUserID, draft, currentDate).then((status) => {
+      if (!status) {
+        setMessages(oldMessages);
+        setDraft(oldMessage);
+      } else {
+        setIsSync(true);
+      }
+    });
   }
 
   useEffect(() => {
-    setMessages(getMessages(otherUserID));
-    setIsSync(false);
+    getMessages(otherUserID).then((messages) => {
+      setMessages(messages);
+      setIsSync(false);
+    });
   }, [otherUserID, isSync]);
 
-  function handleDeleteMessage(id) {
+  function handleDeleteMessage(messageID) {
     const oldMessages = messages;
-    setMessages(messages.filter((msg) => msg.id !== id));
-    const status = deleteMessage(id);
-    if (!status) setMessages(oldMessages);
+    setMessages(messages.filter((msg) => msg.id !== messageID));
+    deleteMessage(messageID).then((status) => {
+      if (!status) setMessages(oldMessages);
+    });
   }
 
   return (

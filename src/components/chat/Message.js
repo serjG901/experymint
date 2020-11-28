@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { useUserID } from "../core/UserIDProvider";
+import { useUser } from "../core/UserProvider";
 import { useTheme } from "../core/ThemeProvider";
-import { setIsRead } from "../../lib/messageData";
+import { setIsRead } from "../../lib/fetchMessages";
 
 export default function Message({ isSeen, msg, onDeleteMessage }) {
-  const userID = useUserID();
+  const user = useUser();
   const themeColor = useTheme();
 
   const styleLeft = `
@@ -37,10 +37,10 @@ export default function Message({ isSeen, msg, onDeleteMessage }) {
     `;
 
   useEffect(() => {
-    if (isSeen && userID !== msg.from && !msg.isRead) {
+    if (isSeen && user.name !== msg.from && !msg.isRead) {
       setIsRead(msg.id);
     }
-  }, [isSeen, msg.id, userID, msg.from, msg.isRead]);
+  }, [isSeen, msg.id, user.name, msg.from, msg.isRead]);
 
   const Right = ({ rmsg }) => (
     <div className={styleRight}>
@@ -67,5 +67,5 @@ export default function Message({ isSeen, msg, onDeleteMessage }) {
     </div>
   );
 
-  return userID === msg.from ? <Right rmsg={msg} /> : <Left lmsg={msg} />;
+  return user.name === msg.from ? <Right rmsg={msg} /> : <Left lmsg={msg} />;
 }

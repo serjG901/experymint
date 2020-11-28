@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import AppRouter from "./components/approuter/AppRouter";
 import { ThemeProvider } from "./components/core/ThemeProvider";
-import { UserIDProvider } from "./components/core/UserIDProvider";
+import { LoginProvider } from "./components/core/LoginProvider";
 import { UserProvider } from "./components/core/UserProvider";
 import { PushUpErrorProvider } from "./components/core/PushUpErrorProvider";
 
@@ -10,11 +10,11 @@ function App() {
   return (
     <PushUpErrorProvider>
       <ThemeProvider>
-        <UserIDProvider>
+        <LoginProvider>
           <UserProvider>
             <AppRouter />
           </UserProvider>
-        </UserIDProvider>
+        </LoginProvider>
       </ThemeProvider>
     </PushUpErrorProvider>
   );

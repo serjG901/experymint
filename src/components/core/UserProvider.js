@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useUserID } from "./UserIDProvider";
-import { getUserData, updateUser } from "../../lib/usersData";
+import { useLogin } from "./LoginProvider";
+import { getUser, updateUser } from "../../lib/fetchData";
 
 const UserContext = React.createContext();
 
@@ -13,21 +13,33 @@ export const useUserSet = () => {
 };
 
 export const UserProvider = ({ children }) => {
-  const userID = useUserID();
+  const isLogin = useLogin();
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    if (userID) {
-      const userData = getUserData(userID);
-      setUser(userData);
+    if (isLogin) {
+      getUser().then((userData) => {
+        setUser(userData);
+      });
+    } else {
+      setUser({});
     }
-  }, [userID]);
+  }, [isLogin]);
 
   useEffect(() => {
-    if (userID && Object.keys(user).length !== 0) {
-      updateUser(userID, user);
+    if (isLogin && Object.keys(user).length !== 0) {
+      getUser().then((userData) => {
+        const equal = JSON.stringify(user) === JSON.stringify(userData);
+        console.log(equal);
+        if (!equal) {
+          console.log(equal);
+          updateUser(user).then((userData) => {
+            setUser(userData);
+          });
+        }
+      });
     }
-  }, [userID, user]);
+  }, [isLogin, user]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
