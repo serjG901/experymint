@@ -1,4 +1,4 @@
-export function getAllResultsReduce(otherUserInfo) {
+export async function getAllResultsReduce(otherUserInfo) {
   const usersID = Object.keys(otherUserInfo);
   const allResults = {};
   usersID.forEach((userID) => {
@@ -36,7 +36,7 @@ export function getAllResultsReduce(otherUserInfo) {
   return allResultsReduce;
 }
 
-export function getUniqumIndex(userResults, allResults) {
+export async function getUniqumIndex(userResults, allResults) {
   const arrKeysUserResults = Object.keys(userResults);
   const arrUniqumIndex = arrKeysUserResults.map((key) => {
     if (allResults.hasOwnProperty(key))
@@ -73,7 +73,7 @@ export function getIndexOfClosest(userResults, anyResults) {
   return { index: indexOfClosest, amount: clearArrIndex.length };
 }
 
-export function getClosestUsers(user, otherUsers) {
+export async function getClosestUsers(user, otherUsers) {
   const otherUsersID = Object.keys(otherUsers);
   const closestUsers = otherUsersID.map((otherUserID) => {
     return {

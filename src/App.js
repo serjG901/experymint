@@ -5,17 +5,20 @@ import { ThemeProvider } from "./components/core/ThemeProvider";
 import { LoginProvider } from "./components/core/LoginProvider";
 import { UserProvider } from "./components/core/UserProvider";
 import { PushUpErrorProvider } from "./components/core/PushUpErrorProvider";
+import { PushUpProvider } from "./components/core/PushUpProvider";
 
 function App() {
   return (
     <PushUpErrorProvider>
-      <ThemeProvider>
-        <LoginProvider>
-          <UserProvider>
-            <AppRouter />
-          </UserProvider>
-        </LoginProvider>
-      </ThemeProvider>
+      <PushUpProvider>
+        <ThemeProvider>
+          <LoginProvider>
+            <UserProvider>
+              <AppRouter />
+            </UserProvider>
+          </LoginProvider>
+        </ThemeProvider>
+      </PushUpProvider>
     </PushUpErrorProvider>
   );
 }

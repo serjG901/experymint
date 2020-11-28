@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useLogin } from "./LoginProvider";
 import { getUser, updateUser } from "../../lib/fetchData";
+import { usePushUpSet } from "../core/PushUpProvider";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 
 const UserContext = React.createContext();
 
@@ -14,17 +16,26 @@ export const useUserSet = () => {
 
 export const UserProvider = ({ children }) => {
   const isLogin = useLogin();
+  const setPushUp = usePushUpSet();
+  const setPushUpError = usePushUpErrorSet();
+
   const [user, setUser] = useState({});
 
   useEffect(() => {
     if (isLogin) {
-      getUser().then((userData) => {
-        setUser(userData);
-      });
+      setPushUp("Refresh your data...");
+      getUser()
+        .then((userData) => {
+          setPushUp(null);
+          setUser(userData);
+        })
+        .catch((error) => {
+          setPushUpError(error.message);
+        });
     } else {
       setUser({});
     }
-  }, [isLogin]);
+  }, [isLogin, setPushUp, setPushUpError]);
 
   useEffect(() => {
     if (isLogin && Object.keys(user).length !== 0) {
@@ -32,14 +43,20 @@ export const UserProvider = ({ children }) => {
         const equal = JSON.stringify(user) === JSON.stringify(userData);
         console.log(equal);
         if (!equal) {
+          setPushUp("Update your data...");
           console.log(equal);
-          updateUser(user).then((userData) => {
-            setUser(userData);
-          });
+          updateUser(user)
+            .then((userData) => {
+              setPushUp(null);
+              setUser(userData);
+            })
+            .catch((error) => {
+              setPushUpError(error.message);
+            });
         }
       });
     }
-  }, [isLogin, user]);
+  }, [isLogin, user, setPushUp, setPushUpError]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

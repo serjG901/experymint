@@ -8,7 +8,9 @@ export default function OtherUserAvatarAndTags({ avatar, tags }) {
       <div className="w-1/2 p-4">
         {avatar ? (
           <img src={avatar} alt="avatar" className="inline-block" />
-        ) : null}
+        ) : (
+          <span className={`${themeColor.colorTextExplane}`}>avatar</span>
+        )}
       </div>
       <div className="w-1/2 p-4">
         {tags ? (

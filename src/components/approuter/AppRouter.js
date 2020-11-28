@@ -18,6 +18,7 @@ import { ReactComponent as QuitIcon } from "./QuitIcon.svg";
 import { useTheme } from "../core/ThemeProvider";
 import { useLogin, useLoginSet } from "../core/LoginProvider";
 import { usePushUpError } from "../core/PushUpErrorProvider";
+import { usePushUp } from "../core/PushUpProvider";
 import Background from "../common/Background";
 
 export default function AppRouter() {
@@ -25,6 +26,7 @@ export default function AppRouter() {
   const isLogin = useLogin();
   const setLogin = useLoginSet();
   const pushUpError = usePushUpError();
+  const pushUp = usePushUp();
 
   const linkStyle = `
     flex-1 w-1/4
@@ -120,6 +122,7 @@ export default function AppRouter() {
         <Start />
       )}
       {pushUpError}
+      {pushUp}
       <Background />
     </div>
   );

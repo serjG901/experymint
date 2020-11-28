@@ -6,6 +6,7 @@ import TextInput from "../common/TextInput";
 import { useLoginSet } from "../core/LoginProvider";
 import { useTheme } from "../core/ThemeProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import { usePushUpSet } from "../core/PushUpProvider";
 
 export default function Login() {
   const [nameStatus, setNameStatus] = useState(true);
@@ -17,23 +18,35 @@ export default function Login() {
   const setLogin = useLoginSet();
   const themeColor = useTheme();
   const setPushUpError = usePushUpErrorSet();
+  const setPushUp = usePushUpSet();
 
   function handleSubmit(event) {
     event.preventDefault();
     const user = { name: nameDraft, password: passwordDraft };
+    setPushUp("Connecting...");
     if (nameStatus) {
-      setUser(user).then((statusDataSaved) => {
-        if (statusDataSaved) {
-          setLogin(true);
-        } else {
-          setPushUpError("Not saved data, try once");
-        }
-      });
+      setUser(user)
+        .then((statusDataSaved) => {
+          setPushUp(null);
+          if (statusDataSaved) {
+            setLogin(true);
+          } else {
+            setPushUpError("Not saved data, try once");
+          }
+        })
+        .catch((error) => {
+          setPushUpError(error.message);
+        });
     } else {
-      login(user).then((statusLogin) => {
-        setPasswordStatus(statusLogin);
-        if (statusLogin) setLogin(true);
-      });
+      login(user)
+        .then((statusLogin) => {
+          setPushUp(null);
+          setPasswordStatus(statusLogin);
+          if (statusLogin) setLogin(true);
+        })
+        .catch((error) => {
+          setPushUpError(error.message);
+        });
     }
   }
 
@@ -44,10 +57,14 @@ export default function Login() {
       return;
     }
     setChangeName(true);
-    isNameFree(nameDraft).then((status) => {
-      setNameStatus(status);
-    });
-  }, [nameDraft]);
+    isNameFree(nameDraft)
+      .then((status) => {
+        setNameStatus(status);
+      })
+      .catch((error) => {
+        setPushUpError(error.message);
+      });
+  }, [nameDraft, setPushUpError]);
 
   useEffect(() => {
     setPasswordStatus(true);

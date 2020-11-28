@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useUser } from "./UserProvider";
 import { getClosestUsers } from "../../lib/getIndexFunctions";
 import { useOtherUsers } from "../core/OtherUsersProvider";
+import { usePushUpSet } from "../core/PushUpProvider";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 
 const ChatListContext = React.createContext();
 
@@ -12,15 +14,24 @@ export const useChatList = () => {
 export const ChatListProvider = ({ children }) => {
   const user = useUser();
   const otherUsers = useOtherUsers();
+  const setPushUp = usePushUpSet();
+  const setPushUpError = usePushUpErrorSet();
 
   const [chatList, setChatList] = useState(null);
 
   useEffect(() => {
     if (user && Object.keys(user).length !== 0 && otherUsers) {
-      const closestUsers = getClosestUsers(user, otherUsers);
-      setChatList(closestUsers);
+      setPushUp("Refresh closest users...");
+      getClosestUsers(user, otherUsers)
+        .then((closestUsers) => {
+          setPushUp(null);
+          setChatList(closestUsers);
+        })
+        .catch((error) => {
+          setPushUpError(error.message);
+        });
     }
-  }, [user, otherUsers]);
+  }, [user, otherUsers, setPushUp, setPushUpError]);
 
   return (
     <ChatListContext.Provider value={chatList}>

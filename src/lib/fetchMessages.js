@@ -12,6 +12,7 @@ export async function getMessages(otherUserID) {
     return json.messages;
   } else {
     console.log("getMessages Ошибка HTTP: " + response.status);
+    return new Error("Ошибка HTTP: " + response.status);
   }
 }
 
@@ -32,6 +33,7 @@ export async function deleteMessage(messageID) {
     return json.status;
   } else {
     console.log("deleteMessage Ошибка HTTP: " + response.status);
+    return new Error("Ошибка HTTP: " + response.status);
   }
 }
 
@@ -49,6 +51,7 @@ export async function sendMessage(otherUserID, message, currentDate) {
     return json.status;
   } else {
     console.log("sendMessage Ошибка HTTP: " + response.status);
+    return new Error("Ошибка HTTP: " + response.status);
   }
 }
 
@@ -65,5 +68,6 @@ export async function setIsRead(messageID) {
     console.log(`setIsRead - ${json.status}`);
   } else {
     console.log("deleteMessage Ошибка HTTP: " + response.status);
+    return new Error("Ошибка HTTP: " + response.status);
   }
 }
