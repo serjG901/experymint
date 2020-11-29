@@ -3,11 +3,13 @@ import TextInput from "./TextInput";
 import SendButton from "./SendButton";
 import { useTheme } from "../core/ThemeProvider";
 import { useUser, useUserSet } from "../core/UserProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function FormSendAndShowText({ nameProperty }) {
   const user = useUser();
   const setUser = useUserSet();
   const themeColor = useTheme();
+  const language = useLanguage();
 
   const [statusInput, setStatusInput] = useState(false);
   const [draftInput, setDraftInput] = useState("");
@@ -28,12 +30,26 @@ export default function FormSendAndShowText({ nameProperty }) {
     <form className="p-2 mb-2" onSubmit={handleSubmit}>
       <label
         htmlFor={nameProperty}
-        title={statusInput ? "" : `Click to change your ${nameProperty}`}
+        title={
+          statusInput
+            ? ""
+            : `${language.formExplane} ${
+                nameProperty === "tags"
+                  ? language.formTags
+                  : nameProperty === "filter"
+                  ? language.formFilter
+                  : language.formManifest
+              }`
+        }
         className="block text-sm cursor-pointer"
         onClick={() => setStatusInput(!statusInput)}
       >
         <span className={`${themeColor.colorTextLabel} font-bold`}>
-          {nameProperty}
+          {nameProperty === "tags"
+            ? language.formTags
+            : nameProperty === "filter"
+            ? language.formFilter
+            : language.formManifest}
         </span>
         <p
           className={
@@ -52,7 +68,7 @@ export default function FormSendAndShowText({ nameProperty }) {
             onChange={handleChange}
             value={draftInput}
           />
-          <SendButton>Send</SendButton>
+          <SendButton />
         </>
       ) : null}
     </form>

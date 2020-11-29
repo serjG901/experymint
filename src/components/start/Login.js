@@ -7,6 +7,7 @@ import { useLoginSet } from "../core/LoginProvider";
 import { useTheme } from "../core/ThemeProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
 import { usePushUpSet } from "../core/PushUpProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function Login() {
   const [nameStatus, setNameStatus] = useState(true);
@@ -17,13 +18,14 @@ export default function Login() {
 
   const setLogin = useLoginSet();
   const themeColor = useTheme();
+  const language = useLanguage();
   const setPushUpError = usePushUpErrorSet();
   const setPushUp = usePushUpSet();
 
   function handleSubmit(event) {
     event.preventDefault();
     const user = { name: nameDraft, password: passwordDraft };
-    setPushUp("Connecting...");
+    setPushUp(language.loginConnect);
     if (nameStatus) {
       setUser(user)
         .then((statusDataSaved) => {
@@ -31,7 +33,7 @@ export default function Login() {
           if (statusDataSaved) {
             setLogin(true);
           } else {
-            setPushUpError("Not saved data, try once");
+            setPushUpError(language.loginCrash);
           }
         })
         .catch((error) => {
@@ -83,10 +85,10 @@ export default function Login() {
       <form onSubmit={handleSubmit}>
         <label htmlFor="name" className={`${themeColor.colorTextLabel}`}>
           {!changeName
-            ? "Unique name"
+            ? language.loginLabelName[1]
             : nameStatus
-            ? "Good new name"
-            : "This name is occupied"}
+            ? language.loginLabelName[2]
+            : language.loginLabelName[3]}
         </label>
         <TextInput
           nameProperty="name"
@@ -96,7 +98,9 @@ export default function Login() {
           value={nameDraft}
         />
         <label htmlFor="password" className={`${themeColor.colorTextLabel}`}>
-          {passwordStatus ? "Password" : "Password is wrong"}
+          {passwordStatus
+            ? language.loginLabelPassword[1]
+            : language.loginLabelPassword[2]}
         </label>
         <TextInput
           nameProperty="password"
@@ -106,7 +110,7 @@ export default function Login() {
           maxLength={"28"}
           value={passwordDraft}
         />
-        <SendButton>Sign in</SendButton>
+        <SendButton>{language.loginButton}</SendButton>
       </form>
     </div>
   );

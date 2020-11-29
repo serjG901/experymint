@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { themeColorStyle, useThemeSet } from "../core/ThemeProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function ThemeColorSample({ color, children }) {
   const [style, setStyle] = useState(
@@ -13,6 +14,7 @@ export default function ThemeColorSample({ color, children }) {
   );
 
   const setThemeColor = useThemeSet();
+  const language = useLanguage();
 
   function animation() {
     setStyle(
@@ -33,7 +35,7 @@ export default function ThemeColorSample({ color, children }) {
 
   return (
     <div
-      title={`Set ${color} theme`}
+      title={`${language.colorSetterSample[1]} ${language.themeName[color]} ${language.colorSetterSample[2]}`}
       className={style}
       onClick={() => setThemeColor(color)}
     >

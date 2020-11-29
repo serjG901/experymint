@@ -20,6 +20,7 @@ import { useLogin, useLoginSet } from "../core/LoginProvider";
 import { usePushUpError } from "../core/PushUpErrorProvider";
 import { usePushUp } from "../core/PushUpProvider";
 import Background from "../common/Background";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function AppRouter() {
   const themeColor = useTheme();
@@ -27,19 +28,21 @@ export default function AppRouter() {
   const setLogin = useLoginSet();
   const pushUpError = usePushUpError();
   const pushUp = usePushUp();
+  const language = useLanguage();
 
   const linkStyle = `
     flex-1 w-1/4
     py-2 px-4 
     block h-full
+    transition-all duration-500
   `;
   const linkNotActive = `
     ${themeColor.bgLink}
-    hover:bg-transparent
+    hover:bg-opacity-50
     ${linkStyle}
     `;
   const linkActive = `
-    bg-transparent
+    bg-opacity-0
     ${linkStyle}
     `;
 
@@ -68,7 +71,7 @@ export default function AppRouter() {
           <div className="AppFontFamily h-screen text-center">
             <nav className="flex">
               <Link
-                title="To the user account"
+                title={language.linkAccount}
                 to="/account"
                 onClick={() => handleActivePage("account")}
                 className={
@@ -78,7 +81,7 @@ export default function AppRouter() {
                 <AccountIcon />
               </Link>
               <Link
-                title="To the game"
+                title={language.linkGame}
                 to="/game"
                 onClick={() => handleActivePage("game")}
                 className={activePage === "game" ? linkActive : linkNotActive}
@@ -86,7 +89,7 @@ export default function AppRouter() {
                 <GameIcon />
               </Link>
               <Link
-                title="To the chat"
+                title={language.linkChat}
                 to="/chat"
                 onClick={() => handleActivePage("chat")}
                 className={activePage === "chat" ? linkActive : linkNotActive}
@@ -94,7 +97,7 @@ export default function AppRouter() {
                 <ChatIcon />
               </Link>
               <Link
-                title="Sign out"
+                title={language.linkQuit}
                 to="/"
                 onClick={() => handleQuit()}
                 className={linkNotActive}

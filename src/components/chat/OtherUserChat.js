@@ -9,9 +9,16 @@ import Message from "./Message";
 import SendButton from "../common/SendButton";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTheme } from "../core/ThemeProvider";
+import { usePushUpSet } from "../core/PushUpProvider";
+import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function OtherUserChat({ isOpen, otherUserID }) {
   const user = useUser();
+  const setPushUp = usePushUpSet();
+  const setPushUpError = usePushUpErrorSet();
+  const language = useLanguage();
+
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState([]);
   const [isSync, setIsSync] = useState(true);
@@ -39,34 +46,59 @@ export default function OtherUserChat({ isOpen, otherUserID }) {
       }
     ]);
     setDraft("");
-    sendMessage(otherUserID, draft, currentDate).then((status) => {
-      if (!status) {
-        setMessages(oldMessages);
-        setDraft(oldMessage);
-      } else {
-        setIsSync(true);
-      }
-    });
+    setPushUp(language.otherMessageSend);
+    sendMessage(otherUserID, draft, currentDate)
+      .then((status) => {
+        if (!status) {
+          setPushUp(language.otherMessageSendCrash);
+          setMessages(oldMessages);
+          setDraft(oldMessage);
+        } else {
+          setPushUp(null);
+          setIsSync(true);
+        }
+      })
+      .catch((error) => {
+        setPushUpError(error.message);
+      });
   }
 
   useEffect(() => {
-    getMessages(otherUserID).then((messages) => {
-      setMessages(messages);
-      setIsSync(false);
-    });
-  }, [otherUserID, isSync]);
+    setPushUp(language.otherMessagesRefresh);
+    getMessages(otherUserID)
+      .then((messages) => {
+        setPushUp(null);
+        setMessages(messages);
+        setIsSync(false);
+      })
+      .catch((error) => {
+        setPushUpError(error.message);
+      });
+  }, [otherUserID, isSync, setPushUp, setPushUpError, language]);
 
   function handleDeleteMessage(messageID) {
     const oldMessages = messages;
     setMessages(messages.filter((msg) => msg.id !== messageID));
-    deleteMessage(messageID).then((status) => {
-      if (!status) setMessages(oldMessages);
-    });
+    setPushUp(language.otherMessageDelete);
+    deleteMessage(messageID)
+      .then((status) => {
+        if (!status) {
+          setPushUp(language.otherMessageDeleteCrash);
+          setMessages(oldMessages);
+        } else {
+          setPushUp(null);
+        }
+      })
+      .catch((error) => {
+        setPushUpError(error.message);
+      });
   }
 
   return (
     <div>
-      <span className={`${themeColor.colorTextExplane}`}>chat</span>
+      <span className={`${themeColor.colorTextExplane}`}>
+        {`${language.otherChat} ${otherUserID}`}
+      </span>
 
       <div className="flex flex-col">
         {messages.map((msg) => (
@@ -89,11 +121,11 @@ export default function OtherUserChat({ isOpen, otherUserID }) {
             appearance-none 
             focus:outline-none 
             focus:shadow-outline"
-          placeholder={`message for ${otherUserID}`}
+          placeholder={`${language.messageFor} ${otherUserID}`}
           onChange={handleDraftChange}
           value={draft}
         />
-        <SendButton>Send</SendButton>
+        <SendButton />
       </form>
     </div>
   );

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../core/ThemeProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function SendButton({ children }) {
   const themeColor = useTheme();
+  const language = useLanguage();
+
   const [style, setStyle] = useState(
     `
     shadow-none bg-transparent
@@ -11,6 +14,7 @@ export default function SendButton({ children }) {
     rounded cursor-pointer
     focus:outline-none 
     focus:shadow-outline
+    ${themeColor.colorTextMain}
     `
   );
 
@@ -23,6 +27,7 @@ export default function SendButton({ children }) {
       rounded cursor-pointer
       focus:outline-none 
       focus:shadow-outline
+      ${themeColor.colorTextMain} 
       ${themeColor.bgButton} 
       ${themeColor.hbgButton}
       `
@@ -33,7 +38,7 @@ export default function SendButton({ children }) {
 
   return (
     <button className={style} type="submit">
-      {children}
+      {children ? children : language.sendButtonDefault}
     </button>
   );
 }

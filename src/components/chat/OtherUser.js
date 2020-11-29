@@ -5,9 +5,11 @@ import OtherUserStatistic from "./OtherUserStatistic";
 import OtherUserAvatarAndTags from "./OtherUserAvatarAndTags";
 import OtherUserName from "./OtherUserName";
 import OtherUserManifest from "./OtherUserManifest";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function OtherUser({ otherUser }) {
   const themeColor = useTheme();
+  const language = useLanguage();
 
   const [openOtherUserInfoAndChat, setOpenOtherUserInfoAndChat] = useState(
     false
@@ -20,7 +22,7 @@ export default function OtherUser({ otherUser }) {
   return (
     <div
       key={otherUser.name}
-      title={openOtherUserInfoAndChat ? "" : "Click for open user info"}
+      title={openOtherUserInfoAndChat ? "" : language.openUserInfo}
       className={
         openOtherUserInfoAndChat
           ? `${themeColor.bgOtherUserOpen} ${themeColor.colorTextOtherUser} shadow-md`
@@ -36,7 +38,13 @@ export default function OtherUser({ otherUser }) {
           <OtherUserManifest>{otherUser.manifest}</OtherUserManifest>
         </div>
       </div>
-      <div className={openOtherUserInfoAndChat ? "cursor-default" : "hidden"}>
+      <div
+        className={
+          openOtherUserInfoAndChat
+            ? "cursor-default divide-y divide-gray-600 divide-dashed"
+            : "hidden"
+        }
+      >
         <OtherUserStatistic
           indexOfClosest={otherUser.indexOfClosest}
           mistruth={otherUser.mistruth}

@@ -2,9 +2,11 @@ import React from "react";
 import { useTheme } from "../core/ThemeProvider";
 import { useUser, useUserSet } from "../core/UserProvider";
 import Resizer from "react-image-file-resizer";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function AvatarSetDelete() {
   const themeColor = useTheme();
+  const language = useLanguage();
 
   const styleLikeButton = `
   transition-all 
@@ -55,10 +57,10 @@ export default function AvatarSetDelete() {
     >
       <label
         htmlFor="avatar"
-        title="Click to set your avatar"
+        title={language.setAvatarTitle}
         className={styleLikeButton}
       >
-        Avatar
+        {language.setAvatar}
       </label>
       <input
         id="avatar"
@@ -69,11 +71,11 @@ export default function AvatarSetDelete() {
       />
       {user.avatar ? (
         <span
-          title="Click to delete your avatar"
+          title={language.deleteAvatarTitle}
           className={styleLikeButton}
           onClick={handleDeleteAvatar}
         >
-          X
+          {language.deleteAvatar}
         </span>
       ) : null}
     </form>

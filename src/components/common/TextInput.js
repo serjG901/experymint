@@ -34,7 +34,6 @@ export default function TextInput({
     <input
       id={nameProperty}
       type={type}
-      placeholder={`Input your ${nameProperty}`}
       required={required}
       maxLength={maxLength}
       className={style}

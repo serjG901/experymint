@@ -55,7 +55,7 @@ export async function getUniqumIndex(userResults, allResults) {
   return uniqumIndex;
 }
 
-export function getIndexOfClosest(userResults, anyResults) {
+function getIndexOfClosest(userResults, anyResults) {
   const arrKeysUserResults = Object.keys(userResults);
   const arrIndex = arrKeysUserResults.map((key) => {
     if (anyResults.hasOwnProperty(key)) {

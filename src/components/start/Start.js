@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "./Logo";
 import Login from "./Login";
 import ThemeColorSetter from "./ThemeColorSetter";
+import LanguageSetter from "./LanguageSetter";
 import Copyright from "../common/Copyright";
 
 export default function Start({ onSetUserID }) {
@@ -18,6 +19,7 @@ export default function Start({ onSetUserID }) {
       <Logo />
       <Login onSetUserID={onSetUserID} />
       <ThemeColorSetter />
+      <LanguageSetter />
       <Copyright />
     </div>
   );

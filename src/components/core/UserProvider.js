@@ -3,6 +3,7 @@ import { useLogin } from "./LoginProvider";
 import { getUser, updateUser } from "../../lib/fetchData";
 import { usePushUpSet } from "../core/PushUpProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 const UserContext = React.createContext();
 
@@ -18,12 +19,13 @@ export const UserProvider = ({ children }) => {
   const isLogin = useLogin();
   const setPushUp = usePushUpSet();
   const setPushUpError = usePushUpErrorSet();
+  const language = useLanguage();
 
   const [user, setUser] = useState({});
 
   useEffect(() => {
     if (isLogin) {
-      setPushUp("Refresh your data...");
+      setPushUp(language.refreshData);
       getUser()
         .then((userData) => {
           setPushUp(null);
@@ -35,7 +37,7 @@ export const UserProvider = ({ children }) => {
     } else {
       setUser({});
     }
-  }, [isLogin, setPushUp, setPushUpError]);
+  }, [isLogin, setPushUp, setPushUpError, language]);
 
   useEffect(() => {
     if (isLogin && Object.keys(user).length !== 0) {
@@ -43,7 +45,7 @@ export const UserProvider = ({ children }) => {
         const equal = JSON.stringify(user) === JSON.stringify(userData);
         console.log(equal);
         if (!equal) {
-          setPushUp("Update your data...");
+          setPushUp(language.updateData);
           console.log(equal);
           updateUser(user)
             .then((userData) => {
@@ -56,7 +58,7 @@ export const UserProvider = ({ children }) => {
         }
       });
     }
-  }, [isLogin, user, setPushUp, setPushUpError]);
+  }, [isLogin, user, setPushUp, language, setPushUpError]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -7,6 +7,7 @@ import { useUser } from "./UserProvider";
 import { useOtherUsers } from "./OtherUsersProvider";
 import { usePushUpSet } from "../core/PushUpProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 const UniqueIndexContext = React.createContext();
 
@@ -19,16 +20,17 @@ export function UniqueIndexProvider({ children }) {
   const otherUsers = useOtherUsers();
   const setPushUp = usePushUpSet();
   const setPushUpError = usePushUpErrorSet();
+  const language = useLanguage();
 
   const [uniqueIndex, setUniqueIndex] = useState(0);
 
   useEffect(() => {
     if (user && otherUsers) {
-      setPushUp("Computing all users results...");
+      setPushUp(language.computingAll);
       getAllResultsReduce(otherUsers)
         .then((allResults) => {
-          setPushUp("Computing your unique index...");
-          getUniqumIndex(user.results, allResults);
+          setPushUp(language.computingUnique);
+          return getUniqumIndex(user.results, allResults);
         })
         .then((uniqueIndex) => {
           setPushUp(null);
@@ -38,7 +40,7 @@ export function UniqueIndexProvider({ children }) {
           setPushUpError(error.message);
         });
     }
-  }, [user, otherUsers, setPushUp]);
+  }, [user, otherUsers, setPushUp, setPushUpError, language]);
 
   return (
     <UniqueIndexContext.Provider value={{ uniqueIndex }}>

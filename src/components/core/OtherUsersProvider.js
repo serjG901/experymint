@@ -3,6 +3,7 @@ import { useUser } from "./UserProvider";
 import { getOtherUsers } from "../../lib/fetchData";
 import { usePushUpSet } from "../core/PushUpProvider";
 import { usePushUpErrorSet } from "../core/PushUpErrorProvider";
+import { useLanguage } from "../core/LanguageProvider";
 
 const OtherUsersContext = React.createContext();
 
@@ -14,11 +15,13 @@ export const OtherUsersProvider = ({ children }) => {
   const user = useUser();
   const setPushUp = usePushUpSet();
   const setPushUpError = usePushUpErrorSet();
+  const language = useLanguage();
+
   const [otherUsers, setOtherUsers] = useState(null);
 
   useEffect(() => {
     if (user.name) {
-      setPushUp("Refresh other users...");
+      setPushUp(language.refreshOthers);
       getOtherUsers(user.filter)
         .then((otherUsersData) => {
           setPushUp(null);
@@ -28,7 +31,7 @@ export const OtherUsersProvider = ({ children }) => {
           setPushUpError(error.message);
         });
     }
-  }, [user, setPushUp, setPushUpError]);
+  }, [user, setPushUp, setPushUpError, language]);
 
   return (
     <OtherUsersContext.Provider value={otherUsers}>

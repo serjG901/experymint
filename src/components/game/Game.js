@@ -4,11 +4,13 @@ import { useTheme } from "../core/ThemeProvider";
 import { useUser, useUserSet } from "../core/UserProvider";
 import StatisticOfUser from "../account/StatisticOfUser";
 import { getRandomImage } from "./imageForGame";
+import { useLanguage } from "../core/LanguageProvider";
 
 export default function Game() {
   const themeColor = useTheme();
   const user = useUser();
   const setUser = useUserSet();
+  const language = useLanguage();
 
   const styleButton = `
     transition-all 
@@ -82,8 +84,8 @@ export default function Game() {
   return (
     <div>
       <div className="p-2">
-        {user.name}, imagine that You're the director of an modern art gallery.
-        Leave on the wall pictures that you'd like.
+        {user.name}
+        {language.gameExplane}
       </div>
       <div className="flex">
         <div className="flex-1"></div>
@@ -96,20 +98,20 @@ export default function Game() {
       </div>
       <div className="flex content-center p-2">
         <button
-          tilte="Leave the picture"
+          tilte={language.leaveTitle}
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => handleChoice(true)}
         >
-          Leave
+          {language.leave}
         </button>
         <button
-          tilte="Remove the picture"
+          tilte={language.removeTitle}
           className={load ? styleButtonDisabled : styleButtonEnabled}
           disabled={load}
           onClick={() => handleChoice(false)}
         >
-          Remove
+          {language.remove}
         </button>
       </div>
       <div className="flex justify-center">
